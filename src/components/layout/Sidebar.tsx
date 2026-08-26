@@ -161,7 +161,12 @@ function NotificationsPopover() {
    SIDEBAR
 ========================================================= */
 
-export default function Sidebar() {
+type SidebarProps = {
+  collapsed: boolean;
+  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
 

@@ -2,11 +2,12 @@
 
 import { Layout } from "antd";
 import { useState } from "react";
+
 import Sidebar from "./Sidebar";
 
 import styles from "./DashboardLayout.module.css";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 export default function DashboardLayout({
   children,
@@ -14,11 +15,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [mobile, setMobile] = useState(false);
 
   return (
     <Layout className={styles.layout}>
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+
       <Layout>
         <Content className={styles.content}>{children}</Content>
       </Layout>
