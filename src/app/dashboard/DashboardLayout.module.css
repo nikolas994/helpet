@@ -1,0 +1,48 @@
+.layout {
+  min-height: 100vh;
+  background: #f7f8fa;
+}
+
+/* =========================
+   MAIN AREA
+========================= */
+
+.main {
+  min-height: 100vh;
+
+  margin-left: 260px;
+
+  width: calc(100% - 260px);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1100px) {
+  .main {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .main {
+    width: 100%;
+    margin-left: 0;
+  }
+}

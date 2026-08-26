@@ -1,0 +1,57 @@
+.header {
+  height: 64px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  position: relative;
+
+  padding: 0 24px;
+
+  background: #fff;
+
+  border-bottom: 1px solid #eee;
+}
+
+/* Logo centriran */
+
+.logo {
+  position: absolute;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  align-items: center;
+}
+
+/* User desno */
+
+.user {
+  margin-left: auto;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  cursor: pointer;
+
+  color: #f97316;
+
+  font-weight: 600;
+}
+
+.user:hover {
+  color: #ea580c;
+}
+
+.user :global(.ant-avatar) {
+  background: #f97316;
+}

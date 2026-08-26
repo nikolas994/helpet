@@ -1,0 +1,227 @@
+.page {
+  min-height: 100vh;
+  padding: 40px 48px 80px;
+  background: radial-gradient(
+      circle at top right,
+      rgba(224, 122, 58, 0.08),
+      transparent 30%
+    ),
+    #f8f9fb;
+  color: #202124;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  border: 0;
+  background: transparent;
+
+  padding: 0;
+  margin-bottom: 38px;
+
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.backButton:hover {
+  color: #d66b2f;
+}
+
+.header {
+  max-width: 850px;
+  margin: 0 auto 32px;
+}
+
+.eyebrow {
+  display: inline-block;
+
+  margin-bottom: 10px;
+
+  color: #d66b2f;
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.header h1 {
+  margin: 0 0 10px;
+
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+}
+
+.header p {
+  margin: 0;
+
+  max-width: 650px;
+
+  color: #737983;
+
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.formCard {
+  max-width: 850px;
+  margin: 0 auto;
+
+  padding: 34px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border: 1px solid #eceef1;
+  border-radius: 22px;
+
+  box-shadow: 0 12px 40px rgba(25, 30, 35, 0.06);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  margin-bottom: 32px;
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #eef0f2;
+}
+
+.titleIcon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #fff1e8;
+  color: #d66b2f;
+
+  font-size: 21px;
+}
+
+.titleRow h2 {
+  margin: 0 0 4px;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.titleRow p {
+  margin: 0;
+
+  color: #858b94;
+  font-size: 14px;
+}
+
+.uploadBox {
+  min-height: 190px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 25px;
+
+  border: 1.5px dashed #d9dde2;
+  border-radius: 16px;
+
+  background: #fafbfc;
+
+  cursor: pointer;
+
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.uploadBox:hover {
+  border-color: #d66b2f;
+  background: #fffaf7;
+  transform: translateY(-1px);
+}
+
+.uploadIcon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 5px;
+
+  border-radius: 15px;
+
+  background: #fff1e8;
+  color: #d66b2f;
+
+  font-size: 22px;
+}
+
+.uploadBox strong {
+  color: #25282c;
+  font-size: 15px;
+}
+
+.uploadBox span {
+  color: #858b94;
+  font-size: 13px;
+}
+
+.uploadBox small {
+  margin-top: 5px;
+
+  color: #a0a5ac;
+  font-size: 11px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 34px;
+  padding-top: 25px;
+
+  border-top: 1px solid #eef0f2;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 25px 18px 50px;
+  }
+
+  .header h1 {
+    font-size: 30px;
+  }
+
+  .formCard {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .titleRow {
+    align-items: flex-start;
+  }
+
+  .actions {
+    gap: 12px;
+  }
+
+  .actions button {
+    flex: 1;
+  }
+}

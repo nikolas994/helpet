@@ -1,0 +1,939 @@
+.page {
+  min-height: 100%;
+  padding: 26px 32px 55px;
+
+  background: radial-gradient(
+      circle at 8% 0%,
+      rgba(244, 151, 70, 0.07),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 92% 8%,
+      rgba(255, 205, 140, 0.08),
+      transparent 23%
+    ),
+    #f6f7f9;
+}
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 18px;
+  padding: 6px 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #7b8089;
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.backButton:hover {
+  color: #e47722;
+  transform: translateX(-3px);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+  display: flex;
+
+  min-height: 360px;
+
+  overflow: hidden;
+
+  border: 1px solid #ececef;
+  border-radius: 24px;
+
+  background: #ffffff;
+
+  box-shadow: 0 14px 45px rgba(35, 30, 25, 0.055),
+    0 2px 8px rgba(35, 30, 25, 0.025);
+}
+
+/* =========================================================
+   HERO IMAGE
+========================================================= */
+
+.heroImage {
+  position: relative;
+
+  width: 390px;
+  min-height: 360px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  padding: 32px;
+
+  background: radial-gradient(
+      circle at 50% 40%,
+      rgba(255, 255, 255, 0.95),
+      transparent 55%
+    ),
+    linear-gradient(135deg, #fff4e8 0%, #ffe5cf 50%, #f9d2ad 100%);
+}
+
+/*
+   PROFILNA SLIKA LJUBIMCA
+
+   Slika više NE zauzima ceo levi panel.
+   Dobija svoj normalan profilni okvir.
+*/
+
+.heroImage img {
+  display: block;
+
+  width: 100%;
+  max-width: 290px;
+
+  height: 290px;
+  max-height: 290px;
+
+  object-fit: cover;
+
+  border-radius: 24px;
+
+  border: 5px solid rgba(255, 255, 255, 0.92);
+
+  background: #ffffff;
+
+  box-shadow: 0 18px 40px rgba(80, 50, 25, 0.12),
+    0 4px 12px rgba(80, 50, 25, 0.06);
+
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.hero:hover .heroImage img {
+  transform: scale(1.025);
+
+  box-shadow: 0 22px 46px rgba(80, 50, 25, 0.15),
+    0 5px 14px rgba(80, 50, 25, 0.07);
+}
+
+/* =========================================================
+   IMAGE PLACEHOLDER
+========================================================= */
+
+.imagePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 220px;
+  height: 220px;
+
+  border-radius: 24px;
+
+  border: 4px solid rgba(255, 255, 255, 0.9);
+
+  background: rgba(255, 255, 255, 0.72);
+
+  color: #e47722;
+
+  font-size: 70px;
+
+  box-shadow: 0 18px 40px rgba(80, 50, 25, 0.08),
+    0 4px 12px rgba(80, 50, 25, 0.04);
+}
+
+/* =========================================================
+   HERO INFO
+========================================================= */
+
+.heroInfo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-width: 0;
+
+  padding: 42px 45px;
+}
+
+.eyebrow {
+  display: inline-block;
+
+  margin-bottom: 10px;
+
+  color: #e47722;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 0.13em;
+}
+
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 20px;
+}
+
+.titleRow h1 {
+  margin: 0;
+
+  color: #191b1f;
+
+  font-size: clamp(38px, 4vw, 52px);
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: -0.045em;
+}
+
+.titleRow p {
+  margin: 10px 0 0;
+
+  color: #7b8089;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.description {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  max-width: 560px;
+
+  padding: 13px 15px;
+
+  border: 1px solid #ffe3cc;
+  border-radius: 13px;
+
+  background: #fffaf6;
+
+  color: #6e7279;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.description svg {
+  flex-shrink: 0;
+
+  color: #e47722;
+
+  font-size: 16px;
+}
+
+/* =========================================================
+   CONTENT GRID
+========================================================= */
+
+.contentGrid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.55fr)
+    minmax(280px, 0.7fr);
+
+  gap: 18px;
+
+  margin-top: 18px;
+
+  align-items: start;
+}
+
+/* =========================================================
+   ABOUT SECTION
+========================================================= */
+
+.section {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 25px;
+
+  border: 1px solid #ebedf0;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  box-shadow: 0 10px 32px rgba(35, 30, 25, 0.035);
+}
+
+.section::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 24px;
+  right: 24px;
+
+  height: 1px;
+
+  background: linear-gradient(90deg, rgba(228, 119, 34, 0.35), transparent);
+}
+
+.sectionHeader {
+  margin-bottom: 17px;
+}
+
+.sectionHeader h2 {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin: 0;
+
+  color: #1d2024;
+
+  font-size: 18px;
+  font-weight: 750;
+
+  letter-spacing: -0.02em;
+}
+
+.sectionHeader h2 svg {
+  color: #e47722;
+  font-size: 16px;
+}
+
+.sectionHeader p {
+  margin: 6px 0 0;
+
+  color: #92969e;
+
+  font-size: 11px;
+}
+
+/* =========================================================
+   INFORMATION LIST
+========================================================= */
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoList > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 13px 0;
+
+  border-bottom: 1px solid #f0f1f3;
+}
+
+.infoList > div:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.infoList > div:first-child {
+  padding-top: 4px;
+}
+
+.infoList span {
+  color: #9499a1;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.infoList strong {
+  color: #35383d;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  text-align: right;
+}
+
+/* =========================================================
+   SIDE COLUMN
+========================================================= */
+
+.sideColumn {
+  display: flex;
+  flex-direction: column;
+
+  gap: 13px;
+}
+
+/* =========================================================
+   CONTACT CARD
+========================================================= */
+
+.ownerCard {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  overflow: hidden;
+
+  padding: 17px;
+
+  border: 1px solid #ebedf0;
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #ffffff, #fffaf6);
+
+  box-shadow: 0 10px 28px rgba(35, 30, 25, 0.035);
+}
+
+.ownerCard::after {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 90px;
+
+  right: -35px;
+  bottom: -50px;
+
+  border-radius: 50%;
+
+  background: rgba(228, 119, 34, 0.08);
+}
+
+.ownerCard :global(.ant-avatar) {
+  position: relative;
+  z-index: 1;
+
+  flex-shrink: 0;
+
+  background: #fff0e2;
+  color: #e47722;
+
+  border: 1px solid #f5dcc5;
+}
+
+.ownerCard > div {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.ownerCard span {
+  color: #9499a1;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.ownerCard strong {
+  color: #303338;
+
+  font-size: 14px;
+  font-weight: 750;
+
+  line-height: 1.3;
+}
+
+.ownerCard small {
+  color: #7e838b;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  word-break: break-word;
+}
+
+/* =========================================================
+   SAFETY CARD
+========================================================= */
+
+.safetyCard {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 17px;
+
+  border: 1px solid #ebedf0;
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #f8fcf9, #ffffff);
+
+  box-shadow: 0 10px 28px rgba(35, 30, 25, 0.03);
+}
+
+.safetyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background: #edf8f0;
+  color: #35a853;
+
+  font-size: 16px;
+}
+
+.safetyCard > div:last-child {
+  min-width: 0;
+}
+
+.safetyCard strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #303338;
+
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.safetyCard p {
+  margin: 0;
+
+  color: #81868e;
+
+  font-size: 10.5px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   COLOR CARD
+========================================================= */
+
+.colorCard {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 15px 17px;
+
+  border: 1px solid #ebedf0;
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  box-shadow: 0 10px 28px rgba(35, 30, 25, 0.03);
+}
+
+.colorCard > svg {
+  flex-shrink: 0;
+
+  color: #e47722;
+
+  font-size: 17px;
+}
+
+.colorCard > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.colorCard span {
+  color: #9499a1;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.colorCard strong {
+  color: #35383d;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 500px;
+
+  gap: 13px;
+
+  color: #92969e;
+}
+
+.loading p {
+  margin: 0;
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   NOT FOUND
+========================================================= */
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 500px;
+
+  text-align: center;
+}
+
+.notFoundIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 66px;
+  height: 66px;
+
+  margin-bottom: 18px;
+
+  border-radius: 20px;
+
+  background: #fff0e2;
+  color: #e47722;
+
+  font-size: 26px;
+}
+
+.notFound h1 {
+  margin: 0 0 7px;
+
+  color: #25282d;
+
+  font-size: 24px;
+  font-weight: 750;
+}
+
+.notFound p {
+  max-width: 430px;
+
+  margin: 0 0 20px;
+
+  color: #858a92;
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.notFound :global(.ant-btn-primary) {
+  height: 42px;
+
+  padding: 0 17px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, #ef812d, #dc6817);
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  .page {
+    padding: 24px 24px 45px;
+  }
+
+  .heroImage {
+    width: 340px;
+    min-height: 360px;
+
+    padding: 28px;
+  }
+
+  .heroImage img {
+    width: 100%;
+    max-width: 250px;
+
+    height: 250px;
+    max-height: 250px;
+
+    border-radius: 22px;
+  }
+
+  .heroInfo {
+    padding: 36px;
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sideColumn {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    align-items: stretch;
+  }
+
+  .ownerCard,
+  .safetyCard,
+  .colorCard {
+    height: 100%;
+  }
+}
+
+/* =========================================================
+   MOBILE / SMALL TABLET
+========================================================= */
+
+@media (max-width: 760px) {
+  .page {
+    padding: 18px 16px 40px;
+  }
+
+  .hero {
+    flex-direction: column;
+
+    border-radius: 21px;
+  }
+
+  .heroImage {
+    width: 100%;
+
+    height: 300px;
+    min-height: 300px;
+
+    padding: 24px;
+  }
+
+  .heroImage img {
+    width: 230px;
+    max-width: 230px;
+
+    height: 230px;
+    max-height: 230px;
+
+    border-radius: 20px;
+  }
+
+  .imagePlaceholder {
+    width: 190px;
+    height: 190px;
+
+    font-size: 60px;
+  }
+
+  .heroInfo {
+    padding: 28px 24px;
+
+    gap: 25px;
+  }
+
+  .titleRow h1 {
+    font-size: 40px;
+  }
+
+  .titleRow p {
+    font-size: 14px;
+  }
+
+  .description {
+    width: 100%;
+    max-width: none;
+  }
+
+  .sideColumn {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 21px;
+
+    border-radius: 18px;
+  }
+}
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 500px) {
+  .heroImage {
+    height: 270px;
+    min-height: 270px;
+
+    padding: 20px;
+  }
+
+  .heroImage img {
+    width: 210px;
+    max-width: 210px;
+
+    height: 210px;
+    max-height: 210px;
+
+    border-width: 4px;
+    border-radius: 19px;
+  }
+
+  .imagePlaceholder {
+    width: 175px;
+    height: 175px;
+
+    border-radius: 19px;
+
+    font-size: 55px;
+  }
+
+  .heroInfo {
+    padding: 24px 20px;
+  }
+
+  .titleRow h1 {
+    font-size: 36px;
+  }
+
+  .titleRow p {
+    font-size: 13px;
+  }
+
+  .description {
+    align-items: flex-start;
+
+    padding: 12px 13px;
+
+    font-size: 11px;
+  }
+
+  .section {
+    padding: 19px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 17px;
+  }
+
+  .infoList > div {
+    padding: 12px 0;
+  }
+
+  .infoList span {
+    font-size: 10px;
+  }
+
+  .infoList strong {
+    font-size: 12px;
+  }
+
+  .ownerCard,
+  .safetyCard,
+  .colorCard {
+    padding: 15px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONE
+========================================================= */
+
+@media (max-width: 380px) {
+  .page {
+    padding: 15px 12px 35px;
+  }
+
+  .heroImage {
+    height: 240px;
+    min-height: 240px;
+
+    padding: 18px;
+  }
+
+  .heroImage img {
+    width: 185px;
+    max-width: 185px;
+
+    height: 185px;
+    max-height: 185px;
+
+    border-radius: 17px;
+  }
+
+  .imagePlaceholder {
+    width: 155px;
+    height: 155px;
+
+    border-radius: 17px;
+
+    font-size: 48px;
+  }
+
+  .heroInfo {
+    padding: 21px 17px;
+  }
+
+  .titleRow h1 {
+    font-size: 32px;
+  }
+
+  .section {
+    padding: 17px;
+  }
+
+  .infoList > div {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+  .infoList strong {
+    text-align: left;
+  }
+}

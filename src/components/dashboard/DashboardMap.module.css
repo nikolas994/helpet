@@ -1,0 +1,57 @@
+.container {
+  background: #111827;
+
+  border-radius: 20px;
+
+  padding: 20px;
+
+  color: white;
+
+  height: 450px;
+
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 15px;
+}
+
+.header h3 {
+  margin: 0;
+
+  font-size: 20px;
+}
+
+.header span {
+  color: #9ca3af;
+
+  font-size: 14px;
+}
+
+.map {
+  height: 370px;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+}
+
+.loading {
+  height: 400px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #111827;
+
+  color: white;
+}
