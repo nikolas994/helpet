@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 
+import AuthGuard from "@/components/AuthGuard";
 import Sidebar from "@/components/layout/Sidebar";
+
 import styles from "./DashboardLayout.module.css";
 
 export default function DashboardLayout({
@@ -13,12 +15,14 @@ export default function DashboardLayout({
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className={styles.layout}>
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+    <AuthGuard>
+      <div className={styles.layout}>
+        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
-      <main className={styles.main}>
-        <div className={styles.content}>{children}</div>
-      </main>
-    </div>
+        <main className={styles.main}>
+          <div className={styles.content}>{children}</div>
+        </main>
+      </div>
+    </AuthGuard>
   );
 }

@@ -1,0 +1,451 @@
+/* =========================================================
+   PAGE CONTAINER & LAYOUT
+========================================================= */
+
+.page {
+  width: 92%;
+  max-width: 1400px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 32px 36px 80px;
+  box-sizing: border-box;
+  background: radial-gradient(
+      circle at 0% 0%,
+      rgba(249, 115, 22, 0.04),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(59, 130, 246, 0.03),
+      transparent 30%
+    ),
+    #f8fafc;
+  color: #0f172a;
+}
+
+/* =========================================================
+   HEADER & EYEBROW
+========================================================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(28px, 2.5vw, 36px);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.header p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.header :global(.ant-tag) {
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================================================
+   SEARCH CARD & INPUT
+========================================================= */
+
+.searchCard {
+  margin-bottom: 28px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 20px !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.03) !important;
+}
+
+.searchCard :global(.ant-card-body) {
+  padding: 16px 20px !important;
+}
+
+.searchCard :global(.ant-input-affix-wrapper) {
+  border-radius: 12px !important;
+  padding: 10px 16px !important;
+  border-color: #e2e8f0 !important;
+  background: #f8fafc !important;
+  transition: all 0.2s ease !important;
+}
+
+.searchCard :global(.ant-input-affix-wrapper-focused),
+.searchCard :global(.ant-input-affix-wrapper):hover {
+  border-color: #f97316 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1) !important;
+}
+
+.searchCard :global(.ant-input) {
+  background: transparent !important;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.searchCard :global(.ant-input-prefix) {
+  margin-right: 12px;
+  color: #94a3b8;
+  font-size: 18px;
+}
+
+/* =========================================================
+   CLIENTS GRID
+========================================================= */
+
+.clientGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+/* =========================================================
+   CLIENT CARD
+========================================================= */
+
+.clientCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 24px !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.03) !important;
+  transition: all 0.25s ease !important;
+}
+
+.clientCard:hover {
+  transform: translateY(-4px);
+  border-color: #fed7aa !important;
+  box-shadow: 0 16px 32px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+.clientCard :global(.ant-card-body) {
+  display: flex;
+  flex-direction: column;
+  padding: 24px !important;
+}
+
+/* Client Header / Identity */
+
+.clientHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.clientHeader :global(.ant-avatar) {
+  flex-shrink: 0;
+  border: 2px solid #ffedd5;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  color: #ea580c;
+  font-size: 22px;
+}
+
+.clientInfo {
+  min-width: 0;
+  flex: 1;
+}
+
+.clientInfo span {
+  display: block;
+  margin-bottom: 2px;
+  color: #ea580c;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.clientInfo h2 {
+  margin: 0;
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clientInfo p {
+  margin: 2px 0 0;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Pets Section */
+
+.petsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+}
+
+.petsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+}
+
+.petsHeader span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.petsHeader span svg {
+  color: #ef4444;
+  font-size: 14px;
+}
+
+.petsHeader strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.petList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Interactive Pet Item Button */
+
+.petItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.petItem:hover {
+  border-color: #fdba74;
+  background: #fff7ed;
+  transform: translateX(3px);
+}
+
+.petItem svg:last-child {
+  margin-left: auto;
+  color: #94a3b8;
+  font-size: 12px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.petItem:hover svg:last-child {
+  color: #ea580c;
+  transform: translateX(2px);
+}
+
+.petImage {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffedd5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fed7aa;
+}
+
+.petImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.petImage span {
+  font-size: 18px;
+}
+
+.petInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.petInfo strong {
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.petInfo span {
+  color: #64748b;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Card Footer (Appointments info) */
+
+.clientFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 12px;
+}
+
+.clientFooter span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ea580c;
+  font-weight: 700;
+}
+
+.clientFooter span:last-child {
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* =========================================================
+   LOADING & EMPTY STATES
+========================================================= */
+
+.loading,
+.emptyState {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.loading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.emptyIcon {
+  font-size: 48px;
+}
+
+.emptyState h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 20px;
+  font-weight: 750;
+}
+
+.emptyState p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.emptyCard {
+  border-radius: 20px !important;
+  border: 1px dashed #cbd5e1 !important;
+  background: #ffffff !important;
+}
+
+.emptyCard :global(.ant-empty) {
+  padding: 40px 20px;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+========================================================= */
+
+@media (max-width: 1024px) {
+  .page {
+    width: 95%;
+    padding: 24px 20px 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .clientGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    width: 100%;
+    padding: 16px 12px 40px;
+  }
+
+  .clientFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}

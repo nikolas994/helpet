@@ -1,0 +1,458 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  font-family: inherit;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.backButton {
+  border: none;
+  background: transparent;
+  color: #666;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.backButton:hover {
+  color: #111827;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.activeStep {
+  background: #f97316;
+  color: #fff;
+}
+
+.stepLine {
+  width: 30px;
+  height: 2px;
+  background: #e5e7eb;
+}
+
+/* Profile Header Card */
+.profileCard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px;
+}
+
+.profileAvatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: #f97316;
+  letter-spacing: 0.08em;
+}
+
+.profileDetails h2 {
+  margin: 4px 0 2px;
+  font-size: 20px;
+  color: #111827;
+}
+
+.metaRow {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Content Box */
+.contentCard {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.stepTitle {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stepNumber {
+  color: #f97316;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.stepTitle h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.stepTitle p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Services List */
+.servicesList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.serviceItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1.5px solid #f3f4f6;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.serviceItem:hover {
+  border-color: #fdba74;
+}
+
+.selectedService {
+  border-color: #f97316 !important;
+  background: #fff7ed;
+}
+
+.serviceIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #ffedd5;
+  color: #ea580c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.serviceInfo {
+  flex: 1;
+}
+
+.serviceInfo h4 {
+  margin: 0;
+  font-size: 15px;
+  color: #111827;
+}
+
+.serviceInfo p {
+  margin: 2px 0 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.serviceInfo small {
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+.servicePrice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #111827;
+}
+
+.checkBadge {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f97316;
+  color: #fff;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================= */
+/* MODERNI KORAK 2 STILOVI */
+/* ========================================= */
+
+.stepForm {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fieldLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: -0.01em;
+}
+
+/* Pet selection cards */
+.petGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.petCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.petCard:hover {
+  border-color: #fdba74;
+  transform: translateY(-1px);
+}
+
+.selectedPetCard {
+  border-color: #f97316 !important;
+  background: #fff7ed !important;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
+}
+
+.petIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.selectedPetCard .petIcon {
+  background: #ffedd5;
+}
+
+.petDetails {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.petName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.petType {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+.petCheck {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f97316;
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.noPetsBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 14px;
+}
+
+.noPetsBox p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #c2410c;
+}
+
+.addPetBtn {
+  background: #ea580c;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.addPetBtn:hover {
+  background: #c2410c;
+}
+
+/* DatePicker customization */
+.datePickerWrapper {
+  width: 100%;
+}
+
+.customDatePicker {
+  width: 100%;
+  height: 48px;
+  border-radius: 12px !important;
+  border: 1.5px solid #e5e7eb !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease !important;
+}
+
+.customDatePicker:hover,
+.customDatePicker:focus {
+  border-color: #f97316 !important;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15) !important;
+}
+
+/* Time Slots */
+.timeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.selectedDateBadge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ea580c;
+  background: #fff7ed;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.timeSection {
+  margin-top: 8px;
+}
+
+.timeSectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+}
+
+.timeSlot {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.timeSlot:hover:not(:disabled) {
+  border-color: #fdba74;
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.selectedTimeSlot {
+  border-color: #f97316 !important;
+  background: #f97316 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+}
+
+.disabledTimeSlot {
+  background: #f3f4f6;
+  border-color: #f3f4f6;
+  color: #d1d5db;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Footer Button */
+.footerRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.nextButton {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.nextButton:hover {
+  transform: translateY(-1px);
+}

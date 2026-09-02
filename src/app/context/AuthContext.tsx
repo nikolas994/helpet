@@ -1,50 +1,66 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
-import pb from "../lib/pocketbase";
+import pb from "@/app/lib/pocketbase";
 
-export type AuthUser = {
+export type UserRole = "client" | "provider";
+
+export interface AuthUser {
   id: string;
-  name?: string;
   email?: string;
-  contact?: string;
-  location?: string;
+  name?: string;
+  username?: string;
+  role?: UserRole;
   avatar?: string;
-  emailVisibility?: boolean;
   verified?: boolean;
-  created?: string;
-  updated?: string;
-};
+}
 
-type AuthContextType = {
+interface AuthContextType {
   user: AuthUser | null;
   loading: boolean;
-  initialized: boolean;
   logout: () => void;
-};
+}
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  loading: true,
-  initialized: false,
-  logout: () => {},
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const currentUser = pb.authStore.record as AuthUser | null;
+    const syncAuth = () => {
+      const model = pb.authStore.model;
 
-    setUser(currentUser);
-    setLoading(false);
-    setInitialized(true);
+      if (pb.authStore.isValid && model) {
+        // Normalizujemo rolu na mala slova radi bezbednog poređenja u Guard-u
+        const rawRole = model.role
+          ? String(model.role).toLowerCase().trim()
+          : undefined;
 
+        setUser({
+          id: model.id,
+          email: model.email,
+          name: model.name,
+          username: model.username,
+          role: rawRole as UserRole | undefined,
+          avatar: model.avatar,
+          verified: model.verified,
+        });
+      } else {
+        setUser(null);
+      }
+
+      setLoading(false);
+    };
+
+    syncAuth();
+
+    // Slušamo promene u PocketBase skladištu sesije (login/logout iz bilo kod dela app)
     const unsubscribe = pb.authStore.onChange(() => {
-      setUser(pb.authStore.record as AuthUser | null);
+      syncAuth();
     });
 
     return () => {
@@ -53,24 +69,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = () => {
+    // 1. Čistimo PocketBase lokalno skladište
     pb.authStore.clear();
+    // 2. Brišemo korisnika iz stanja
     setUser(null);
+    // 3. Preusmeravamo na login stranicu i osvežavamo rute
+    router.replace("/login");
+    router.refresh();
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        initialized,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      user,
+      loading,
+      logout,
+    }),
+    [user, loading],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error("useAuth mora biti korišćen unutar AuthProvider-a.");
+  }
+
+  return context;
 }

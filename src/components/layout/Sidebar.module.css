@@ -56,10 +56,10 @@
 }
 
 .logoWrapper {
-  width: 40px;
-  height: 40px;
+  /* width: 40px;
+  height: 40px; */
 
-  flex: 0 0 40px;
+  /* flex: 0 0 40px; */
 
   display: flex;
   align-items: center;
@@ -67,8 +67,8 @@
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
+  /* width: 40px;
+  height: 40px; */
 
   object-fit: contain;
 
@@ -518,7 +518,7 @@
 }
 
 /* =========================================================
-   NOTIFICATIONS HEADER
+   NOTIFICATIONS HEADER & MARK ALL
 ========================================================= */
 
 .notificationsHeader {
@@ -579,6 +579,30 @@
   font-weight: 800;
 }
 
+.markAllButton {
+  background: none;
+  border: none;
+
+  padding: 4px 9px;
+  margin-bottom: 4px;
+
+  color: #e87922;
+
+  font-size: 11px;
+  font-weight: 600;
+  font-family: inherit;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition: color 0.18s ease;
+}
+
+.markAllButton:hover {
+  color: #d96d18;
+  text-decoration: underline;
+}
+
 /* =========================================================
    NOTIFICATIONS DIVIDER
 ========================================================= */
@@ -626,10 +650,33 @@
 }
 
 /* =========================================================
+   STATUS MESSAGE (EMPTY STATE)
+========================================================= */
+
+.statusMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 15px;
+
+  text-align: center;
+  color: #9298a1;
+
+  gap: 8px;
+}
+
+.statusMessage span {
+  font-size: 11px;
+}
+
+/* =========================================================
    NOTIFICATION ITEM
 ========================================================= */
 
 .notificationItem {
+  position: relative;
   width: 100%;
 
   display: flex;
@@ -659,8 +706,25 @@
   transform: translateX(2px);
 }
 
+.notificationUnread {
+  background: rgba(232, 121, 34, 0.03);
+}
+
+.unreadDot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+  background: #e87922;
+
+  position: absolute;
+
+  right: 10px;
+  top: 12px;
+}
+
 /* =========================================================
-   NOTIFICATION ICON
+   NOTIFICATION ICONS & STATUS STYLES (BOJE)
 ========================================================= */
 
 .notificationIcon {
@@ -677,19 +741,48 @@
 
   border-radius: 10px;
 
-  background: #fff1e5;
+  font-size: 15px;
 
-  color: #e87922;
-
-  font-size: 14px;
-
-  transition: background 0.18s ease, color 0.18s ease;
+  transition: filter 0.18s ease;
 }
 
 .notificationItem:hover .notificationIcon {
-  background: #ffdfc5;
+  filter: brightness(0.95);
+}
 
-  color: #d96d18;
+/* Čeka potvrdu / Kreirano (Žuta / Narandžasta) */
+.notificationPending,
+.notificationCreated {
+  background: #fffbe6;
+  color: #faad14;
+  border: 1px solid #ffe58f;
+}
+
+/* Potvrđeno (Zelena) */
+.notificationConfirmed {
+  background: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+/* Odbijeno (Crvena) */
+.notificationRejected {
+  background: #fff2f0;
+  color: #ff4d4f;
+  border: 1px solid #ffccc7;
+}
+
+/* Završeno (Plava) */
+.notificationCompleted {
+  background: #e6f7ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+}
+
+/* Podrazumevano */
+.notificationDefault {
+  background: #fff1e5;
+  color: #e87922;
 }
 
 /* =========================================================
@@ -712,6 +805,17 @@
   font-weight: 750;
 
   line-height: 1.25;
+}
+
+.notificationLocation {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  color: #e87922 !important;
+
+  font-size: 10px !important;
+  font-weight: 600;
 }
 
 .notificationContent span {
@@ -754,7 +858,7 @@
 }
 
 /* =========================================================
-   MOBILE / TABLET
+   MOBILE / TABLET RESPONSIVE
 ========================================================= */
 
 @media (max-width: 1100px) {
@@ -861,10 +965,6 @@
     transform: scale(1.08) !important;
   }
 
-  /* =======================================================
-     MOBILE NOTIFICATION BADGE
-  ======================================================= */
-
   .notificationBadge {
     position: absolute;
     top: 8px;
@@ -897,10 +997,6 @@
     z-index: 10;
   }
 
-  /* =======================================================
-     MOBILE NOTIFICATIONS POPOVER
-  ======================================================= */
-
   .notificationsPopover {
     width: min(330px, calc(100vw - 30px));
   }
@@ -917,10 +1013,6 @@
     max-width: calc(100vw - 20px);
   }
 }
-
-/* =========================================================
-   SMALL PHONES
-========================================================= */
 
 /* =========================================================
    SMALL PHONES

@@ -1,155 +1,858 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
 .page {
   min-height: 100%;
-  padding: 30px 32px 60px;
-  background: #f7f8fa;
+
+  padding: 32px 34px 80px;
+
+  box-sizing: border-box;
+
+  background: radial-gradient(
+      circle at 8% 0%,
+      rgba(228, 119, 34, 0.09),
+      transparent 28%
+    ),
+    radial-gradient(circle at 92% 4%, rgba(255, 186, 115, 0.1), transparent 25%),
+    #f7f8fa;
+
+  color: #202226;
 }
 
+/* =========================================================
+   BACK
+========================================================= */
+
 .backButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+
   gap: 8px;
 
   margin-bottom: 25px;
-  padding: 0;
+  padding: 7px 10px;
 
-  border: none;
+  border: 0;
+  border-radius: 10px;
+
   background: transparent;
 
-  color: #777d86;
-  font-size: 14px;
+  color: #858a92;
+
+  font-size: 12px;
+  font-weight: 650;
 
   cursor: pointer;
+
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
 .backButton:hover {
-  color: #e67e22;
+  color: #df6f1d;
+
+  background: #fff2e7;
+
+  transform: translateX(-2px);
 }
 
+.backButton :global(.anticon) {
+  font-size: 13px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 .header {
-  max-width: 760px;
-  margin: 0 auto 25px;
+  width: 100%;
+  max-width: 780px;
+
+  margin: 0 auto 22px;
+
+  padding: 0 3px;
 
   display: flex;
   align-items: center;
-  gap: 18px;
+
+  gap: 17px;
 }
 
 .icon {
-  width: 58px;
-  height: 58px;
+  width: 60px;
+  height: 60px;
+
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 16px;
+  border: 1px solid #f1d7c1;
+  border-radius: 18px;
 
-  background: #fff0e3;
-  color: #e67e22;
+  background: radial-gradient(circle at 30% 20%, #fffdfb, transparent 55%),
+    #fff0e3;
+
+  color: #df711f;
 
   font-size: 25px;
+
+  box-shadow: 0 10px 25px rgba(228, 119, 34, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
-.header span {
-  color: #e67e22;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+.headerContent {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #df711f;
+
+  font-size: 9px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
 }
 
 .header h1 {
-  margin: 3px 0;
-  color: #22252a;
-  font-size: 30px;
+  margin: 0;
+
+  color: #1e2024;
+
+  font-size: 31px;
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  letter-spacing: -0.04em;
 }
 
 .header p {
-  margin: 0;
-  color: #888e96;
-  font-size: 14px;
+  margin: 7px 0 0;
+
+  color: #8d929a;
+
+  font-size: 12px;
+
+  line-height: 1.5;
 }
+
+/* =========================================================
+   CARD
+========================================================= */
 
 .card {
-  max-width: 760px;
+  position: relative;
+
+  width: 100%;
+  max-width: 780px;
+
   margin: 0 auto;
 
-  padding: 35px;
+  padding: 32px;
 
-  border: 1px solid #eceef2;
-  border-radius: 22px;
+  box-sizing: border-box;
 
-  background: white;
+  border: 1px solid #e9ebee;
+  border-radius: 23px;
 
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.035);
+  background: rgba(255, 255, 255, 0.98);
+
+  box-shadow: 0 18px 45px rgba(34, 29, 25, 0.045),
+    0 3px 10px rgba(34, 29, 25, 0.025);
+
+  overflow: hidden;
 }
+
+.card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 3px;
+
+  background: linear-gradient(90deg, #df711f 0%, #ee9853 48%, #f7d9bd 100%);
+}
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
 
 .sectionTitle {
   display: flex;
   align-items: center;
-  gap: 12px;
 
-  margin: 10px 0 25px;
+  gap: 13px;
 
-  color: #e67e22;
-  font-size: 20px;
+  margin: 4px 0 22px;
+}
+
+.sectionTitle > :global(.anticon) {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid #f4dfcf;
+  border-radius: 12px;
+
+  background: #fff5ed;
+
+  color: #df711f;
+
+  font-size: 16px;
 }
 
 .sectionTitle h2 {
   margin: 0;
 
-  color: #303338;
-  font-size: 18px;
+  color: #292d32;
+
+  font-size: 15px;
+  line-height: 1.2;
+
+  font-weight: 750;
+
+  letter-spacing: -0.015em;
 }
 
 .sectionTitle p {
-  margin: 3px 0 0;
+  margin: 5px 0 0;
 
-  color: #8b9097;
-  font-size: 12px;
+  color: #989da5;
+
+  font-size: 10px;
+  line-height: 1.45;
 }
+
+/* =========================================================
+   SECTION SEPARATOR
+========================================================= */
+
+.sectionTitle:not(:first-child) {
+  padding-top: 27px;
+
+  margin-top: 27px;
+
+  border-top: 1px solid #eff0f2;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form :global(.ant-form-item) {
+  margin-bottom: 20px;
+}
+
+.form :global(.ant-form-item-label) {
+  padding-bottom: 7px !important;
+}
+
+.form :global(.ant-form-item-label > label) {
+  color: #4a4f56 !important;
+
+  font-size: 11px !important;
+
+  font-weight: 700 !important;
+}
+
+.form :global(.ant-form-item-label > label.ant-form-item-required::before) {
+  color: #df711f !important;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.form :global(.ant-input),
+.form :global(.ant-input-affix-wrapper),
+.form :global(.ant-select-selector),
+.form :global(.ant-picker) {
+  border: 1px solid #e4e7ea !important;
+
+  border-radius: 11px !important;
+
+  background: #ffffff !important;
+
+  box-shadow: none !important;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+}
+
+.form :global(.ant-input:hover),
+.form :global(.ant-input-affix-wrapper:hover),
+.form :global(.ant-select-selector:hover),
+.form :global(.ant-picker:hover) {
+  border-color: #e8ae7c !important;
+}
+
+.form :global(.ant-input:focus),
+.form :global(.ant-input-focused),
+.form :global(.ant-input-affix-wrapper-focused),
+.form :global(.ant-select-focused .ant-select-selector),
+.form :global(.ant-picker-focused) {
+  border-color: #df711f !important;
+
+  box-shadow: 0 0 0 3px rgba(223, 113, 31, 0.09) !important;
+}
+
+.form :global(.ant-input::placeholder),
+.form :global(.ant-select-selection-placeholder) {
+  color: #b5b9be !important;
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.form :global(.ant-input) {
+  color: #34383e;
+
+  font-size: 13px;
+}
+
+.form :global(.ant-input-lg) {
+  min-height: 45px;
+
+  padding: 9px 12px;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   PREFIX ICON
+========================================================= */
+
+.form :global(.ant-input-prefix) {
+  color: #df711f;
+
+  margin-right: 9px;
+}
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.form :global(.ant-select-lg) {
+  min-height: 45px;
+}
+
+.form :global(.ant-select-selection-item) {
+  color: #3d4248;
+
+  font-size: 13px;
+
+  font-weight: 550;
+}
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.form :global(.ant-picker-large) {
+  min-height: 45px;
+
+  padding: 0 12px;
+}
+
+.form :global(.ant-picker-input > input) {
+  color: #3d4248 !important;
+
+  font-size: 13px !important;
+}
+
+.form :global(.ant-picker-suffix) {
+  color: #df711f;
+}
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.form :global(.ant-input-textarea) {
+  border-radius: 11px;
+}
+
+.form :global(.ant-input-textarea textarea) {
+  min-height: 110px;
+
+  padding: 11px 12px;
+
+  color: #34383e;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.form :global(.ant-input-textarea-show-count::after) {
+  margin-top: 4px;
+
+  color: #a3a7ad;
+
+  font-size: 9px;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
 
 .grid {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
 
-  gap: 20px;
+  gap: 18px;
 }
+
+/* =========================================================
+   ACTIONS
+========================================================= */
 
 .actions {
   display: flex;
+
+  align-items: center;
+
   justify-content: flex-end;
+
   gap: 10px;
 
-  padding-top: 25px;
-  margin-top: 15px;
+  padding-top: 24px;
 
-  border-top: 1px solid #f0f1f3;
+  margin-top: 7px;
+
+  border-top: 1px solid #eff0f2;
 }
 
-@media (max-width: 700px) {
+.actions button {
+  min-width: 125px;
+
+  height: 41px;
+
+  border-radius: 10px !important;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+}
+
+/* CANCEL */
+
+.actions button:first-child {
+  border-color: #e4e7ea;
+
+  color: #666c74;
+
+  background: #fff;
+}
+
+.actions button:first-child:hover {
+  border-color: #d7dbe0;
+
+  color: #3f444a;
+
+  background: #f8f9fa;
+
+  transform: translateY(-1px);
+}
+
+/* SAVE */
+
+.actions :global(.ant-btn-primary) {
+  border-color: #df711f !important;
+
+  background: #df711f !important;
+
+  box-shadow: 0 7px 17px rgba(223, 113, 31, 0.19) !important;
+}
+
+.actions :global(.ant-btn-primary:hover) {
+  border-color: #d46517 !important;
+
+  background: #d46517 !important;
+
+  box-shadow: 0 9px 22px rgba(223, 113, 31, 0.25) !important;
+
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   VALIDATION
+========================================================= */
+
+.form :global(.ant-form-item-explain-error) {
+  margin-top: 4px;
+
+  color: #d9363e;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   1100px
+========================================================= */
+
+@media (max-width: 1100px) {
   .page {
-    padding: 20px 15px 40px;
+    padding: 26px 22px 75px;
+  }
+}
+
+/* =========================================================
+   768px — MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .page {
+    min-height: calc(100vh - 80px);
+
+    padding: 17px 14px 110px;
   }
 
-  .card {
-    padding: 22px;
-    border-radius: 18px;
+  /* BACK */
+
+  .backButton {
+    margin-bottom: 18px;
+
+    padding: 6px 7px;
+
+    font-size: 11px;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 0;
+  /* HEADER */
+
+  .header {
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-bottom: 17px;
+
+    padding: 0;
   }
 
-  .actions {
-    flex-direction: column-reverse;
+  .icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 15px;
+
+    font-size: 20px;
   }
 
-  .actions button {
-    width: 100%;
+  .eyebrow {
+    margin-bottom: 5px;
+
+    font-size: 8px;
+
+    letter-spacing: 0.13em;
   }
 
   .header h1 {
     font-size: 25px;
+
+    letter-spacing: -0.035em;
+  }
+
+  .header p {
+    max-width: 280px;
+
+    margin-top: 6px;
+
+    font-size: 10px;
+  }
+
+  /* CARD */
+
+  .card {
+    padding: 23px 18px;
+
+    border-radius: 19px;
+
+    box-shadow: 0 12px 30px rgba(34, 29, 25, 0.045),
+      0 2px 7px rgba(34, 29, 25, 0.02);
+  }
+
+  /* SECTION */
+
+  .sectionTitle {
+    gap: 10px;
+
+    margin-bottom: 18px;
+  }
+
+  .sectionTitle > :global(.anticon) {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+  }
+
+  .sectionTitle h2 {
+    font-size: 14px;
+  }
+
+  .sectionTitle p {
+    font-size: 9px;
+  }
+
+  .sectionTitle:not(:first-child) {
+    padding-top: 23px;
+
+    margin-top: 23px;
+  }
+
+  /* FORM */
+
+  .form :global(.ant-form-item) {
+    margin-bottom: 17px;
+  }
+
+  .form :global(.ant-form-item-label) {
+    padding-bottom: 6px !important;
+  }
+
+  .form :global(.ant-form-item-label > label) {
+    font-size: 10px !important;
+  }
+
+  /* GRID */
+
+  .grid {
+    grid-template-columns: 1fr;
+
+    gap: 0;
+  }
+
+  /* INPUTS */
+
+  .form :global(.ant-input-lg),
+  .form :global(.ant-select-lg),
+  .form :global(.ant-picker-large) {
+    min-height: 46px;
+  }
+
+  .form :global(.ant-input-lg) {
+    font-size: 13px;
+  }
+
+  .form :global(.ant-select-selection-item) {
+    font-size: 13px;
+  }
+
+  .form :global(.ant-picker-input > input) {
+    font-size: 13px !important;
+  }
+
+  .form :global(.ant-input-textarea textarea) {
+    min-height: 110px;
+
+    font-size: 13px;
+  }
+
+  /* ACTIONS */
+
+  .actions {
+    flex-direction: column-reverse;
+
+    align-items: stretch;
+
+    gap: 9px;
+
+    padding-top: 20px;
+  }
+
+  .actions button {
+    width: 100%;
+
+    height: 46px;
+
+    min-width: 0;
+
+    border-radius: 11px !important;
+
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   480px
+========================================================= */
+
+@media (max-width: 480px) {
+  .page {
+    padding: 14px 10px 110px;
+  }
+
+  .backButton {
+    margin-bottom: 16px;
+
+    font-size: 10px;
+  }
+
+  .header {
+    gap: 10px;
+
+    margin-bottom: 15px;
+  }
+
+  .icon {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 13px;
+
+    font-size: 18px;
+  }
+
+  .eyebrow {
+    font-size: 7px;
+
+    letter-spacing: 0.11em;
+  }
+
+  .header h1 {
+    font-size: 23px;
+  }
+
+  .header p {
+    max-width: 245px;
+
+    font-size: 9px;
+  }
+
+  .card {
+    padding: 21px 15px;
+
+    border-radius: 17px;
+  }
+
+  .card::before {
+    height: 2px;
+  }
+
+  .sectionTitle {
+    gap: 9px;
+
+    margin-bottom: 16px;
+  }
+
+  .sectionTitle > :global(.anticon) {
+    width: 32px;
+    height: 32px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+  }
+
+  .sectionTitle h2 {
+    font-size: 13px;
+  }
+
+  .sectionTitle p {
+    font-size: 8px;
+  }
+
+  .sectionTitle:not(:first-child) {
+    padding-top: 20px;
+
+    margin-top: 20px;
+  }
+
+  .form :global(.ant-form-item) {
+    margin-bottom: 15px;
+  }
+
+  .form :global(.ant-form-item-label) {
+    padding-bottom: 5px !important;
+  }
+
+  .form :global(.ant-form-item-label > label) {
+    font-size: 10px !important;
+  }
+
+  .form :global(.ant-input-lg),
+  .form :global(.ant-select-lg),
+  .form :global(.ant-picker-large) {
+    min-height: 45px;
+  }
+
+  .form :global(.ant-input-lg) {
+    font-size: 12px;
+  }
+
+  .form :global(.ant-select-selection-item) {
+    font-size: 12px;
+  }
+
+  .form :global(.ant-picker-input > input) {
+    font-size: 12px !important;
+  }
+
+  .form :global(.ant-input-textarea textarea) {
+    min-height: 100px;
+
+    font-size: 12px;
+  }
+
+  .actions {
+    gap: 8px;
+
+    padding-top: 17px;
+  }
+
+  .actions button {
+    height: 45px;
+
+    border-radius: 10px !important;
+  }
+}
+
+/* =========================================================
+   360px
+========================================================= */
+
+@media (max-width: 360px) {
+  .page {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .card {
+    padding: 19px 13px;
+  }
+
+  .header h1 {
+    font-size: 21px;
+  }
+
+  .header p {
+    font-size: 8px;
+  }
+
+  .sectionTitle p {
+    display: none;
   }
 }

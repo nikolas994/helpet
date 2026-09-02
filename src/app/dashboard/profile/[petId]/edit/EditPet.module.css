@@ -1,84 +1,122 @@
+/* =========================================================
+   PAGE / BACKGROUND
+========================================================= */
+
 .page {
-  min-height: 100%;
-  padding: 30px 32px 60px;
-  background: #f7f8fa;
+  width: min(100%, 1200px);
+  min-height: 100vh;
+  margin: 0 auto;
+  /* Dovoljno mesta na dnu da fiksirana navigacija ne sakriva sadržaj */
+  padding: 24px 20px calc(100px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+  background: #f8fafc;
 }
 
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
 .backButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 22px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: #777d86;
-  font-size: 14px;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
 }
 
 .backButton:hover {
-  color: #e67e22;
+  background: #fff7ef;
+  color: #ea580c;
+  transform: translateX(-3px);
 }
 
+/* =========================================================
+   HEADER / HERO STYLE SECTION
+========================================================= */
+
 .header {
-  max-width: 900px;
-  margin: 0 auto 25px;
+  position: relative;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  margin-bottom: 20px;
 }
 
 .eyebrow {
-  color: #e67e22;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  display: inline-block;
+  margin-bottom: 6px;
+  color: #ea580c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .header h1 {
-  margin: 7px 0 5px;
-  color: #202124;
-  font-size: 32px;
-  font-weight: 750;
+  margin: 0;
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .header p {
-  margin: 0;
-  color: #81868e;
+  margin: 4px 0 0;
+  color: #64748b;
   font-size: 14px;
+  font-weight: 500;
 }
+
+/* =========================================================
+   MAIN FORM CARD
+========================================================= */
 
 .card {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 35px;
-  border: 1px solid #eceef2;
-  border-radius: 24px;
-  background: #fff;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.035);
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
-/* PHOTO */
+/* PHOTO SECTION */
 
 .photoSection {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding-bottom: 30px;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #f0f1f3;
+  padding: 16px;
+  margin-bottom: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
 }
 
 .avatarWrapper {
   position: relative;
-  width: 110px;
-  height: 110px;
+  width: 90px;
+  height: 90px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .avatar,
 .avatarPlaceholder {
-  width: 110px;
-  height: 110px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .avatar {
@@ -89,63 +127,107 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff0e3;
-  color: #e67e22;
-  font-size: 38px;
+  background: #fff7ef;
+  color: #ea580c;
+  font-size: 32px;
+  border: 1px solid #fed7aa;
 }
 
 .cameraButton {
   position: absolute;
   right: -2px;
   bottom: -2px;
-
-  width: 34px;
-  height: 34px;
-
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border: 3px solid #fff;
+  border: 2px solid #ffffff;
   border-radius: 50%;
-
-  background: #e67e22;
-  color: #fff;
+  background: #ea580c;
+  color: #ffffff;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(234, 88, 12, 0.3);
+  transition: transform 0.2s ease;
 }
 
-/* SECTIONS */
+.avatarWrapper:hover .cameraButton {
+  transform: scale(1.08);
+}
+
+.photoInfo h3 {
+  margin: 0 0 4px;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.photoInfo p {
+  margin: 0;
+  color: #64748b;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+/* SECTIONS & FORM ELEMENTS */
 
 .sectionTitle {
   display: flex;
   align-items: center;
-  gap: 13px;
-  margin: 10px 0 25px;
-  color: #e67e22;
-  font-size: 20px;
+  gap: 10px;
+  margin: 24px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #ea580c;
+  font-size: 18px;
 }
 
 .sectionTitle h2 {
   margin: 0;
-  color: #303338;
-  font-size: 19px;
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .sectionTitle p {
-  margin: 3px 0 0;
-  color: #8b9097;
-  font-size: 12px;
+  margin: 2px 0 0;
+  color: #94a3b8;
+  font-size: 11.5px;
 }
-
-/* FORM */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0 20px;
+  gap: 0 16px;
+}
+
+.card :global(.ant-form-item) {
+  margin-bottom: 16px;
+}
+
+.card :global(.ant-form-item-label) {
+  padding-bottom: 4px;
 }
 
 .card :global(.ant-form-item-label > label) {
-  font-weight: 600;
+  color: #334155;
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.card :global(.ant-input),
+.card :global(.ant-select-selector),
+.card :global(.ant-picker),
+.card :global(.ant-input-number) {
+  border-radius: 10px !important;
+  border-color: #cbd5e1 !important;
+}
+
+.card :global(.ant-input:focus),
+.card :global(.ant-select-focused .ant-select-selector),
+.card :global(.ant-picker-focused) {
+  border-color: #ea580c !important;
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.15) !important;
 }
 
 /* ACTIONS */
@@ -153,63 +235,134 @@
 .actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 12px;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
 
-  padding-top: 25px;
-  margin-top: 15px;
+.cancelBtn {
+  height: 40px !important;
+  padding: 0 20px !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 10px !important;
+  color: #475569 !important;
+  font-weight: 600 !important;
+}
 
-  border-top: 1px solid #f0f1f3;
+.cancelBtn:hover {
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.saveBtn {
+  height: 40px !important;
+  padding: 0 20px !important;
+  border-radius: 10px !important;
+  background: #ea580c !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25) !important;
+}
+
+.saveBtn:hover {
+  background: #c2410c !important;
 }
 
 /* NOT FOUND */
 
 .notFound {
-  max-width: 500px;
-  margin: 100px auto;
-  padding: 40px;
+  max-width: 440px;
+  margin: 60px auto;
+  padding: 32px 24px;
   text-align: center;
-  border-radius: 20px;
-  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .notFound h1 {
-  margin-bottom: 10px;
+  margin: 0 0 8px;
+  color: #0f172a;
+  font-size: 20px;
+  font-weight: 800;
 }
 
 .notFound p {
-  margin-bottom: 25px;
-  color: #888;
+  margin: 0 0 20px;
+  color: #64748b;
+  font-size: 13.5px;
 }
 
-/* MOBILE */
+/* =========================================================
+   RESPONSIVE (<= 700px)
+========================================================= */
 
 @media (max-width: 700px) {
   .page {
-    padding: 20px 15px 40px;
+    /* Povećan padding na dnu (140px + nav) kako bi dugmići izašli iznad fiksirane navigacije */
+    padding: 14px 12px calc(140px + env(safe-area-inset-bottom, 0px));
   }
 
-  .card {
-    padding: 22px;
-    border-radius: 18px;
+  .header {
+    padding: 18px 16px;
+    border-radius: 16px;
+    margin-bottom: 14px;
   }
 
   .header h1 {
-    font-size: 27px;
+    font-size: 22px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .photoSection {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .avatarWrapper,
+  .avatar,
+  .avatarPlaceholder {
+    width: 72px;
+    height: 72px;
+  }
+
+  .avatarPlaceholder {
+    font-size: 26px;
+  }
+
+  .cameraButton {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
   }
 
   .grid {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 
-  .photoSection {
-    align-items: flex-start;
+  .sectionTitle {
+    margin: 16px 0 12px;
   }
 
   .actions {
     flex-direction: column-reverse;
+    gap: 10px;
+    padding-top: 16px;
+    margin-top: 12px;
+    margin-bottom: 10px;
   }
 
   .actions button {
     width: 100%;
+    height: 44px !important;
   }
 }

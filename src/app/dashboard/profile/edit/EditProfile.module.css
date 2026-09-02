@@ -1,85 +1,108 @@
+/* =========================================================
+   PAGE / BACKGROUND
+========================================================= */
+
 .page {
-  min-height: 100%;
-  padding: 30px 32px 60px;
-  background: #f7f8fa;
+  min-height: 100vh;
+  padding: 24px 20px 80px;
+  background: radial-gradient(
+      circle at 10% 10%,
+      rgba(232, 121, 34, 0.04),
+      transparent 30%
+    ),
+    #f8f9fa;
+  box-sizing: border-box;
 }
 
+/* BACK BUTTON */
 .backButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 22px;
-  padding: 0;
+  margin-bottom: 18px;
+  padding: 6px 12px;
   border: none;
-  background: transparent;
-  color: #777d86;
-  font-size: 14px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.03);
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .backButton:hover {
-  color: #e67e22;
+  background: #ffedd5;
+  color: #e87922;
 }
 
+/* HEADER */
 .header {
-  max-width: 850px;
-  margin: 0 auto 25px;
+  max-width: 680px;
+  margin: 0 auto 18px;
 }
 
 .eyebrow {
-  color: #e67e22;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  color: #e87922;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
 }
 
 .header h1 {
-  margin: 7px 0 5px;
-  color: #202124;
-  font-size: 32px;
-  font-weight: 750;
+  margin: 4px 0 4px;
+  color: #0f172a;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .header p {
   margin: 0;
-  color: #81868e;
-  font-size: 14px;
-  line-height: 1.6;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
+/* CARD CONTAINER */
 .card {
-  max-width: 850px;
+  max-width: 680px;
   margin: 0 auto;
-  padding: 35px;
-  border: 1px solid #eceef2;
-  border-radius: 24px;
-  background: #fff;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.035);
+  padding: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.02);
 }
 
-/* AVATAR */
+/* =========================================================
+   AVATAR SECTION
+========================================================= */
 
 .avatarSection {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding-bottom: 30px;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #f0f1f3;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .avatarWrapper {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 72px;
+  height: 72px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .avatar,
 .avatarPlaceholder {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .avatar {
@@ -90,47 +113,47 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff0e3;
-  color: #e67e22;
-  font-size: 38px;
+  background: #fff7ef;
+  color: #e87922;
+  font-size: 28px;
+  border: 1px solid #ffedd5;
 }
 
 .cameraButton {
   position: absolute;
-  right: -2px;
-  bottom: -2px;
-
-  width: 32px;
-  height: 32px;
-
+  right: -5px;
+  bottom: -5px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border: 3px solid white;
-  border-radius: 50%;
-
-  background: #e67e22;
-  color: white;
-
-  font-size: 13px;
+  border: 2px solid #ffffff;
+  border-radius: 7px;
+  background: #e87922;
+  color: #ffffff;
+  font-size: 11px;
+  box-shadow: 0 2px 6px rgba(232, 121, 34, 0.3);
 }
 
 .avatarSection h3 {
-  margin: 0 0 5px;
-  color: #303338;
-  font-size: 16px;
+  margin: 0 0 3px;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .avatarSection p {
-  max-width: 400px;
+  max-width: 380px;
   margin: 0;
-  color: #92969d;
-  font-size: 13px;
-  line-height: 1.5;
+  color: #64748b;
+  font-size: 11.5px;
+  line-height: 1.35;
 }
 
-/* FORM */
+/* =========================================================
+   FORM & COMPACT INPUTS
+========================================================= */
 
 .form {
   width: 100%;
@@ -138,54 +161,164 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 14px;
+}
+
+.card :global(.ant-form-item) {
+  margin-bottom: 14px; /* Smanjen razmak između polja */
+}
+
+.card :global(.ant-form-item-label) {
+  padding-bottom: 4px !important;
 }
 
 .card :global(.ant-form-item-label > label) {
+  color: #334155;
+  font-size: 12px;
   font-weight: 600;
 }
 
-/* ACTIONS */
+/* COMPACT INPUT FIELD STYLES */
+.card :global(.ant-input-affix-wrapper),
+.card :global(.ant-input) {
+  border-radius: 8px !important;
+  border-color: #e2e8f0;
+  padding: 5px 10px !important; /* Znatno smanjen unutrašnji padding */
+  font-size: 13px !important; /* Smanjen font unutar inputa */
+  transition: all 0.2s ease;
+}
+
+.card :global(.ant-input-affix-wrapper:hover),
+.card :global(.ant-input-affix-wrapper-focused) {
+  border-color: #e87922 !important;
+  box-shadow: 0 0 0 2px rgba(232, 121, 34, 0.1) !important;
+}
+
+.card :global(.ant-input-prefix) {
+  margin-right: 6px;
+  color: #94a3b8;
+  font-size: 13px; /* Smanjena veličina ikonice u inputu */
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
 
 .actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding-top: 25px;
-  margin-top: 10px;
-  border-top: 1px solid #f0f1f3;
+  padding-top: 16px;
+  margin-top: 6px;
+  border-top: 1px solid #f1f5f9;
 }
 
-/* MOBILE */
+.actions :global(.ant-btn) {
+  border-radius: 8px !important;
+  font-weight: 600;
+  font-size: 12.5px;
+  height: 36px !important; /* Smanjena visina dugmadi */
+}
+
+.actions :global(.ant-btn-primary) {
+  background: #e87922 !important;
+  box-shadow: 0 3px 10px rgba(232, 121, 34, 0.2) !important;
+}
+
+.actions :global(.ant-btn-primary:hover) {
+  background: #d66a17 !important;
+}
+
+/* =========================================================
+   RESPONSIVE (MOBILNI EKRANI < 700PX)
+========================================================= */
 
 @media (max-width: 700px) {
   .page {
-    padding: 20px 15px 40px;
+    padding: 12px 12px 80px;
   }
 
-  .card {
-    padding: 22px;
-    border-radius: 18px;
+  .backButton {
+    margin-bottom: 10px;
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .header {
+    margin-bottom: 12px;
   }
 
   .header h1 {
-    font-size: 27px;
+    font-size: 20px;
+  }
+
+  .header p {
+    font-size: 11.5px;
+  }
+
+  .card {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .avatarSection {
+    gap: 12px;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+
+  .avatarWrapper,
+  .avatar,
+  .avatarPlaceholder {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+  }
+
+  .avatarPlaceholder {
+    font-size: 24px;
+  }
+
+  .cameraButton {
+    width: 22px;
+    height: 22px;
+    font-size: 9px;
+    right: -4px;
+    bottom: -4px;
+  }
+
+  .avatarSection h3 {
+    font-size: 13px;
+  }
+
+  .avatarSection p {
+    font-size: 10.5px;
   }
 
   .grid {
     grid-template-columns: 1fr;
+    gap: 0;
   }
 
-  .avatarSection {
-    align-items: flex-start;
+  .card :global(.ant-form-item) {
+    margin-bottom: 10px;
+  }
+
+  .card :global(.ant-input-affix-wrapper),
+  .card :global(.ant-input) {
+    padding: 4px 8px !important;
+    font-size: 12.5px !important;
   }
 
   .actions {
     flex-direction: column-reverse;
+    gap: 6px;
+    padding-top: 12px;
   }
 
-  .actions button {
+  .actions :global(.ant-btn) {
     width: 100%;
+    height: 36px !important;
   }
 }

@@ -10,15 +10,16 @@ import {
   PhoneOutlined,
   GlobalOutlined,
   ArrowRightOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 
 import { Input } from "antd";
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import pb from "../../app/lib/pocketbase";
 import type { Location } from "@/types/location";
@@ -38,6 +39,7 @@ const locationConfig: Record<
     icon: React.ReactNode;
     emoji: string;
     color: string;
+    canBook?: boolean;
   }
 > = {
   vet: {
@@ -45,32 +47,33 @@ const locationConfig: Record<
     icon: <MedicineBoxOutlined />,
     emoji: "🩺",
     color: "#e47722",
+    canBook: true,
   },
-
   shop: {
     label: "Pet shop",
     icon: <ShopOutlined />,
     emoji: "🛍️",
     color: "#5578c9",
+    canBook: false,
   },
-
   salon: {
     label: "Pet salon",
     icon: <ScissorOutlined />,
     emoji: "✨",
     color: "#9655b5",
+    canBook: true,
   },
-
   hotel: {
     label: "Pet hotel",
     icon: <HomeOutlined />,
     emoji: "🏠",
     color: "#4caa76",
+    canBook: false,
   },
 };
 
 /* =========================================================
-   CUSTOM MARKER
+   CUSTOM MARKER & UTILS
 ========================================================= */
 
 const createIcon = (type: LocationType) => {
@@ -78,138 +81,103 @@ const createIcon = (type: LocationType) => {
 
   return L.divIcon({
     className: "custom-map-marker",
-
     html: `
-      <div
-        class="marker-pin marker-${type}"
-        style="--marker-color: ${config.color};"
-      >
+      <div class="marker-pin marker-${type}" style="--marker-color: ${config.color};">
         <div class="marker-pulse"></div>
-
         <div class="marker-tail"></div>
-
         <div class="marker-inner">
-          <span class="marker-emoji">
-            ${config.emoji}
-          </span>
+          <span class="marker-emoji">${config.emoji}</span>
         </div>
       </div>
     `,
-
     iconSize: [64, 76],
     iconAnchor: [32, 70],
     popupAnchor: [0, -65],
   });
 };
 
-/* =========================================================
-   MAP CONTROLLER
-========================================================= */
-
 function FlyToLocation({ position }: { position: [number, number] | null }) {
   const map = useMap();
-
   useEffect(() => {
     if (!position) return;
-
-    map.flyTo(position, 15, {
-      duration: 1.1,
-      easeLinearity: 0.25,
-    });
+    map.flyTo(position, 15, { duration: 1.1, easeLinearity: 0.25 });
   }, [position, map]);
-
   return null;
 }
 
-/* =========================================================
-   ZOOM CONTROLLER
-========================================================= */
-
 function ZoomController() {
   const map = useMap();
-
   useEffect(() => {
     const zoomIn = () => map.zoomIn();
     const zoomOut = () => map.zoomOut();
-
     window.addEventListener("leaflet-zoom-in", zoomIn);
     window.addEventListener("leaflet-zoom-out", zoomOut);
-
     return () => {
       window.removeEventListener("leaflet-zoom-in", zoomIn);
       window.removeEventListener("leaflet-zoom-out", zoomOut);
     };
   }, [map]);
-
   return null;
 }
 
-/* =========================================================
-   IMAGE
-========================================================= */
-
 const getImageUrl = (record: any) => {
   if (!record.image) return null;
-
   return pb.files.getURL(record, record.image);
 };
 
 /* =========================================================
-   COMPONENT
+   MAIN COMPONENT
 ========================================================= */
 
 export default function MapView() {
+  const router = useRouter();
+
   const [locations, setLocations] = useState<Location[]>([]);
   const [filter, setFilter] = useState<LocationType | null>(null);
   const [search, setSearch] = useState("");
   const [flyTo, setFlyTo] = useState<[number, number] | null>(null);
 
-  /* =======================================================
-     LOAD LOCATIONS
-  ======================================================= */
-
+  /* Fetch Locations */
   useEffect(() => {
+    let isMounted = true;
+
     const fetchLocations = async () => {
       try {
         const data = await pb.collection("locations").getFullList<Location>({
           sort: "name",
           requestKey: null,
         });
-
-        setLocations(data);
+        if (isMounted) setLocations(data);
       } catch (error: any) {
         if (
+          error?.isAbort ||
           error?.name === "AbortError" ||
-          error?.originalError?.name === "AbortError" ||
           error?.status === 0
-        ) {
+        )
           return;
-        }
-
         console.error("Greška pri učitavanju lokacija:", error);
       }
     };
 
     fetchLocations();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  /* =======================================================
-     FILTER
-  ======================================================= */
+  /* Preusmeravanje na Booking Page */
+  const handleOpenBooking = (loc: Location) => {
+    router.push(`/dashboard/booking/${loc.id}`);
+  };
 
   const filteredLocations = useMemo(() => {
     if (!filter) return locations;
-
     return locations.filter((location) => location.type === filter);
   }, [locations, filter]);
 
-  /* =======================================================
-     SEARCH
-  ======================================================= */
-
   const handleSearch = (value: string) => {
     const query = value.toLowerCase().trim();
-
     setSearch(value);
 
     if (!query) {
@@ -217,12 +185,11 @@ export default function MapView() {
       return;
     }
 
-    const found = locations.find((location) => {
-      return (
+    const found = locations.find(
+      (location) =>
         location.name?.toLowerCase().includes(query) ||
-        location.address?.toLowerCase().includes(query)
-      );
-    });
+        location.address?.toLowerCase().includes(query),
+    );
 
     if (found) {
       setFlyTo([found.lat, found.lng]);
@@ -233,24 +200,19 @@ export default function MapView() {
 
   return (
     <div className={styles.wrapper}>
-      {/* ===================================================
-          TOP BAR
-      =================================================== */}
-
+      {/* TOP BAR */}
       <div className={styles.topBar}>
         <div className={styles.searchBox}>
           <div className={styles.searchIcon}>
             <SearchOutlined />
           </div>
-
           <Input
             variant="borderless"
             placeholder="Pretraži lokaciju..."
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             onPressEnter={() => handleSearch(search)}
           />
-
           <button
             className={styles.searchButton}
             onClick={() => handleSearch(search)}
@@ -261,10 +223,7 @@ export default function MapView() {
         </div>
       </div>
 
-      {/* ===================================================
-          FILTERS
-      =================================================== */}
-
+      {/* FILTERS */}
       <div className={styles.filters}>
         <button
           className={`${styles.filterButton} ${
@@ -275,18 +234,13 @@ export default function MapView() {
           <span className={styles.filterIcon}>
             <EnvironmentOutlined />
           </span>
-
           <span>Sve lokacije</span>
-
           <small>{locations.length}</small>
         </button>
 
         {(Object.keys(locationConfig) as LocationType[]).map((type) => {
           const config = locationConfig[type];
-
-          const count = locations.filter(
-            (location) => location.type === type,
-          ).length;
+          const count = locations.filter((l) => l.type === type).length;
 
           return (
             <button
@@ -297,19 +251,14 @@ export default function MapView() {
               onClick={() => setFilter(filter === type ? null : type)}
             >
               <span className={styles.filterIcon}>{config.icon}</span>
-
               <span>{config.label}</span>
-
               <small>{count}</small>
             </button>
           );
         })}
       </div>
 
-      {/* ===================================================
-          MAP
-      =================================================== */}
-
+      {/* MAPA */}
       <MapContainer
         center={center}
         zoom={14}
@@ -339,14 +288,10 @@ export default function MapView() {
                 <div
                   className={`${styles.popup} ${styles[`popup-${loc.type}`]}`}
                 >
-                  {/* IMAGE */}
-
                   {imageUrl ? (
                     <div className={styles.popupImage}>
                       <img src={imageUrl} alt={loc.name} />
-
                       <div className={styles.popupOverlay} />
-
                       <div
                         className={styles.popupType}
                         style={{ color: config.color }}
@@ -360,7 +305,6 @@ export default function MapView() {
                         >
                           {config.icon}
                         </span>
-
                         {config.label}
                       </div>
                     </div>
@@ -368,11 +312,7 @@ export default function MapView() {
                     <div
                       className={styles.popupImagePlaceholder}
                       style={{
-                        background: `linear-gradient(
-                          135deg,
-                          ${config.color}12,
-                          ${config.color}30
-                        )`,
+                        background: `linear-gradient(135deg, ${config.color}12, ${config.color}30)`,
                         color: config.color,
                       }}
                     >
@@ -380,13 +320,10 @@ export default function MapView() {
                     </div>
                   )}
 
-                  {/* CONTENT */}
-
                   <div className={styles.popupContent}>
                     <div className={styles.popupTitleRow}>
                       <div>
                         <div className={styles.popupMiniLabel}>HELPet</div>
-
                         <h3>{loc.name}</h3>
                       </div>
                     </div>
@@ -399,7 +336,6 @@ export default function MapView() {
                         >
                           <EnvironmentOutlined />
                         </span>
-
                         <span>{loc.address}</span>
                       </div>
                     )}
@@ -412,25 +348,38 @@ export default function MapView() {
                         >
                           <PhoneOutlined />
                         </span>
-
                         <span>{loc.phone}</span>
                       </div>
                     )}
 
                     {loc.website && (
                       <a
-                        href={loc.website}
+                        href={
+                          loc.website.startsWith("http://") ||
+                          loc.website.startsWith("https://")
+                            ? loc.website
+                            : `https://${loc.website}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.website}
                         style={{ color: config.color }}
                       >
                         <GlobalOutlined />
-
                         <span>Poseti website</span>
-
                         <ArrowRightOutlined className={styles.websiteArrow} />
                       </a>
+                    )}
+
+                    {/* DUGME ZA REZERVACIJU */}
+                    {config.canBook && (
+                      <button
+                        className={styles.bookButton}
+                        style={{ backgroundColor: config.color }}
+                        onClick={() => handleOpenBooking(loc)}
+                      >
+                        <CalendarOutlined /> Zakaži termin
+                      </button>
                     )}
                   </div>
                 </div>
@@ -439,42 +388,6 @@ export default function MapView() {
           );
         })}
       </MapContainer>
-
-      {/* ===================================================
-          LEGEND
-      =================================================== */}
-
-      <div className={styles.legend}>
-        <div className={styles.legendHeader}>
-          <span className={styles.legendBrandDot} />
-
-          <span>HELPet mapa</span>
-        </div>
-
-        <div className={styles.legendItems}>
-          {(Object.keys(locationConfig) as LocationType[]).map((type) => {
-            const config = locationConfig[type];
-
-            return (
-              <div key={type} className={styles.legendItem}>
-                <span
-                  className={styles.legendDot}
-                  style={{
-                    background: config.color,
-                    boxShadow: `0 0 0 4px ${config.color}18`,
-                  }}
-                />
-
-                <span>{config.label}</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* ===================================================
-          ZOOM
-      =================================================== */}
     </div>
   );
 }

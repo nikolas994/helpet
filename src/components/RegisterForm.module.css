@@ -1,0 +1,270 @@
+.wrapper {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-color: #fafaf9;
+  overflow: hidden;
+}
+
+.bgGlowTop {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(234, 88, 12, 0.12) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  pointer-events: none;
+}
+
+.bgGlowBottom {
+  position: absolute;
+  bottom: -150px;
+  right: 10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(251, 146, 60, 0.1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  pointer-events: none;
+}
+
+/* Kontejner za šapice */
+.pawsTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.paw {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  background-image: url("/images/paws.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  filter: sepia(0.5) saturate(1.5) hue-rotate(-15deg);
+}
+
+.paw1 {
+  top: 8%;
+  left: 8%;
+  transform: rotate(-30deg) scale(0.9);
+}
+
+.paw2 {
+  top: 18%;
+  left: 28%;
+  transform: rotate(20deg) scale(1.1);
+}
+
+.paw3 {
+  top: 45%;
+  left: 6%;
+  transform: rotate(-15deg) scale(1);
+}
+
+.paw4 {
+  top: 10%;
+  right: 12%;
+  transform: rotate(45deg) scale(0.85);
+}
+
+.paw5 {
+  top: 32%;
+  right: 8%;
+  transform: rotate(-20deg) scale(1.05);
+}
+
+.paw6 {
+  bottom: 30%;
+  right: 25%;
+  transform: rotate(30deg) scale(1.15);
+}
+
+.paw7 {
+  bottom: 10%;
+  right: 6%;
+  transform: rotate(-10deg) scale(0.9);
+}
+
+.paw8 {
+  bottom: 12%;
+  left: 20%;
+  transform: rotate(15deg) scale(1);
+}
+
+/* Kartica - providna staklena pozadina */
+.card,
+.card:global(.ant-card) {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  padding: 16px 20px !important;
+  border-radius: 24px !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 25px 50px -12px rgba(234, 88, 12, 0.08),
+    0 10px 15px -3px rgba(15, 23, 42, 0.03), 0 0 0 1px rgba(15, 23, 42, 0.04) !important;
+}
+
+.card :global(.ant-card-body) {
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoImage {
+  object-fit: contain;
+  width: auto;
+  height: auto;
+  max-width: 500px;
+  max-height: 500px;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.heading h2 {
+  margin: 0 0 2px !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.heading span {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.formItem {
+  margin-bottom: 12px !important;
+}
+
+.card :global(.ant-form-item-label) {
+  padding-bottom: 2px !important;
+}
+
+.card :global(.ant-form-item-label > label) {
+  font-weight: 600;
+  color: #334155;
+  font-size: 12px;
+}
+
+.card :global(.ant-input-affix-wrapper) {
+  border-radius: 12px !important;
+  padding: 8px 12px !important;
+  border-color: rgba(226, 232, 240, 0.8) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  transition: all 0.25s ease !important;
+}
+
+.card :global(.ant-input-affix-wrapper:hover) {
+  border-color: #fdba74 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.card :global(.ant-input-affix-wrapper-focused) {
+  border-color: #ea580c !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.12) !important;
+}
+
+.inputIcon {
+  color: #94a3b8;
+  margin-right: 6px;
+  font-size: 15px;
+  transition: color 0.2s;
+}
+
+.card :global(.ant-input-affix-wrapper-focused) .inputIcon {
+  color: #ea580c;
+}
+
+.submitButton {
+  height: 44px !important;
+  margin-top: 6px;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  background: linear-gradient(135deg, #ea580c 0%, #d97706 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 16px -4px rgba(234, 88, 12, 0.35) !important;
+  transition: all 0.25s ease !important;
+}
+
+.submitButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px -4px rgba(234, 88, 12, 0.45) !important;
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+.loginLink {
+  color: #ea580c;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.loginLink:hover {
+  color: #c2410c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 14px 16px !important;
+    border-radius: 18px !important;
+  }
+}

@@ -3,12 +3,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import AntdProvider from "@/components/AntdProvider";
-
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "@/app/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "My App",
-  description: "My project",
+  title: "HELPet",
+  description: "HELPet pet community",
 };
 
 export default function RootLayout({
@@ -17,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="sr">
       <body>
         <AntdProvider>
           <AuthProvider>{children}</AuthProvider>

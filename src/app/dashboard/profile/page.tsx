@@ -1,16 +1,14 @@
 "use client";
 
 import {
+  DeleteOutlined,
   EditOutlined,
   EnvironmentOutlined,
   MailOutlined,
   PhoneOutlined,
   PlusOutlined,
-  DeleteOutlined,
 } from "@ant-design/icons";
-
 import { Avatar, Button, Tag } from "antd";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -19,12 +17,14 @@ import { useAuth } from "@/app/context/AuthContext";
 
 import styles from "./Profile.module.css";
 
+/* =========================================================
+   TYPES
+========================================================= */
+
 type Pet = {
   id: string;
   name: string;
-
   type: "dog" | "cat" | "bird" | "rabbit" | "other";
-
   breed?: string;
   gender?: "male" | "female";
   birthday?: string;
@@ -34,6 +34,15 @@ type Pet = {
   neutered?: boolean;
   image?: string;
   owner: string;
+};
+
+type ProfileUser = {
+  id: string;
+  name?: string;
+  email?: string;
+  avatar?: string;
+  contact?: string;
+  location?: string;
 };
 
 const typeNames: Record<Pet["type"], string> = {
@@ -67,7 +76,6 @@ function calculateAge(birthday?: string) {
   const today = new Date();
 
   let years = today.getFullYear() - birthDate.getFullYear();
-
   let months = today.getMonth() - birthDate.getMonth();
 
   if (today.getDate() < birthDate.getDate()) {
@@ -113,59 +121,121 @@ function calculateAge(birthday?: string) {
 export default function ProfilePage() {
   const router = useRouter();
 
-  const { user, initialized } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+
+  const [profileUser, setProfileUser] = useState<ProfileUser | null>(null);
 
   const [pets, setPets] = useState<Pet[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  /*
-   * =========================================================
-   * PETS
-   * =========================================================
-   */
+  const [petsLoading, setPetsLoading] = useState(true);
+
+  const [profileLoading, setProfileLoading] = useState(true);
+
+  /* =========================================================
+     LOAD FRESH USER PROFILE
+  ========================================================= */
 
   useEffect(() => {
-    if (!initialized) {
+    if (authLoading) {
+      return;
+    }
+
+    if (!user?.id || !pb.authStore.isValid) {
+      setProfileUser(null);
+      setProfileLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    const fetchProfile = async () => {
+      try {
+        setProfileLoading(true);
+
+        const freshUser = await pb
+          .collection("users")
+          .getOne<ProfileUser>(user.id, {
+            requestKey: null,
+          });
+
+        if (cancelled) {
+          return;
+        }
+
+        setProfileUser(freshUser);
+      } catch (error: any) {
+        if (
+          error?.name === "AbortError" ||
+          error?.originalError?.name === "AbortError" ||
+          error?.isAbort ||
+          error?.status === 0
+        ) {
+          return;
+        }
+
+        console.error("Greška pri učitavanju profila:", error);
+        setProfileUser(user as ProfileUser);
+      } finally {
+        if (!cancelled) {
+          setProfileLoading(false);
+        }
+      }
+    };
+
+    fetchProfile();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [authLoading, user?.id]);
+
+  /* =========================================================
+     LOAD PETS
+  ========================================================= */
+
+  useEffect(() => {
+    if (authLoading) {
       return;
     }
 
     const fetchPets = async () => {
       try {
-        if (!pb.authStore.isValid || !pb.authStore.record?.id) {
+        if (!user?.id || !pb.authStore.isValid) {
           setPets([]);
+          setPetsLoading(false);
           return;
         }
 
-        const ownerId = pb.authStore.record.id;
-
         const records = await pb.collection("pets").getFullList<Pet>({
           sort: "-created",
-          filter: `owner = "${ownerId}"`,
+          filter: `owner = "${user.id}"`,
+          requestKey: null,
         });
 
         setPets(records);
       } catch (error: any) {
         if (
           error?.name === "AbortError" ||
-          error?.originalError?.name === "AbortError"
+          error?.originalError?.name === "AbortError" ||
+          error?.isAbort ||
+          error?.status === 0
         ) {
           return;
         }
 
         console.error("Greška pri učitavanju ljubimaca:", error);
       } finally {
-        setLoading(false);
+        setPetsLoading(false);
       }
     };
 
     fetchPets();
-  }, [initialized]);
+  }, [authLoading, user?.id]);
 
-  /*
-   * =========================================================
-   * PET IMAGE
-   * =========================================================
-   */
+  /* =========================================================
+     DELETE PET
+  ========================================================= */
+
   const handleDeletePet = async (event: React.MouseEvent, pet: Pet) => {
     event.stopPropagation();
 
@@ -185,26 +255,38 @@ export default function ProfilePage() {
       );
     } catch (error) {
       console.error("Greška pri brisanju ljubimca:", error);
-
       window.alert("Ljubimac nije mogao da bude obrisan. Pokušaj ponovo.");
     }
   };
 
-  const getPetImage = (pet: Pet) => {
-    if (!pet.image) {
+  /* =========================================================
+     SAFE PET IMAGE
+  ========================================================= */
+
+  const getPetImage = (pet: Pet): string | undefined => {
+    if (!pet.image || !pet.id) {
       return undefined;
     }
 
-    return pb.files.getURL(pet as any, pet.image);
+    const url = pb.files.getURL(pet as any, pet.image);
+
+    return url || undefined;
   };
 
-  /*
-   * =========================================================
-   * HYDRATION PROTECTION
-   * =========================================================
-   */
+  /* =========================================================
+     PROFILE AVATAR
+  ========================================================= */
 
-  if (!initialized) {
+  const avatarUrl: string | undefined =
+    profileUser?.avatar && profileUser.id
+      ? pb.files.getURL(profileUser as any, profileUser.avatar) || undefined
+      : undefined;
+
+  /* =========================================================
+     AUTH LOADING
+  ========================================================= */
+
+  if (authLoading || profileLoading) {
     return (
       <main className={styles.page}>
         <section
@@ -223,83 +305,83 @@ export default function ProfilePage() {
     );
   }
 
-  /*
-   * =========================================================
-   * PROFILE
-   * =========================================================
-   */
+  /* =========================================================
+     NO USER
+  ========================================================= */
 
-  const avatarUrl =
-    user?.avatar && user?.id
-      ? pb.files.getURL(user as any, user.avatar)
-      : undefined;
+  if (!user || !profileUser) {
+    return null;
+  }
+
+  /* =========================================================
+     PROFILE
+  ========================================================= */
 
   return (
     <main className={styles.page}>
-      {/* PROFILE HEADER */}
+      {/* =====================================================
+          PROFILE HEADER (HERO CARD)
+      ===================================================== */}
 
       <section className={styles.profileCard}>
-        <div className={styles.cover} />
+        {/* COVER (NARANDŽASTI DEO) - IME I IZMENI IKONICA GORE */}
+        <div className={styles.cover}>
+          <div className={styles.coverInfo}>
+            <h1>{profileUser.name || "Korisnik"}</h1>
+          </div>
 
+          <Button
+            type="text"
+            icon={<EditOutlined />}
+            className={styles.editIconButton}
+            onClick={() => router.push("/dashboard/profile/edit")}
+            aria-label="Izmeni profil"
+          />
+        </div>
+
+        {/* BELI DEO - AVATAR I KONTAKT PILULE */}
         <div className={styles.profileContent}>
-          <div className={styles.profileTop}>
-            <Avatar size={110} className={styles.avatar} src={avatarUrl}>
-              {user?.name?.charAt(0).toUpperCase() || "U"}
-            </Avatar>
+          <Avatar size={62} className={styles.avatar} src={avatarUrl}>
+            {!avatarUrl && (profileUser.name?.charAt(0).toUpperCase() || "U")}
+          </Avatar>
 
-            <div className={styles.profileInfo}>
-              <h1>{user?.name || "Korisnik"}</h1>
-
-              <p className={styles.subtitle}>Pet lover • HELPet korisnik</p>
-
-              <div className={styles.meta}>
-                {user?.email && (
-                  <span>
-                    <MailOutlined />
-                    {user.email}
-                  </span>
-                )}
-
-                {user?.contact && (
-                  <span>
-                    <PhoneOutlined />
-                    {user.contact}
-                  </span>
-                )}
-
-                {user?.location && (
-                  <span>
-                    <EnvironmentOutlined />
-                    {user.location}
-                  </span>
-                )}
+          <div className={styles.meta}>
+            {profileUser.email && (
+              <div className={styles.metaItem}>
+                <MailOutlined />
+                <span>{profileUser.email}</span>
               </div>
-            </div>
-
-            <Button
-              type="primary"
-              icon={<EditOutlined />}
-              onClick={() => router.push("/dashboard/profile/edit")}
-            >
-              Izmeni profil
-            </Button>
+            )}
+            {profileUser.location && (
+              <div className={styles.metaItem}>
+                <EnvironmentOutlined />
+                <span>{profileUser.location}</span>
+              </div>
+            )}
+            {profileUser.contact && (
+              <div className={styles.metaItem}>
+                <PhoneOutlined />
+                <span>{profileUser.contact}</span>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* PETS */}
+      {/* =====================================================
+          PETS SECTION
+      ===================================================== */}
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <div>
             <h2>Moji ljubimci</h2>
-
             <p>Svi tvoji ljubimci na jednom mestu</p>
           </div>
         </div>
 
         <div className={styles.petGrid}>
-          {loading ? (
+          {petsLoading ? (
             <div className={styles.statusMessage}>Učitavanje ljubimaca...</div>
           ) : pets.length === 0 ? (
             <div className={styles.statusMessage}>
@@ -314,16 +396,14 @@ export default function ProfilePage() {
                 Boolean(age) ||
                 (pet.weight !== undefined && pet.weight !== null);
 
+              const petImage = getPetImage(pet);
+
               return (
                 <article
                   className={styles.petCard}
                   key={pet.id}
                   onClick={() => router.push(`/dashboard/profile/${pet.id}`)}
                 >
-                  <Tag className={styles.petType}>
-                    {typeNames[pet.type] || "Ljubimac"}
-                  </Tag>
-
                   <button
                     type="button"
                     className={styles.deletePetButton}
@@ -332,10 +412,11 @@ export default function ProfilePage() {
                   >
                     <DeleteOutlined />
                   </button>
+
                   <div className={styles.petImageWrapper}>
-                    {pet.image ? (
+                    {petImage ? (
                       <img
-                        src={getPetImage(pet)}
+                        src={petImage}
                         alt={pet.name}
                         className={styles.petImage}
                       />
@@ -362,7 +443,6 @@ export default function ProfilePage() {
                     <div className={styles.petHeader}>
                       <div>
                         <h3>{pet.name}</h3>
-
                         {pet.breed && <p>{pet.breed}</p>}
                       </div>
                     </div>
@@ -370,9 +450,7 @@ export default function ProfilePage() {
                     {hasDetails && (
                       <div className={styles.petDetails}>
                         {pet.gender && <span>{genderNames[pet.gender]}</span>}
-
                         {age && <span>{age}</span>}
-
                         {pet.weight !== undefined && pet.weight !== null && (
                           <span>{pet.weight} kg</span>
                         )}
@@ -381,10 +459,8 @@ export default function ProfilePage() {
 
                     <Button
                       block
-                      size="large"
                       onClick={(event) => {
                         event.stopPropagation();
-
                         router.push(`/dashboard/profile/${pet.id}`);
                       }}
                     >
@@ -397,8 +473,8 @@ export default function ProfilePage() {
           )}
 
           {/* ADD PET */}
-
           <button
+            type="button"
             className={styles.addPetCard}
             onClick={() => router.push("/dashboard/profile/add-pet")}
           >

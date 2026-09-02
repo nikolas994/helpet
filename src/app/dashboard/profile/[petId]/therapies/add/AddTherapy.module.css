@@ -1,135 +1,577 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
 .page {
   min-height: 100%;
-  padding: 30px 32px 60px;
-  background: #f7f8fa;
+  padding: 30px 34px 80px;
+  box-sizing: border-box;
+
+  background: radial-gradient(
+      circle at 8% 0%,
+      rgba(228, 119, 34, 0.09),
+      transparent 28%
+    ),
+    radial-gradient(circle at 92% 5%, rgba(255, 188, 120, 0.1), transparent 25%),
+    #f7f8fa;
+
+  color: #202226;
 }
 
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
 .backButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 25px;
-  padding: 0;
+
+  margin-bottom: 28px;
+  padding: 7px 0;
+
   border: none;
   background: transparent;
-  color: #777d86;
-  font-size: 14px;
+
+  color: #747a83;
+  font-size: 13px;
+  font-weight: 600;
+
   cursor: pointer;
+
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .backButton:hover {
   color: #e67e22;
 }
 
+.backButton:hover svg {
+  transform: translateX(-3px);
+}
+
+.backButton svg {
+  font-size: 13px;
+  transition: transform 0.2s ease;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 .header {
   max-width: 760px;
-  margin: 0 auto 25px;
+  margin: 0 auto 28px;
+
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 17px;
 }
 
 .icon {
+  flex: 0 0 auto;
+
   width: 58px;
   height: 58px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
-  background: #fff0e3;
+
+  border: 1px solid rgba(228, 119, 34, 0.12);
+  border-radius: 17px;
+
+  background: linear-gradient(145deg, #fff5ec, #ffead8);
+
   color: #e67e22;
-  font-size: 25px;
+
+  font-size: 24px;
+
+  box-shadow: 0 8px 22px rgba(228, 119, 34, 0.08);
 }
 
-.header span {
+.headerContent {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 3px;
+
   color: #e67e22;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
 }
 
 .header h1 {
-  margin: 3px 0;
-  color: #22252a;
+  margin: 0;
+
+  color: #202329;
+
   font-size: 30px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.7px;
 }
 
 .header p {
-  margin: 0;
-  color: #888e96;
-  font-size: 14px;
+  margin: 6px 0 0;
+
+  color: #8b9098;
+
+  font-size: 13px;
+  line-height: 1.5;
 }
+
+/* =========================================================
+   CARD
+========================================================= */
 
 .card {
   max-width: 760px;
   margin: 0 auto;
-  padding: 35px;
-  border: 1px solid #eceef2;
+
+  padding: 32px;
+
+  border: 1px solid #e9ebef;
   border-radius: 22px;
-  background: white;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.035);
+
+  background: rgba(255, 255, 255, 0.94);
+
+  box-shadow: 0 12px 40px rgba(24, 32, 45, 0.045),
+    0 2px 8px rgba(24, 32, 45, 0.025);
+
+  backdrop-filter: blur(10px);
 }
 
-.sectionTitle {
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.cardTop {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 10px 0 25px;
+  gap: 13px;
+
+  margin-bottom: 20px;
+}
+
+.sectionIcon {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #fff3e8;
   color: #e67e22;
-  font-size: 20px;
+
+  font-size: 17px;
 }
 
-.sectionTitle h2 {
+.cardTop h2 {
   margin: 0;
-  color: #303338;
-  font-size: 18px;
+
+  color: #292c31;
+
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 750;
+  letter-spacing: -0.2px;
 }
 
-.sectionTitle p {
-  margin: 3px 0 0;
-  color: #8b9097;
-  font-size: 12px;
+.cardTop p {
+  margin: 4px 0 0;
+
+  color: #969ba3;
+
+  font-size: 11px;
+  line-height: 1.4;
 }
+
+.divider {
+  height: 1px;
+
+  margin-bottom: 25px;
+
+  background: #f0f1f3;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form {
+  width: 100%;
+}
+
+.form :global(.ant-form-item) {
+  margin-bottom: 19px;
+}
+
+.form :global(.ant-form-item-label) {
+  padding-bottom: 7px;
+}
+
+.form :global(.ant-form-item-label > label) {
+  height: auto;
+
+  color: #50555d;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+}
+
+.form :global(.ant-form-item-label > label.ant-form-item-required::before) {
+  color: #e67e22 !important;
+}
+
+.form :global(.ant-form-item-label > label.ant-form-item-required::after) {
+  display: none;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.form :global(.ant-input),
+.form :global(.ant-input-affix-wrapper),
+.form :global(.ant-picker) {
+  border-color: #e2e5e9;
+  border-radius: 11px;
+
+  background: #fff;
+
+  color: #282c31;
+
+  font-size: 13px;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.form :global(.ant-input) {
+  padding: 9px 12px;
+}
+
+.form :global(.ant-input::placeholder) {
+  color: #b2b6bc;
+}
+
+.form :global(.ant-picker) {
+  padding: 0 12px;
+}
+
+.form :global(.ant-picker-input > input) {
+  font-size: 13px;
+}
+
+.form :global(.ant-input:hover),
+.form :global(.ant-input-affix-wrapper:hover),
+.form :global(.ant-picker:hover) {
+  border-color: #e8a268;
+}
+
+.form :global(.ant-input:focus),
+.form :global(.ant-input-focused),
+.form :global(.ant-input-affix-wrapper-focused),
+.form :global(.ant-picker-focused) {
+  border-color: #e67e22 !important;
+
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1) !important;
+}
+
+.form :global(.ant-input-textarea textarea) {
+  min-height: 100px;
+
+  padding: 11px 12px;
+
+  resize: vertical;
+}
+
+.form :global(.ant-input-data-count) {
+  color: #a3a8af;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 18px;
 }
 
+/* =========================================================
+   VALIDATION
+========================================================= */
+
+.form :global(.ant-form-item-explain-error) {
+  margin-top: 5px;
+
+  color: #d95c5c;
+
+  font-size: 10px;
+}
+
+.form :global(.ant-form-item-has-error .ant-input),
+.form :global(.ant-form-item-has-error .ant-picker) {
+  border-color: #e57a7a !important;
+}
+
+.form :global(.ant-form-item-has-error .ant-input:focus),
+.form :global(.ant-form-item-has-error .ant-picker-focused) {
+  box-shadow: 0 0 0 3px rgba(217, 92, 92, 0.08) !important;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
 .actions {
+  position: relative;
+  z-index: 20;
+
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+
   gap: 10px;
-  padding-top: 25px;
-  margin-top: 15px;
+
+  margin-top: 10px;
+  padding-top: 24px;
+  padding-bottom: 20px;
   border-top: 1px solid #f0f1f3;
 }
 
-@media (max-width: 700px) {
+.actions :global(.ant-btn) {
+  height: 42px;
+
+  padding: 0 18px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  box-shadow: none;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.actions :global(.ant-btn-default) {
+  border-color: #e2e5e9;
+
+  background: #fff;
+
+  color: #626871;
+}
+
+.actions :global(.ant-btn-default:hover) {
+  border-color: #d7dade !important;
+
+  color: #33373d !important;
+
+  background: #fafafa !important;
+}
+
+.actions :global(.ant-btn-primary) {
+  border-color: #e67e22;
+
+  background: #e67e22;
+
+  box-shadow: 0 6px 16px rgba(230, 126, 34, 0.18);
+}
+
+.actions :global(.ant-btn-primary:hover) {
+  border-color: #d96f16 !important;
+
+  background: #d96f16 !important;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 8px 20px rgba(230, 126, 34, 0.24);
+}
+
+.actions :global(.ant-btn-primary:active) {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
   .page {
-    padding: 20px 15px 40px;
+    padding: 26px 24px 70px;
   }
 
   .card {
-    padding: 22px;
+    padding: 28px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  .page {
+    padding: 20px 15px 50px;
+  }
+
+  .backButton {
+    margin-bottom: 22px;
+
+    font-size: 12px;
+  }
+
+  .header {
+    align-items: flex-start;
+
+    gap: 13px;
+
+    margin-bottom: 22px;
+  }
+
+  .icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+
+    font-size: 20px;
+  }
+
+  .eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.4px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+    letter-spacing: -0.5px;
+  }
+
+  .header p {
+    margin-top: 5px;
+
+    font-size: 11px;
+  }
+
+  .card {
+    padding: 21px 18px;
+
     border-radius: 18px;
+  }
+
+  .cardTop {
+    gap: 10px;
+
+    margin-bottom: 17px;
+  }
+
+  .sectionIcon {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+  }
+
+  .cardTop h2 {
+    font-size: 15px;
+  }
+
+  .cardTop p {
+    font-size: 10px;
+  }
+
+  .divider {
+    margin-bottom: 21px;
   }
 
   .grid {
     grid-template-columns: 1fr;
+
     gap: 0;
+  }
+
+  .form :global(.ant-form-item) {
+    margin-bottom: 17px;
+  }
+
+  .form :global(.ant-form-item-label > label) {
+    font-size: 10px;
+  }
+
+  .form :global(.ant-input),
+  .form :global(.ant-picker) {
+    font-size: 12px;
+  }
+
+  .form :global(.ant-input) {
+    padding: 8px 11px;
+  }
+
+  .form :global(.ant-picker-input > input) {
+    font-size: 12px;
   }
 
   .actions {
     flex-direction: column-reverse;
+
+    gap: 9px;
+
+    margin-top: 5px;
+    padding-top: 20px;
   }
 
-  .actions button {
+  .actions :global(.ant-btn) {
     width: 100%;
+    height: 43px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+  .page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .card {
+    padding: 19px 15px;
+
+    border-radius: 16px;
   }
 
   .header h1 {
-    font-size: 25px;
+    font-size: 22px;
+  }
+
+  .header p {
+    max-width: 220px;
+  }
+
+  .backButton {
+    font-size: 11px;
   }
 }

@@ -11,8 +11,8 @@ import { Button, DatePicker, Form, Input, Select, message } from "antd";
 
 import dayjs, { Dayjs } from "dayjs";
 
-import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 import pb from "@/app/lib/pocketbase";
 
@@ -49,24 +49,148 @@ type VaccinationFormValues = {
 export default function AddVaccinationPage() {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
 
   const petId = params.petId as string;
+
+  /*
+   * Ako postoji ?edit=ID,
+   * stranica radi u EDIT modu.
+   */
+  const editId = searchParams.get("edit");
+
+  const isEditMode = Boolean(editId);
 
   const [form] = Form.useForm<VaccinationFormValues>();
 
   const [messageApi, contextHolder] = message.useMessage();
 
   const [saving, setSaving] = useState(false);
+  const [loadingEdit, setLoadingEdit] = useState(false);
+
+  /* =========================================================
+     AUTH
+  ========================================================= */
+
+  useEffect(() => {
+    if (!pb.authStore.isValid) {
+      router.push("/login");
+    }
+  }, [router]);
+
+  /* =========================================================
+     LOAD EXISTING VACCINATION
+  ========================================================= */
+
+  useEffect(() => {
+    if (!editId || !petId) {
+      return;
+    }
+
+    const loadVaccination = async () => {
+      try {
+        setLoadingEdit(true);
+
+        /*
+         * AUTH
+         */
+        if (!pb.authStore.isValid) {
+          messageApi.error("Sesija je istekla. Prijavi se ponovo.");
+
+          router.push("/login");
+
+          return;
+        }
+
+        /*
+         * CURRENT USER
+         */
+        const currentUserId = pb.authStore.record?.id;
+
+        /*
+         * PET
+         */
+        const pet = await pb.collection("pets").getOne(petId, {
+          requestKey: null,
+        });
+        /*
+         * OWNERSHIP CHECK
+         */
+        if (pet.owner !== currentUserId) {
+          messageApi.error("Nemaš dozvolu za pristup ovom ljubimcu.");
+
+          router.push(`/dashboard/profile/${petId}`);
+
+          return;
+        }
+
+        /*
+         * VACCINATION
+         */
+        const vaccination = await pb.collection("vaccinations").getOne(editId, {
+          requestKey: null,
+        });
+        /*
+         * Dodatna sigurnosna provera:
+         * vakcina mora pripadati ovom ljubimcu.
+         */
+        if (vaccination.pet !== petId) {
+          messageApi.error("Ova vakcinacija ne pripada izabranom ljubimcu.");
+
+          router.push(`/dashboard/profile/${petId}`);
+
+          return;
+        }
+
+        /*
+         * POPUNJAVANJE FORME
+         */
+        form.setFieldsValue({
+          name: vaccination.name || "",
+          type: vaccination.type || undefined,
+
+          date: vaccination.date ? dayjs(vaccination.date) : undefined,
+
+          nextDate: vaccination.nextDate
+            ? dayjs(vaccination.nextDate)
+            : undefined,
+
+          vet: vaccination.vet || "",
+          notes: vaccination.notes || "",
+        });
+      } catch (error: any) {
+        console.error("Greška pri učitavanju vakcinacije:", error);
+
+        if (error?.status === 404) {
+          messageApi.error("Vakcinacija nije pronađena.");
+        } else if (error?.status === 403) {
+          messageApi.error("Nemaš dozvolu za pristup ovoj vakcinaciji.");
+        } else {
+          messageApi.error(
+            "Došlo je do greške prilikom učitavanja vakcinacije.",
+          );
+        }
+
+        router.push(`/dashboard/profile/${petId}`);
+      } finally {
+        setLoadingEdit(false);
+      }
+    };
+
+    loadVaccination();
+  }, [editId, petId, form, messageApi, router]);
+
+  /* =========================================================
+     SUBMIT
+  ========================================================= */
 
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
 
-      /*
-       * ---------------------------------------------------------
-       * PROVERA LOGINA
-       * ---------------------------------------------------------
-       */
+      /* -------------------------------------------------------
+         LOGIN
+      ------------------------------------------------------- */
 
       if (!pb.authStore.isValid) {
         messageApi.error("Sesija je istekla. Prijavi se ponovo.");
@@ -76,11 +200,9 @@ export default function AddVaccinationPage() {
         return;
       }
 
-      /*
-       * ---------------------------------------------------------
-       * PROVERA PET ID
-       * ---------------------------------------------------------
-       */
+      /* -------------------------------------------------------
+         PET ID
+      ------------------------------------------------------- */
 
       if (!petId) {
         messageApi.error("Ljubimac nije pronađen.");
@@ -90,27 +212,35 @@ export default function AddVaccinationPage() {
 
       setSaving(true);
 
-      /*
-       * ---------------------------------------------------------
-       * PROVERA VLASNIŠTVA
-       * ---------------------------------------------------------
-       */
+      /* -------------------------------------------------------
+         CURRENT USER
+      ------------------------------------------------------- */
 
       const currentUserId = pb.authStore.record?.id;
 
+      /* -------------------------------------------------------
+         PET
+      ------------------------------------------------------- */
+
       const pet = await pb.collection("pets").getOne(petId);
 
+      /* -------------------------------------------------------
+         OWNERSHIP
+      ------------------------------------------------------- */
+
       if (pet.owner !== currentUserId) {
-        messageApi.error("Nemaš dozvolu da dodaš vakcinu ovom ljubimcu.");
+        messageApi.error(
+          isEditMode
+            ? "Nemaš dozvolu da izmeniš vakcinaciju ovog ljubimca."
+            : "Nemaš dozvolu da dodaš vakcinu ovom ljubimcu.",
+        );
 
         return;
       }
 
-      /*
-       * ---------------------------------------------------------
-       * DATUMI
-       * ---------------------------------------------------------
-       */
+      /* -------------------------------------------------------
+         DATUMI
+      ------------------------------------------------------- */
 
       const date = values.date.format("YYYY-MM-DD");
 
@@ -118,13 +248,11 @@ export default function AddVaccinationPage() {
         ? values.nextDate.format("YYYY-MM-DD")
         : "";
 
-      /*
-       * ---------------------------------------------------------
-       * KREIRANJE VAKCINE
-       * ---------------------------------------------------------
-       */
+      /* -------------------------------------------------------
+         DATA
+      ------------------------------------------------------- */
 
-      const vaccination = await pb.collection("vaccinations").create({
+      const vaccinationData = {
         pet: petId,
 
         name: values.name.trim(),
@@ -138,39 +266,65 @@ export default function AddVaccinationPage() {
         vet: values.vet?.trim() || "",
 
         notes: values.notes?.trim() || "",
-      });
+      };
 
-      console.log("Vakcina uspešno kreirana:", vaccination);
+      /* =======================================================
+         EDIT
+      ======================================================= */
 
-      /*
-       * ---------------------------------------------------------
-       * SUCCESS
-       * ---------------------------------------------------------
-       */
+      if (editId) {
+        /*
+         * Učitaj postojeći zapis
+         */
+        const existingVaccination = await pb
+          .collection("vaccinations")
+          .getOne(editId);
 
-      messageApi.success("Vakcina je uspešno dodata!");
+        /*
+         * Security check
+         */
+        if (existingVaccination.pet !== petId) {
+          messageApi.error("Ova vakcinacija ne pripada izabranom ljubimcu.");
 
-      form.resetFields();
+          return;
+        }
+
+        /*
+         * UPDATE
+         */
+        await pb.collection("vaccinations").update(editId, vaccinationData);
+
+        messageApi.success("Vakcinacija je uspešno izmenjena!");
+      } else {
+        /* =======================================================
+         CREATE
+      ======================================================= */
+        await pb.collection("vaccinations").create(vaccinationData);
+
+        messageApi.success("Vakcina je uspešno dodata!");
+      }
+
+      /* -------------------------------------------------------
+         REDIRECT
+      ------------------------------------------------------- */
 
       setTimeout(() => {
         router.push(`/dashboard/profile/${petId}`);
+
+        router.refresh();
       }, 700);
     } catch (error: any) {
-      /*
-       * ---------------------------------------------------------
-       * FORM VALIDATION
-       * ---------------------------------------------------------
-       */
+      /* -------------------------------------------------------
+         FORM VALIDATION
+      ------------------------------------------------------- */
 
       if (error?.errorFields) {
         return;
       }
 
-      /*
-       * ---------------------------------------------------------
-       * POCKETBASE AUTOCANCEL
-       * ---------------------------------------------------------
-       */
+      /* -------------------------------------------------------
+         ABORT
+      ------------------------------------------------------- */
 
       if (
         error?.name === "AbortError" ||
@@ -179,19 +333,16 @@ export default function AddVaccinationPage() {
         return;
       }
 
-      /*
-       * ---------------------------------------------------------
-       * ERROR LOG
-       * ---------------------------------------------------------
-       */
+      console.error(
+        isEditMode
+          ? "Greška pri izmeni vakcinacije:"
+          : "Greška pri dodavanju vakcine:",
+        error,
+      );
 
-      console.error("Greška pri dodavanju vakcine:", error);
-
-      /*
-       * ---------------------------------------------------------
-       * POCKETBASE ERROR STATUS
-       * ---------------------------------------------------------
-       */
+      /* -------------------------------------------------------
+         POCKETBASE ERRORS
+      ------------------------------------------------------- */
 
       if (error?.status === 400) {
         messageApi.error("Podaci nisu ispravni. Proveri sva obavezna polja.");
@@ -200,71 +351,110 @@ export default function AddVaccinationPage() {
       }
 
       if (error?.status === 403) {
-        messageApi.error("Nemaš dozvolu za dodavanje vakcine.");
+        messageApi.error(
+          isEditMode
+            ? "Nemaš dozvolu za izmenu vakcinacije."
+            : "Nemaš dozvolu za dodavanje vakcine.",
+        );
 
         return;
       }
 
       if (error?.status === 404) {
-        messageApi.error("Ljubimac ili kolekcija vakcinacija nisu pronađeni.");
+        messageApi.error("Ljubimac ili vakcinacija nisu pronađeni.");
 
         return;
       }
 
-      /*
-       * ---------------------------------------------------------
-       * GENERIČKA GREŠKA
-       * ---------------------------------------------------------
-       */
-
-      messageApi.error("Došlo je do greške prilikom dodavanja vakcine.");
+      messageApi.error(
+        isEditMode
+          ? "Došlo je do greške prilikom izmene vakcinacije."
+          : "Došlo je do greške prilikom dodavanja vakcine.",
+      );
     } finally {
       setSaving(false);
     }
   };
+
+  /* =========================================================
+     RENDER
+  ========================================================= */
 
   return (
     <>
       {contextHolder}
 
       <main className={styles.page}>
-        {/* BACK */}
+        {/* =================================================
+            BACK
+        ================================================= */}
 
         <button
           type="button"
           className={styles.backButton}
           onClick={() => router.push(`/dashboard/profile/${petId}`)}
+          disabled={saving}
         >
           <ArrowLeftOutlined />
-          Nazad na e-karton
+
+          <span>Nazad na e-karton</span>
         </button>
 
-        {/* HEADER */}
+        {/* =================================================
+            HEADER
+        ================================================= */}
 
         <section className={styles.header}>
           <div className={styles.icon}>
             <MedicineBoxOutlined />
           </div>
 
-          <div>
-            <span>E-KARTON</span>
+          <div className={styles.headerContent}>
+            <span className={styles.eyebrow}>E-KARTON • VAKCINACIJE</span>
 
-            <h1>Dodaj vakcinu</h1>
+            <h1>{isEditMode ? "Izmeni vakcinaciju" : "Dodaj vakcinu"}</h1>
 
-            <p>Unesi podatke o vakcinaciji ljubimca.</p>
+            <p>
+              {isEditMode
+                ? "Izmeni podatke o vakcinaciji ljubimca."
+                : "Unesi podatke o vakcinaciji ljubimca."}
+            </p>
           </div>
         </section>
 
-        {/* FORM */}
+        {/* =================================================
+            FORM CARD
+        ================================================= */}
 
         <section className={styles.card}>
+          <div className={styles.cardHeader}>
+            <div className={styles.cardHeaderIcon}>
+              <MedicineBoxOutlined />
+            </div>
+
+            <div>
+              <h2>Podaci o vakcinaciji</h2>
+
+              <p>
+                {isEditMode
+                  ? "Izmeni informacije o primljenoj vakcini."
+                  : "Popuni osnovne informacije o primljenoj vakcini."}
+              </p>
+            </div>
+          </div>
+
+          <div className={styles.divider} />
+
           <Form
             form={form}
             layout="vertical"
             requiredMark="optional"
-            disabled={saving}
+            disabled={saving || loadingEdit}
+            className={styles.form}
           >
-            {/* NAZIV VAKCINE */}
+            {/* =================================================
+                NAZIV
+            ================================================= */}
 
             <Form.Item
               label="Naziv vakcine"
@@ -287,7 +477,9 @@ export default function AddVaccinationPage() {
               />
             </Form.Item>
 
-            {/* TIP VAKCINE */}
+            {/* =================================================
+                TYPE
+            ================================================= */}
 
             <Form.Item
               label="Tip vakcine"
@@ -301,12 +493,14 @@ export default function AddVaccinationPage() {
             >
               <Select
                 size="large"
-                placeholder="Izaberi vakcinu"
+                placeholder="Izaberi tip vakcine"
                 options={vaccineTypes}
               />
             </Form.Item>
 
-            {/* DATUMI */}
+            {/* =================================================
+                DATES
+            ================================================= */}
 
             <div className={styles.grid}>
               <Form.Item
@@ -357,7 +551,9 @@ export default function AddVaccinationPage() {
               </Form.Item>
             </div>
 
-            {/* VETERINAR */}
+            {/* =================================================
+                VETERINAR
+            ================================================= */}
 
             <Form.Item label="Veterinar / ordinacija" name="vet">
               <Input
@@ -367,7 +563,9 @@ export default function AddVaccinationPage() {
               />
             </Form.Item>
 
-            {/* NAPOMENA */}
+            {/* =================================================
+                NOTES
+            ================================================= */}
 
             <Form.Item label="Napomena" name="notes">
               <Input.TextArea
@@ -378,7 +576,9 @@ export default function AddVaccinationPage() {
               />
             </Form.Item>
 
-            {/* ACTIONS */}
+            {/* =================================================
+                ACTIONS
+            ================================================= */}
 
             <div className={styles.actions}>
               <Button
@@ -394,9 +594,14 @@ export default function AddVaccinationPage() {
                 size="large"
                 icon={<SaveOutlined />}
                 loading={saving}
+                disabled={loadingEdit}
                 onClick={handleSubmit}
               >
-                {saving ? "Čuvanje..." : "Sačuvaj vakcinu"}
+                {saving
+                  ? "Čuvanje..."
+                  : isEditMode
+                  ? "Sačuvaj izmene"
+                  : "Sačuvaj vakcinu"}
               </Button>
             </div>
           </Form>

@@ -1,0 +1,1152 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
+.container {
+  width: 82%;
+  max-width: 1450px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+  padding: 30px 30px 60px;
+
+  box-sizing: border-box;
+
+  background: radial-gradient(
+      circle at 8% 0%,
+      rgba(244, 151, 70, 0.08),
+      transparent 25%
+    ),
+    radial-gradient(circle at 92% 5%, rgba(255, 205, 140, 0.1), transparent 23%),
+    #f6f7f9;
+
+  color: #191b1f;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.titleWrapper {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 25px;
+
+  padding: 26px 30px;
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 22px;
+
+  background: radial-gradient(
+      circle at 100% 0%,
+      rgba(228, 119, 34, 0.07),
+      transparent 32%
+    ),
+    linear-gradient(135deg, #ffffff 0%, #fffaf6 70%, #fff4e9 100%);
+
+  box-shadow: 0 12px 35px rgba(35, 30, 25, 0.045),
+    0 2px 8px rgba(35, 30, 25, 0.02);
+
+  overflow: hidden;
+}
+
+.titleWrapper::after {
+  content: "♥";
+
+  position: absolute;
+
+  right: 28px;
+  bottom: -48px;
+
+  color: rgba(228, 119, 34, 0.035);
+
+  font-size: 145px;
+  line-height: 1;
+
+  pointer-events: none;
+}
+
+.titleContent {
+  position: relative;
+  z-index: 2;
+
+  min-width: 0;
+}
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #e47722;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pageTitle {
+  margin: 0 !important;
+
+  color: #191b1f !important;
+
+  font-size: 34px !important;
+  line-height: 1.05 !important;
+
+  font-weight: 800 !important;
+
+  letter-spacing: -0.04em;
+}
+
+.pageTitle span {
+  color: #e47722;
+}
+
+.pageSubtitle {
+  display: block;
+
+  margin-top: 9px;
+
+  color: #858a92 !important;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   APPOINTMENT COUNT
+========================================================= */
+
+.appointmentCount {
+  position: relative;
+  z-index: 2;
+
+  flex-shrink: 0;
+
+  min-width: 90px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 13px 18px;
+
+  border: 1px solid rgba(235, 220, 207, 0.8);
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  box-shadow: 0 5px 15px rgba(35, 30, 25, 0.025);
+
+  backdrop-filter: blur(8px);
+}
+
+.appointmentCount strong {
+  color: #e47722;
+
+  font-size: 24px;
+  line-height: 1;
+
+  font-weight: 800;
+}
+
+.appointmentCount span {
+  margin-top: 5px;
+
+  color: #92969d;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* =========================================================
+   TABLE CARD
+========================================================= */
+
+.headerCard {
+  margin-top: 18px !important;
+
+  border: 1px solid #ebedf0 !important;
+  border-radius: 19px !important;
+
+  background: #ffffff !important;
+
+  box-shadow: 0 10px 30px rgba(35, 30, 25, 0.035),
+    0 2px 8px rgba(35, 30, 25, 0.02) !important;
+
+  overflow: hidden;
+}
+
+.headerCard :global(.ant-card-body) {
+  padding: 0 !important;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.headerCard :global(.ant-table) {
+  background: transparent !important;
+}
+
+.headerCard :global(.ant-table-container) {
+  border-radius: 19px;
+}
+
+.headerCard :global(.ant-table-thead > tr > th) {
+  padding: 15px 17px !important;
+
+  background: #fafafa !important;
+
+  color: #777d85 !important;
+
+  font-size: 10px !important;
+  font-weight: 800 !important;
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  border-bottom: 1px solid #eceef1 !important;
+}
+
+.headerCard :global(.ant-table-tbody > tr > td) {
+  padding: 17px !important;
+
+  color: #454a51;
+
+  border-bottom: 1px solid #f0f1f3 !important;
+
+  vertical-align: middle;
+}
+
+.headerCard :global(.ant-table-tbody > tr:last-child > td) {
+  border-bottom: none !important;
+}
+
+.headerCard :global(.ant-table-tbody > tr) {
+  transition: background 0.18s ease;
+}
+
+.headerCard :global(.ant-table-tbody > tr:hover > td) {
+  background: #fffaf5 !important;
+}
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+.locationWrapper {
+  min-width: 160px;
+}
+
+.locationName {
+  color: #25282d;
+
+  font-size: 14px;
+  line-height: 1.3;
+
+  font-weight: 750;
+}
+
+.locationAddress {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 6px;
+
+  color: #90959d;
+
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.locationAddress svg {
+  flex-shrink: 0;
+
+  color: #e47722;
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   PET
+========================================================= */
+
+.petName {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #42474e;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.petIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border-radius: 9px;
+
+  background: #f7f7f7;
+
+  color: #70757d;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   SERVICE
+========================================================= */
+
+.serviceWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.serviceName {
+  color: #30343a;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.servicePrice {
+  display: inline-block;
+
+  margin-top: 6px;
+
+  padding: 4px 8px;
+
+  border: 1px solid #e6e8eb;
+  border-radius: 7px;
+
+  background: #f6f7f8;
+
+  color: #70757d;
+
+  font-size: 10px;
+  line-height: 1;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.dateWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 4px;
+}
+
+.dateBadge {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #41464d;
+
+  font-size: 12px;
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+.dateBadge svg {
+  color: #e47722 !important;
+
+  font-size: 14px;
+}
+
+.timeText {
+  padding-left: 20px;
+
+  color: #8b9098;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.statusTag {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-width: 125px;
+
+  margin: 0 !important;
+
+  padding: 5px 9px !important;
+
+  border-radius: 999px !important;
+
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+
+  font-weight: 800 !important;
+
+  letter-spacing: 0.035em;
+
+  box-shadow: none !important;
+}
+
+/* CONFIRMED */
+
+.statusConfirmed {
+  border: 1px solid #c9efd9 !important;
+
+  background: #ecfdf3 !important;
+
+  color: #079455 !important;
+}
+
+.statusConfirmed :global(.anticon) {
+  color: #079455 !important;
+}
+
+/* PENDING */
+
+.statusPending {
+  border: 1px solid #f6dfbc !important;
+
+  background: #fff8eb !important;
+
+  color: #c97919 !important;
+}
+
+.statusPending :global(.anticon) {
+  color: #e47722 !important;
+}
+
+/* REJECTED */
+
+.statusRejected {
+  border: 1px solid #f7d0d0 !important;
+
+  background: #fff1f1 !important;
+
+  color: #d9363e !important;
+}
+
+.statusRejected :global(.anticon) {
+  color: #d9363e !important;
+}
+
+/* COMPLETED */
+
+.statusCompleted {
+  border: 1px solid #407fd1 !important;
+
+  background: #90c7fd !important;
+
+  color: #344ee4 !important;
+}
+
+.statusCompleted :global(.anticon) {
+  color: #344ee4 !important;
+}
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.cancelBtn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  height: 31px !important;
+
+  padding: 4px 9px !important;
+
+  border-radius: 8px !important;
+
+  color: #dc4444 !important;
+
+  font-size: 11px !important;
+  font-weight: 650 !important;
+
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease !important;
+}
+
+.cancelBtn:hover {
+  background: #fff1f1 !important;
+
+  color: #c92f2f !important;
+
+  transform: translateY(-1px);
+}
+
+.cancelBtn :global(.anticon) {
+  font-size: 12px;
+}
+
+.appointmentFinished,
+.appointmentRejected {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.appointmentFinished {
+  color: #6d737b;
+}
+
+.appointmentFinished svg {
+  font-size: 12px;
+}
+
+.appointmentRejected {
+  color: #9a9da4;
+}
+
+.appointmentRejected svg {
+  font-size: 12px;
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.headerCard :global(.ant-pagination) {
+  display: flex;
+  align-items: center;
+
+  padding: 15px 18px 17px !important;
+
+  margin: 0 !important;
+}
+
+.headerCard :global(.ant-pagination-item) {
+  min-width: 30px;
+  height: 30px;
+
+  border-radius: 8px !important;
+}
+
+.headerCard :global(.ant-pagination-item a) {
+  font-size: 11px;
+}
+
+.headerCard :global(.ant-pagination-item-active) {
+  border-color: #e47722 !important;
+
+  background: #fff8f1 !important;
+}
+
+.headerCard :global(.ant-pagination-item-active a) {
+  color: #e47722 !important;
+
+  font-weight: 700;
+}
+
+.headerCard :global(.ant-pagination-prev),
+.headerCard :global(.ant-pagination-next) {
+  min-width: 30px;
+  height: 30px;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.headerCard :global(.ant-empty) {
+  padding: 55px 20px;
+}
+
+.emptyContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 6px;
+}
+
+.emptyContent strong {
+  color: #34383e;
+
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.emptyContent span {
+  max-width: 420px;
+
+  color: #969aa2;
+
+  font-size: 11px;
+  line-height: 1.6;
+
+  text-align: center;
+}
+
+/* =========================================================
+   MOBILE APPOINTMENT CARDS
+========================================================= */
+
+.mobileAppointments {
+  display: none;
+}
+
+/* =========================================================
+   1350px
+========================================================= */
+
+@media (max-width: 1350px) {
+  .container {
+    width: 90%;
+  }
+}
+
+/* =========================================================
+   1100px
+========================================================= */
+
+@media (max-width: 1100px) {
+  .container {
+    width: 94%;
+
+    min-height: calc(100vh - 80px);
+
+    padding: 25px 20px 100px;
+  }
+
+  .titleWrapper {
+    padding: 24px 26px;
+  }
+
+  .pageTitle {
+    font-size: 31px !important;
+  }
+
+  .headerCard {
+    margin-top: 16px !important;
+
+    border-radius: 17px !important;
+  }
+}
+
+/* =========================================================
+   950px
+========================================================= */
+
+@media (max-width: 950px) {
+  .titleWrapper {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 18px;
+  }
+
+  .appointmentCount {
+    align-self: flex-start;
+
+    flex-direction: row;
+
+    gap: 7px;
+
+    min-width: auto;
+
+    padding: 9px 13px;
+  }
+
+  .appointmentCount strong {
+    font-size: 20px;
+  }
+
+  .appointmentCount span {
+    margin-top: 0;
+  }
+}
+
+/* =========================================================
+   768px
+   MOBILE DESIGN
+========================================================= */
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+
+    padding: 16px 12px 105px;
+
+    background: radial-gradient(
+        circle at 0% 0%,
+        rgba(244, 151, 70, 0.06),
+        transparent 30%
+      ),
+      #f6f7f9;
+  }
+
+  .titleWrapper {
+    padding: 20px 19px;
+
+    border-radius: 18px;
+
+    gap: 15px;
+  }
+
+  .titleWrapper::after {
+    right: -10px;
+    bottom: -42px;
+
+    font-size: 120px;
+  }
+
+  .eyebrow {
+    margin-bottom: 6px;
+
+    font-size: 8px;
+  }
+
+  .pageTitle {
+    font-size: 26px !important;
+    letter-spacing: -0.035em;
+  }
+
+  .pageSubtitle {
+    max-width: 340px;
+
+    margin-top: 8px;
+
+    font-size: 10.5px;
+    line-height: 1.55;
+  }
+
+  .appointmentCount {
+    padding: 8px 12px;
+
+    border-radius: 10px;
+  }
+
+  .appointmentCount strong {
+    font-size: 18px;
+  }
+
+  .appointmentCount span {
+    font-size: 8px;
+  }
+
+  /* Hide desktop table */
+  .desktopTable {
+    display: none;
+  }
+
+  /* Mobile cards */
+  .mobileAppointments {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    padding: 12px;
+  }
+
+  .appointmentMobileCard {
+    position: relative;
+
+    padding: 15px;
+
+    border: 1px solid #eceef1;
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    box-shadow: 0 7px 20px rgba(35, 30, 25, 0.035),
+      0 1px 4px rgba(35, 30, 25, 0.02);
+
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .appointmentMobileCard:active {
+    transform: scale(0.99);
+  }
+
+  .mobileCardTop {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid #f0f1f3;
+  }
+
+  .mobileLocation {
+    min-width: 0;
+  }
+
+  .mobileLocationName {
+    color: #25282d;
+
+    font-size: 14px;
+    line-height: 1.3;
+
+    font-weight: 750;
+  }
+
+  .mobileLocationAddress {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    margin-top: 5px;
+
+    color: #92969d;
+
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .mobileLocationAddress svg {
+    flex-shrink: 0;
+
+    color: #e47722;
+
+    font-size: 11px;
+  }
+
+  .mobileStatus {
+    flex-shrink: 0;
+  }
+
+  .mobileStatus .statusTag {
+    min-width: auto;
+
+    padding: 5px 8px !important;
+
+    font-size: 8px !important;
+  }
+
+  .mobileInfoGrid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    padding: 13px 0;
+  }
+
+  .mobileInfoItem {
+    min-width: 0;
+  }
+
+  .mobileInfoLabel {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #a0a4aa;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .mobileInfoValue {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    color: #41464d;
+
+    font-size: 11px;
+    font-weight: 650;
+  }
+
+  .mobileInfoValue svg {
+    color: #e47722;
+
+    font-size: 12px;
+  }
+
+  .mobilePet {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: #42474e;
+
+    font-size: 11px;
+    font-weight: 650;
+  }
+
+  .mobilePetIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 23px;
+    height: 23px;
+
+    border-radius: 7px;
+
+    background: #f7f7f7;
+
+    color: #737880;
+
+    font-size: 11px;
+  }
+
+  .mobileService {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 3px;
+  }
+
+  .mobileServiceName {
+    color: #30343a;
+
+    font-size: 11px;
+    font-weight: 650;
+
+    line-height: 1.3;
+  }
+
+  .mobileServicePrice {
+    color: #858a91;
+
+    font-size: 9px;
+    font-weight: 650;
+  }
+
+  .mobileCardBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding-top: 11px;
+
+    border-top: 1px solid #f0f1f3;
+  }
+
+  .mobileDate {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    color: #4a4f56;
+
+    font-size: 10px;
+    font-weight: 650;
+  }
+
+  .mobileDate svg {
+    color: #e47722;
+
+    font-size: 13px;
+  }
+
+  .mobileTime {
+    margin-left: 4px;
+
+    color: #92969d;
+
+    font-weight: 600;
+  }
+
+  .mobileAction {
+    flex-shrink: 0;
+  }
+
+  .mobileCancelBtn {
+    height: 29px !important;
+
+    padding: 3px 9px !important;
+
+    border-radius: 8px !important;
+
+    font-size: 10px !important;
+    font-weight: 650 !important;
+  }
+
+  .mobileFinished {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 4px;
+
+    color: #777c84;
+
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .mobileRejected {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 4px;
+
+    color: #a0a4aa;
+
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .mobilePagination {
+    display: flex;
+    justify-content: center;
+
+    padding: 4px 0 2px;
+  }
+
+  .mobileEmpty {
+    padding: 45px 20px;
+  }
+
+  .headerCard {
+    margin-top: 14px !important;
+
+    border-radius: 15px !important;
+  }
+
+  .headerCard :global(.ant-empty) {
+    padding: 45px 18px;
+  }
+}
+
+/* =========================================================
+   480px
+========================================================= */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 14px 9px 105px;
+  }
+
+  .titleWrapper {
+    padding: 18px 16px;
+
+    border-radius: 16px;
+  }
+
+  .pageTitle {
+    font-size: 23px !important;
+  }
+
+  .pageSubtitle {
+    max-width: 280px;
+
+    font-size: 10px;
+  }
+
+  .appointmentCount strong {
+    font-size: 17px;
+  }
+
+  .appointmentCount span {
+    font-size: 7.5px;
+  }
+
+  .mobileAppointments {
+    gap: 8px;
+
+    padding: 10px;
+  }
+
+  .appointmentMobileCard {
+    padding: 13px;
+
+    border-radius: 14px;
+  }
+
+  .mobileCardTop {
+    gap: 8px;
+  }
+
+  .mobileLocationName {
+    font-size: 13px;
+  }
+
+  .mobileLocationAddress {
+    font-size: 9px;
+  }
+
+  .mobileStatus .statusTag {
+    font-size: 7px !important;
+
+    padding: 4px 7px !important;
+  }
+
+  .mobileInfoGrid {
+    gap: 8px;
+  }
+
+  .mobileInfoLabel {
+    font-size: 7px;
+  }
+
+  .mobileInfoValue,
+  .mobilePet,
+  .mobileServiceName {
+    font-size: 10px;
+  }
+
+  .mobileCardBottom {
+    align-items: center;
+  }
+
+  .mobileDate {
+    font-size: 9px;
+  }
+
+  .mobileCancelBtn {
+    height: 28px !important;
+
+    padding: 3px 8px !important;
+
+    font-size: 9px !important;
+  }
+}

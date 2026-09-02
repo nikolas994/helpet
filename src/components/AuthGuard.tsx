@@ -1,40 +1,35 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { Spin } from "antd";
+import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/app/context/AuthContext";
 
-export default function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+import styles from "./AuthGuard.module.css";
 
+export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
+  const { user, loading } = useAuth();
+
   useEffect(() => {
-    if (!loading && user === null) {
-      router.push("/");
+    if (!loading && !user) {
+      router.replace("/login");
     }
   }, [loading, user, router]);
 
   if (loading) {
     return (
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className={styles.loading}>
         <Spin size="large" />
       </div>
     );
   }
 
-  if (user === null) {
+  if (!user) {
     return null;
   }
 
-  return children;
+  return <>{children}</>;
 }

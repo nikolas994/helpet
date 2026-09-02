@@ -1,13 +1,13 @@
 .dashboard {
   min-height: 100vh;
 
-  /* uži sadržaj */
-  width: 85%;
-  max-width: 1620px;
+  /* Punih 100% širine bez margina sa strane */
+  width: 100%;
+  max-width: 100%;
 
-  margin: 0 auto;
+  margin: 0;
 
-  padding: 0 0 140px;
+  padding: 0;
 
   background: #f7f8fa;
   color: #25282d;
@@ -1066,8 +1066,8 @@ FINAL CTA
 .finalCta {
   position: relative;
 
-  width: 72%;
-  max-width: 850px;
+  width: 100%;
+  max-width: 1000px;
 
   margin: 130px auto 0;
 
@@ -1263,20 +1263,7 @@ FOOTER
 RESPONSIVE
 ========================================================= */
 
-/* veliki desktop */
-@media (min-width: 1500px) {
-  .dashboard {
-    width: 75%;
-    max-width: 1450px;
-  }
-}
-
-/* laptop */
 @media (max-width: 1200px) {
-  .dashboard {
-    width: 88%;
-  }
-
   .hero {
     padding: 65px 50px;
   }
@@ -1296,12 +1283,7 @@ RESPONSIVE
   }
 }
 
-/* tablet */
 @media (max-width: 950px) {
-  .dashboard {
-    width: 92%;
-  }
-
   .hero {
     padding: 60px 40px;
   }
@@ -1320,10 +1302,9 @@ RESPONSIVE
   }
 }
 
-/* mobile */
 @media (max-width: 800px) {
   .dashboard {
-    width: 94%;
+    padding: 0;
   }
 
   .hero {
@@ -1373,18 +1354,11 @@ RESPONSIVE
   .loveplaceVisual {
     min-height: 350px;
   }
-
-  .finalCta {
-    width: 90%;
-  }
 }
 
-/* mali telefoni */
 @media (max-width: 600px) {
   .dashboard {
-    width: 100%;
-
-    padding: 0 16px 120px;
+    padding: 0 0px 0px;
   }
 
   .hero {
@@ -1486,8 +1460,6 @@ RESPONSIVE
   }
 
   .finalCta {
-    width: 100%;
-
     margin-top: 85px;
 
     padding: 60px 24px;

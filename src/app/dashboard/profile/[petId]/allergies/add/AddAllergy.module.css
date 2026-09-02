@@ -1,40 +1,78 @@
+/* =========================================================
+   PAGE
+========================================================= */
+
 .page {
   min-height: 100%;
-  padding: 30px 32px 60px;
-  background: #f7f8fa;
+  padding: 30px 34px 80px;
+  box-sizing: border-box;
+
+  background: radial-gradient(
+      circle at 8% 0%,
+      rgba(228, 119, 34, 0.09),
+      transparent 28%
+    ),
+    radial-gradient(circle at 92% 5%, rgba(255, 188, 120, 0.1), transparent 25%),
+    #f7f8fa;
+
+  color: #202226;
 }
 
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
 .backButton {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
 
-  margin-bottom: 25px;
-  padding: 0;
+  margin-bottom: 28px;
+  padding: 7px 0;
 
   border: none;
   background: transparent;
 
-  color: #777d86;
-  font-size: 14px;
+  color: #747a83;
+
+  font-size: 13px;
+  font-weight: 600;
 
   cursor: pointer;
+
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .backButton:hover {
   color: #e67e22;
 }
 
+.backButton:hover svg {
+  transform: translateX(-3px);
+}
+
+.backButton svg {
+  font-size: 13px;
+
+  transition: transform 0.2s ease;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 .header {
   max-width: 760px;
-  margin: 0 auto 25px;
+  margin: 0 auto 24px;
 
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 17px;
 }
 
 .icon {
+  flex: 0 0 auto;
+
   width: 58px;
   height: 58px;
 
@@ -42,151 +80,594 @@
   align-items: center;
   justify-content: center;
 
-  border-radius: 16px;
+  border: 1px solid rgba(228, 119, 34, 0.12);
+  border-radius: 17px;
 
-  background: #fff0e3;
+  background: linear-gradient(145deg, #fff5ec, #ffead8);
+
   color: #e67e22;
 
   font-size: 24px;
+
+  box-shadow: 0 8px 22px rgba(228, 119, 34, 0.08);
+}
+
+.header > div:last-child {
+  min-width: 0;
 }
 
 .header span {
+  display: block;
+
+  margin-bottom: 3px;
+
   color: #e67e22;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
 }
 
 .header h1 {
-  margin: 3px 0;
+  margin: 0;
 
-  color: #22252a;
+  color: #202329;
+
   font-size: 30px;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.7px;
 }
 
 .header p {
-  margin: 0;
+  margin: 6px 0 0;
 
-  color: #888e96;
-  font-size: 14px;
+  color: #8b9098;
+
+  font-size: 13px;
+  line-height: 1.5;
 }
+
+/* =========================================================
+   WARNING
+========================================================= */
 
 .warning {
   max-width: 760px;
-  margin: 0 auto 20px;
+  margin: 0 auto 22px;
 
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 13px;
 
-  padding: 16px 18px;
+  padding: 15px 17px;
 
-  border: 1px solid #ffe0b2;
-  border-radius: 14px;
+  border: 1px solid #f4dfbf;
+  border-radius: 15px;
 
-  background: #fffaf2;
+  background: linear-gradient(135deg, #fffaf3, #fff8ef);
 
   color: #d97706;
+
+  box-shadow: 0 5px 18px rgba(217, 119, 6, 0.035);
 }
 
 .warning > svg {
-  margin-top: 3px;
-  font-size: 18px;
+  flex: 0 0 auto;
+
+  margin-top: 2px;
+
+  font-size: 17px;
 }
 
 .warning strong {
   display: block;
-  margin-bottom: 3px;
+
+  margin-bottom: 4px;
+
+  color: #a85d0a;
+
+  font-size: 12px;
+  font-weight: 750;
 }
 
 .warning p {
   margin: 0;
 
   color: #8a6a3b;
-  font-size: 13px;
-  line-height: 1.5;
+
+  font-size: 11px;
+  line-height: 1.55;
 }
+
+/* =========================================================
+   CARD
+========================================================= */
 
 .card {
   max-width: 760px;
   margin: 0 auto;
 
-  padding: 35px;
+  padding: 32px;
 
-  border: 1px solid #eceef2;
+  border: 1px solid #e9ebef;
   border-radius: 22px;
 
-  background: white;
+  background: rgba(255, 255, 255, 0.94);
 
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.035);
+  box-shadow: 0 12px 40px rgba(24, 32, 45, 0.045),
+    0 2px 8px rgba(24, 32, 45, 0.025);
+
+  backdrop-filter: blur(10px);
 }
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
 
 .sectionTitle {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 13px;
 
-  margin: 10px 0 25px;
+  margin-bottom: 20px;
 
   color: #e67e22;
-  font-size: 20px;
+}
+
+.sectionTitle > svg {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
+
+  box-sizing: border-box;
+
+  border-radius: 12px;
+
+  background: #fff3e8;
+
+  font-size: 17px;
 }
 
 .sectionTitle h2 {
   margin: 0;
 
-  color: #303338;
-  font-size: 18px;
+  color: #292c31;
+
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 750;
+  letter-spacing: -0.2px;
 }
 
 .sectionTitle p {
-  margin: 3px 0 0;
+  margin: 4px 0 0;
 
-  color: #8b9097;
-  font-size: 12px;
+  color: #969ba3;
+
+  font-size: 11px;
+  line-height: 1.4;
 }
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.card :global(.ant-form-item) {
+  margin-bottom: 19px;
+}
+
+.card :global(.ant-form-item-label) {
+  padding-bottom: 7px;
+}
+
+.card :global(.ant-form-item-label > label) {
+  height: auto;
+
+  color: #50555d;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+}
+
+.card :global(.ant-form-item-label > label.ant-form-item-required::before) {
+  color: #e67e22 !important;
+}
+
+.card :global(.ant-form-item-label > label.ant-form-item-required::after) {
+  display: none;
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.card :global(.ant-input),
+.card :global(.ant-input-affix-wrapper),
+.card :global(.ant-select-selector) {
+  border-color: #e2e5e9 !important;
+  border-radius: 11px !important;
+
+  background: #fff !important;
+
+  color: #282c31;
+
+  font-size: 13px;
+
+  box-shadow: none !important;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.card :global(.ant-input) {
+  padding: 9px 12px;
+}
+
+.card :global(.ant-input::placeholder) {
+  color: #b2b6bc;
+}
+
+.card :global(.ant-input:hover),
+.card :global(.ant-select:hover .ant-select-selector) {
+  border-color: #e8a268 !important;
+}
+
+.card :global(.ant-input:focus),
+.card :global(.ant-input-focused),
+.card :global(.ant-select-focused .ant-select-selector) {
+  border-color: #e67e22 !important;
+
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1) !important;
+}
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.card :global(.ant-select) {
+  width: 100%;
+}
+
+.card :global(.ant-select-selector) {
+  padding: 0 12px !important;
+}
+
+.card :global(.ant-select-selection-placeholder) {
+  color: #b2b6bc !important;
+
+  font-size: 13px;
+}
+
+.card :global(.ant-select-selection-item) {
+  color: #282c31;
+
+  font-size: 13px;
+}
+
+.card :global(.ant-select-arrow) {
+  color: #9ca1a8;
+}
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.card :global(.ant-input-textarea textarea) {
+  min-height: 110px;
+
+  padding: 11px 12px;
+
+  resize: vertical;
+}
+
+.card :global(.ant-input-data-count) {
+  color: #a3a8af;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   GRID
+========================================================= */
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 18px;
 }
 
+/* =========================================================
+   VALIDATION
+========================================================= */
+
+.card :global(.ant-form-item-explain-error) {
+  margin-top: 5px;
+
+  color: #d95c5c;
+
+  font-size: 10px;
+}
+
+.card :global(.ant-form-item-has-error .ant-input),
+.card :global(.ant-form-item-has-error .ant-select-selector) {
+  border-color: #e57a7a !important;
+}
+
+.card :global(.ant-form-item-has-error .ant-input:focus),
+.card
+  :global(.ant-form-item-has-error .ant-select-focused .ant-select-selector) {
+  box-shadow: 0 0 0 3px rgba(217, 92, 92, 0.08) !important;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
 .actions {
+  position: relative;
+  z-index: 20;
+
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+
   gap: 10px;
 
-  padding-top: 25px;
-  margin-top: 15px;
+  margin-top: 10px;
+  padding-top: 24px;
+  padding-bottom: 25px;
 
   border-top: 1px solid #f0f1f3;
 }
 
-@media (max-width: 700px) {
+.actions :global(.ant-btn) {
+  height: 42px;
+
+  padding: 0 18px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  box-shadow: none;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.actions :global(.ant-btn-default) {
+  border-color: #e2e5e9;
+
+  background: #fff;
+
+  color: #626871;
+}
+
+.actions :global(.ant-btn-default:hover) {
+  border-color: #d7dade !important;
+
+  background: #fafafa !important;
+
+  color: #33373d !important;
+}
+
+.actions :global(.ant-btn-primary) {
+  border-color: #e67e22;
+
+  background: #e67e22;
+
+  box-shadow: 0 6px 16px rgba(230, 126, 34, 0.18);
+}
+
+.actions :global(.ant-btn-primary:hover) {
+  border-color: #d96f16 !important;
+
+  background: #d96f16 !important;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 8px 20px rgba(230, 126, 34, 0.24);
+}
+
+.actions :global(.ant-btn-primary:active) {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
   .page {
-    padding: 20px 15px 40px;
+    padding: 26px 24px 70px;
   }
 
   .card {
-    padding: 22px;
+    padding: 28px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  .page {
+    padding: 20px 15px 50px;
+  }
+
+  .backButton {
+    margin-bottom: 22px;
+
+    font-size: 12px;
+  }
+
+  .header {
+    align-items: flex-start;
+
+    gap: 13px;
+
+    margin-bottom: 20px;
+  }
+
+  .icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+
+    font-size: 20px;
+  }
+
+  .header span {
+    font-size: 9px;
+    letter-spacing: 1.4px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+
+    letter-spacing: -0.5px;
+  }
+
+  .header p {
+    margin-top: 5px;
+
+    font-size: 11px;
+  }
+
+  .warning {
+    gap: 10px;
+
+    margin-bottom: 18px;
+    padding: 13px 14px;
+
+    border-radius: 13px;
+  }
+
+  .warning > svg {
+    font-size: 16px;
+  }
+
+  .warning strong {
+    font-size: 11px;
+  }
+
+  .warning p {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .card {
+    padding: 21px 18px;
+
     border-radius: 18px;
+  }
+
+  .sectionTitle {
+    gap: 10px;
+
+    margin-bottom: 18px;
+  }
+
+  .sectionTitle > svg {
+    width: 36px;
+    height: 36px;
+
+    padding: 9px;
+
+    border-radius: 10px;
+  }
+
+  .sectionTitle h2 {
+    font-size: 15px;
+  }
+
+  .sectionTitle p {
+    font-size: 10px;
   }
 
   .grid {
     grid-template-columns: 1fr;
+
     gap: 0;
+  }
+
+  .card :global(.ant-form-item) {
+    margin-bottom: 17px;
+  }
+
+  .card :global(.ant-form-item-label > label) {
+    font-size: 10px;
+  }
+
+  .card :global(.ant-input),
+  .card :global(.ant-select-selection-item),
+  .card :global(.ant-select-selection-placeholder) {
+    font-size: 12px;
+  }
+
+  .card :global(.ant-input) {
+    padding: 8px 11px;
+  }
+
+  .card :global(.ant-select-selector) {
+    padding: 0 11px !important;
   }
 
   .actions {
     flex-direction: column-reverse;
+
+    gap: 9px;
+
+    margin-top: 5px;
+    padding-top: 20px;
+    padding-bottom: 5px;
   }
 
-  .actions button {
+  .actions :global(.ant-btn) {
     width: 100%;
+    height: 43px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+  .page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .card {
+    padding: 19px 15px;
+
+    border-radius: 16px;
   }
 
   .header h1 {
-    font-size: 25px;
+    font-size: 22px;
+  }
+
+  .header p {
+    max-width: 220px;
+  }
+
+  .backButton {
+    font-size: 11px;
+  }
+
+  .warning {
+    padding: 12px;
   }
 }

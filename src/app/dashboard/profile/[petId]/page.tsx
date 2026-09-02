@@ -1,29 +1,39 @@
 "use client";
 
 import {
+  AlertOutlined,
   ArrowLeftOutlined,
   CalendarOutlined,
   CheckCircleFilled,
+  ClockCircleOutlined,
   DeleteOutlined,
   EditOutlined,
   EnvironmentOutlined,
+  ExclamationCircleOutlined,
   EyeOutlined,
   FileTextOutlined,
   HeartFilled,
+  InfoCircleOutlined,
   MedicineBoxOutlined,
+  MoreOutlined,
   PlusOutlined,
   RightOutlined,
   SafetyCertificateOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 
-import { App, Avatar, Button, Card, Modal, Tag } from "antd";
+import { App, Avatar, Button, Card, Dropdown, Modal, Tag } from "antd";
+import type { MenuProps } from "antd";
+
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import pb from "@/app/lib/pocketbase";
-
 import styles from "./PetProfile.module.css";
+
+/* =========================================================
+   TYPES
+========================================================= */
 
 type Pet = {
   id: string;
@@ -38,13 +48,12 @@ type Pet = {
   neutered?: boolean;
   image?: string;
   owner?: string;
-
-  // Loveplace
   showInLoveplace?: boolean;
 };
 
 type Vaccination = {
   id: string;
+  pet?: string;
   name?: string;
   type?: string;
   date?: string;
@@ -55,6 +64,7 @@ type Vaccination = {
 
 type Visit = {
   id: string;
+  pet?: string;
   date?: string;
   title?: string;
   vet?: string;
@@ -78,6 +88,7 @@ type Therapy = {
 
 type Allergy = {
   id: string;
+  pet?: string;
   name?: string;
   reaction?: string;
   severity?: string;
@@ -86,12 +97,17 @@ type Allergy = {
 
 type Document = {
   id: string;
+  pet?: string;
   name?: string;
   type?: "medical_record" | "passport" | "lab_result" | "invoice" | "other";
   file?: string;
   notes?: string;
   created?: string;
 };
+
+/* =========================================================
+   NAMES
+========================================================= */
 
 const documentTypeNames: Record<NonNullable<Document["type"]>, string> = {
   medical_record: "Medicinski karton",
@@ -130,10 +146,12 @@ const allergySeverityNames: Record<string, string> = {
   severe: "Teška",
 };
 
+/* =========================================================
+   HELPERS
+========================================================= */
+
 function calculateAge(birthday?: string) {
-  if (!birthday) {
-    return "-";
-  }
+  if (!birthday) return "-";
 
   const birthDate = new Date(birthday);
 
@@ -155,27 +173,15 @@ function calculateAge(birthday?: string) {
     months += 12;
   }
 
-  // Ako je ljubimac mlađi od godinu dana
   if (years === 0) {
-    if (months === 0) {
-      return "Manje od 1 meseca";
-    }
-
-    if (months === 1) {
-      return "1 mesec";
-    }
-
-    if (months >= 2 && months <= 4) {
-      return `${months} meseca`;
-    }
+    if (months === 0) return "Manje od 1 meseca";
+    if (months === 1) return "1 mesec";
+    if (months >= 2 && months <= 4) return `${months} meseca`;
 
     return `${months} meseci`;
   }
 
-  // Ako ima punu godinu + mesece
-  if (years === 1) {
-    return "1 godina";
-  }
+  if (years === 1) return "1 godina";
 
   if (years >= 2 && years <= 4) {
     return `${years} godine`;
@@ -185,9 +191,7 @@ function calculateAge(birthday?: string) {
 }
 
 function formatDate(date?: string) {
-  if (!date) {
-    return "-";
-  }
+  if (!date) return "-";
 
   const parsed = new Date(date);
 
@@ -199,23 +203,23 @@ function formatDate(date?: string) {
 }
 
 function getNoteSection(notes: string | undefined, label: string) {
-  if (!notes) {
-    return "";
-  }
+  if (!notes) return "";
 
   const lines = notes.split("\n\n");
 
   const line = lines.find((item) => item.startsWith(`${label}:`));
 
-  if (!line) {
-    return "";
-  }
+  if (!line) return "";
 
   return line.replace(`${label}:`, "").trim();
 }
 
+/* =========================================================
+   COMPONENT
+========================================================= */
+
 export default function PetProfilePage() {
-  const { message } = App.useApp();
+  const { message, modal } = App.useApp();
   const router = useRouter();
   const params = useParams();
 
@@ -239,6 +243,10 @@ export default function PetProfilePage() {
 
   const [deleteLoading, setDeleteLoading] = useState(false);
 
+  /* =========================================================
+     LOAD DATA
+  ========================================================= */
+
   useEffect(() => {
     const fetchPetData = async () => {
       try {
@@ -254,24 +262,18 @@ export default function PetProfilePage() {
 
         const currentUserId = pb.authStore.record?.id;
 
-        /*
-         * PET
-         */
-
         const petRecord = await pb.collection("pets").getOne<Pet>(petId);
 
         if (petRecord.owner !== currentUserId) {
-          console.error("Ljubimac ne pripada trenutnom korisniku.");
-
           setPet(null);
           return;
         }
 
         setPet(petRecord);
 
-        /*
-         * VACCINATIONS
-         */
+        /* =========================
+           VACCINATIONS
+        ========================= */
 
         try {
           const vaccinationRecords = await pb
@@ -282,15 +284,13 @@ export default function PetProfilePage() {
             });
 
           setVaccinations(vaccinationRecords);
-        } catch (error) {
-          console.error("Greška pri učitavanju vakcinacija:", error);
-
+        } catch {
           setVaccinations([]);
         }
 
-        /*
-         * VISITS
-         */
+        /* =========================
+           VISITS
+        ========================= */
 
         try {
           const visitRecords = await pb
@@ -301,15 +301,13 @@ export default function PetProfilePage() {
             });
 
           setVisits(visitRecords);
-        } catch (error) {
-          console.error("Greška pri učitavanju pregleda:", error);
-
+        } catch {
           setVisits([]);
         }
 
-        /*
-         * THERAPIES
-         */
+        /* =========================
+           THERAPIES
+        ========================= */
 
         try {
           const therapyRecords = await pb
@@ -320,15 +318,13 @@ export default function PetProfilePage() {
             });
 
           setTherapies(therapyRecords);
-        } catch (error) {
-          console.error("Greška pri učitavanju terapija:", error);
-
+        } catch {
           setTherapies([]);
         }
 
-        /*
-         * ALLERGIES
-         */
+        /* =========================
+           ALLERGIES
+        ========================= */
 
         try {
           const allergyRecords = await pb
@@ -339,15 +335,13 @@ export default function PetProfilePage() {
             });
 
           setAllergies(allergyRecords);
-        } catch (error) {
-          console.error("Greška pri učitavanju alergija:", error);
-
+        } catch {
           setAllergies([]);
         }
 
-        /*
-         * DOCUMENTS
-         */
+        /* =========================
+           DOCUMENTS
+        ========================= */
 
         try {
           const documentRecords = await pb
@@ -358,9 +352,7 @@ export default function PetProfilePage() {
             });
 
           setDocuments(documentRecords);
-        } catch (error) {
-          console.error("Greška pri učitavanju dokumenata:", error);
-
+        } catch {
           setDocuments([]);
         }
       } catch (error: any) {
@@ -382,21 +374,19 @@ export default function PetProfilePage() {
     fetchPetData();
   }, [petId, router]);
 
-  /*
-   * PET IMAGE
-   */
+  /* =========================================================
+     PET IMAGE
+  ========================================================= */
 
   const petImage =
     pet?.image && pet ? pb.files.getURL(pet as any, pet.image) : null;
 
-  /*
-   * LOVEPLACE
-   */
+  /* =========================================================
+     LOVEPLACE
+  ========================================================= */
 
   const handleToggleLoveplace = async () => {
-    if (!pet) {
-      return;
-    }
+    if (!pet) return;
 
     try {
       setLoveplaceLoading(true);
@@ -409,33 +399,26 @@ export default function PetProfilePage() {
 
       setPet(updatedPet);
 
-      if (newValue) {
-        message.success(`${pet.name} je sada prikazan u Loveplace-u.`);
-      } else {
-        message.success(`${pet.name} je uklonjen iz Loveplace-a.`);
-      }
-    } catch (error) {
-      console.error("Greška pri promeni Loveplace statusa:", error);
-
-      message.error(
-        pet.showInLoveplace
-          ? "Nije moguće ukloniti ljubimca iz Loveplace-a."
-          : "Nije moguće prikazati ljubimca u Loveplace-u.",
+      message.success(
+        newValue
+          ? `${pet.name} je sada prikazan u Loveplace-u.`
+          : `${pet.name} je uklonjen iz Loveplace-a.`,
       );
+    } catch {
+      message.error("Greška pri promeni statusa.");
     } finally {
       setLoveplaceLoading(false);
     }
   };
-  /*
-   * DELETE PET
-   */
+
+  /* =========================================================
+     DELETE PET
+  ========================================================= */
 
   const handleDeletePet = () => {
-    if (!pet) {
-      return;
-    }
+    if (!pet) return;
 
-    Modal.confirm({
+    modal.confirm({
       title: "Obriši ljubimca?",
       content: (
         <div>
@@ -444,8 +427,7 @@ export default function PetProfilePage() {
           </p>
 
           <p style={{ color: "#8b8f96" }}>
-            Ova radnja je trajna i ljubimac više neće biti dostupan na tvom
-            profilu.
+            Ova radnja je trajna i ljubimac više neće biti dostupan na profilu.
           </p>
         </div>
       ),
@@ -464,9 +446,7 @@ export default function PetProfilePage() {
 
           router.push("/dashboard/profile");
           router.refresh();
-        } catch (error) {
-          console.error("Greška pri brisanju ljubimca:", error);
-
+        } catch {
           message.error("Nije moguće obrisati ljubimca.");
         } finally {
           setDeleteLoading(false);
@@ -474,10 +454,232 @@ export default function PetProfilePage() {
       },
     });
   };
+  /* =========================================================
+     GENERIC DELETE RECORD
+  ========================================================= */
 
-  /*
-   * LOADING
-   */
+  const deleteRecord = async (
+    collection:
+      | "vaccinations"
+      | "visits"
+      | "therapies"
+      | "allergies"
+      | "documents",
+    id: string,
+    label: string,
+    onSuccess: () => void,
+  ) => {
+    modal.confirm({
+      title: `Obriši ${label}?`,
+      content: (
+        <p>
+          Da li si siguran da želiš da obrišeš ovaj zapis?
+          <br />
+          <span className={styles.deleteWarning}>
+            Ova radnja se ne može poništiti.
+          </span>
+        </p>
+      ),
+      okText: "Obriši",
+      cancelText: "Otkaži",
+      okType: "danger",
+      centered: true,
+
+      async onOk() {
+        try {
+          await pb.collection(collection).delete(id);
+
+          onSuccess();
+
+          message.success(
+            `${label.charAt(0).toUpperCase() + label.slice(1)} je obrisan.`,
+          );
+        } catch (error) {
+          console.error(`Greška pri brisanju ${collection}:`, error);
+
+          message.error(`Nije moguće obrisati ${label}.`);
+        }
+      },
+    });
+  };
+
+  /* =========================================================
+     VACCINATION MENU
+  ========================================================= */
+
+  const getVaccinationMenu = (vaccine: Vaccination): MenuProps["items"] => [
+    {
+      key: "edit",
+      icon: <EditOutlined />,
+      label: "Izmeni",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "delete",
+      icon: <DeleteOutlined />,
+      label: "Obriši",
+      danger: true,
+    },
+  ];
+
+  const handleVaccinationMenu = (vaccine: Vaccination, key: string) => {
+    if (key === "edit") {
+      router.push(
+        `/dashboard/profile/${petId}/vaccinations/add?edit=${vaccine.id}`,
+      );
+      return;
+    }
+
+    if (key === "delete") {
+      deleteRecord("vaccinations", vaccine.id, "vakcinaciju", () => {
+        setVaccinations((prev) =>
+          prev.filter((item) => item.id !== vaccine.id),
+        );
+      });
+    }
+  };
+  /* =========================================================
+     VISIT MENU
+  ========================================================= */
+
+  const getVisitMenu = (visit: Visit): MenuProps["items"] => [
+    {
+      key: "edit",
+      icon: <EditOutlined />,
+      label: "Izmeni",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "delete",
+      icon: <DeleteOutlined />,
+      label: "Obriši",
+      danger: true,
+    },
+  ];
+
+  const handleVisitMenu = (visit: Visit, key: string) => {
+    if (key === "edit") {
+      router.push(`/dashboard/profile/${petId}/visits/add?edit=${visit.id}`);
+      return;
+    }
+
+    if (key === "delete") {
+      deleteRecord("visits", visit.id, "pregled", () => {
+        setVisits((current) => current.filter((item) => item.id !== visit.id));
+      });
+    }
+  };
+
+  /* =========================================================
+     THERAPY MENU
+  ========================================================= */
+
+  const getTherapyMenu = (therapy: Therapy): MenuProps["items"] => [
+    {
+      key: "edit",
+      icon: <EditOutlined />,
+      label: "Izmeni",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "delete",
+      icon: <DeleteOutlined />,
+      label: "Obriši",
+      danger: true,
+    },
+  ];
+
+  const handleTherapyMenu = (therapy: Therapy, key: string) => {
+    if (key === "edit") {
+      router.push(
+        `/dashboard/profile/${petId}/therapies/add?edit=${therapy.id}`,
+      );
+      return;
+    }
+
+    if (key === "delete") {
+      deleteRecord("therapies", therapy.id, "terapiju", () => {
+        setTherapies((current) =>
+          current.filter((item) => item.id !== therapy.id),
+        );
+      });
+    }
+  };
+  /* =========================================================
+     ALLERGY MENU
+  ========================================================= */
+
+  const getAllergyMenu = (allergy: Allergy): MenuProps["items"] => [
+    {
+      key: "edit",
+      icon: <EditOutlined />,
+      label: "Izmeni",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "delete",
+      icon: <DeleteOutlined />,
+      label: "Obriši",
+      danger: true,
+    },
+  ];
+
+  const handleAllergyMenu = (allergy: Allergy, key: string) => {
+    if (key === "edit") {
+      router.push(
+        `/dashboard/profile/${petId}/allergies/add?edit=${allergy.id}`,
+      );
+      return;
+    }
+
+    if (key === "delete") {
+      deleteRecord("allergies", allergy.id, "alergiju", () => {
+        setAllergies((current) =>
+          current.filter((item) => item.id !== allergy.id),
+        );
+      });
+    }
+  };
+
+  /* =========================================================
+     DOCUMENT MENU
+  ========================================================= */
+
+  const getDocumentMenu = (document: Document): MenuProps["items"] => [
+    {
+      key: "delete",
+      icon: <DeleteOutlined />,
+      label: "Obriši",
+      danger: true,
+    },
+  ];
+
+  const handleDocumentMenu = (document: Document, key: string) => {
+    if (key === "edit") {
+      router.push(`/dashboard/profile/${petId}/documents/${document.id}/edit`);
+      return;
+    }
+
+    if (key === "delete") {
+      deleteRecord("documents", document.id, "dokument", () => {
+        setDocuments((current) =>
+          current.filter((item) => item.id !== document.id),
+        );
+      });
+    }
+  };
+
+  /* =========================================================
+     LOADING
+  ========================================================= */
 
   if (loading) {
     return (
@@ -501,9 +703,9 @@ export default function PetProfilePage() {
     );
   }
 
-  /*
-   * PET NOT FOUND
-   */
+  /* =========================================================
+     NOT FOUND
+  ========================================================= */
 
   if (!pet) {
     return (
@@ -521,10 +723,7 @@ export default function PetProfilePage() {
 
           <h1>Ljubimac nije pronađen</h1>
 
-          <p>
-            Ljubimac ne postoji ili nemaš dozvolu da pristupiš njegovom
-            e-kartonu.
-          </p>
+          <p>Ljubimac ne postoji ili nemaš dozvolu da pristupiš e-kartonu.</p>
 
           <Button
             type="primary"
@@ -537,10 +736,12 @@ export default function PetProfilePage() {
     );
   }
 
+  /* =========================================================
+     PAGE
+  ========================================================= */
+
   return (
     <main className={styles.page}>
-      {/* BACK */}
-
       <button
         className={styles.backButton}
         onClick={() => router.push("/dashboard/profile")}
@@ -549,7 +750,9 @@ export default function PetProfilePage() {
         Nazad na profil
       </button>
 
-      {/* HERO */}
+      {/* =====================================================
+          HERO
+      ===================================================== */}
 
       <section className={styles.hero}>
         <div className={styles.heroImage}>
@@ -561,45 +764,45 @@ export default function PetProfilePage() {
         </div>
 
         <div className={styles.heroInfo}>
-          <div className={styles.heroTitle}>
-            <div className={styles.heroText}>
-              <div className={styles.petLabel}>
-                {typeNames[pet.type]} • {pet.breed || "Rasa nije navedena"}
-              </div>
+          <div className={styles.heroActions}>
+            <Button
+              type="text"
+              icon={<EditOutlined />}
+              onClick={() => router.push(`/dashboard/profile/${petId}/edit`)}
+              title="Izmeni ljubimca"
+            />
 
+            <Button
+              danger
+              type="text"
+              className={styles.deletePetButton}
+              icon={<DeleteOutlined />}
+              loading={deleteLoading}
+              onClick={handleDeletePet}
+              title="Obriši ljubimca"
+            />
+          </div>
+
+          <div className={styles.heroMain}>
+            <div className={styles.petLabel}>
+              {typeNames[pet.type]} • {pet.breed || "Rasa nije navedena"}
+            </div>
+
+            <div className={styles.heroRow}>
               <h1>{pet.name}</h1>
 
-              <p>
+              <span className={styles.heroDetails}>
                 {pet.gender ? genderNames[pet.gender] : "Pol nije naveden"} •{" "}
                 {calculateAge(pet.birthday)} •{" "}
                 {pet.weight !== undefined ? `${pet.weight} kg` : "-"}
-              </p>
-            </div>
-
-            <div className={styles.heroActions}>
-              <Button
-                icon={<EditOutlined />}
-                onClick={() => router.push(`/dashboard/profile/${petId}/edit`)}
-              >
-                Izmeni
-              </Button>
-
-              <Button
-                danger
-                type="text"
-                className={styles.deletePetButton}
-                icon={<DeleteOutlined />}
-                loading={deleteLoading}
-                onClick={handleDeletePet}
-              >
-                Obriši
-              </Button>
+              </span>
             </div>
           </div>
 
           <div className={styles.heroBottom}>
             <Button
               type="primary"
+              size="small"
               className={styles.loveplaceButton}
               icon={pet.showInLoveplace ? <EyeOutlined /> : <HeartFilled />}
               loading={loveplaceLoading}
@@ -613,30 +816,46 @@ export default function PetProfilePage() {
         </div>
       </section>
 
-      {/* QUICK INFO */}
+      {/* =====================================================
+          QUICK INFO
+      ===================================================== */}
 
       <section className={styles.quickGrid}>
-        <Card>
+        <Card className={styles.quickCard}>
+          <div className={styles.quickIcon}>
+            <InfoCircleOutlined />
+          </div>
+
+          <span>Vrsta & Rasa</span>
+
+          <strong>
+            {typeNames[pet.type]} - {pet.breed || "Nije uneto"}
+          </strong>
+        </Card>
+
+        <Card className={styles.quickCard}>
+          <div className={styles.quickIcon}>
+            <UserOutlined />
+          </div>
+
+          <span>Pol & Boja</span>
+
+          <strong>
+            {pet.gender ? genderNames[pet.gender] : "-"} / {pet.color || "-"}
+          </strong>
+        </Card>
+
+        <Card className={styles.quickCard}>
           <div className={styles.quickIcon}>
             <CalendarOutlined />
           </div>
 
-          <span>Datum rođenja</span>
+          <span>Rođendan</span>
 
           <strong>{formatDate(pet.birthday)}</strong>
         </Card>
 
-        <Card>
-          <div className={styles.quickIcon}>
-            <RightOutlined />
-          </div>
-
-          <span>Težina</span>
-
-          <strong>{pet.weight !== undefined ? `${pet.weight} kg` : "-"}</strong>
-        </Card>
-
-        <Card>
+        <Card className={styles.quickCard}>
           <div className={styles.quickIcon}>
             <SafetyCertificateOutlined />
           </div>
@@ -645,25 +864,17 @@ export default function PetProfilePage() {
 
           <strong>{pet.microchip || "Nije unet"}</strong>
         </Card>
-
-        <Card>
-          <div className={styles.quickIcon}>
-            <HeartFilled />
-          </div>
-
-          <span>Sterilizacija</span>
-
-          <strong>{pet.neutered ? "Da" : "Ne"}</strong>
-        </Card>
       </section>
 
-      {/* CONTENT */}
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
 
       <div className={styles.contentGrid}>
-        {/* LEFT */}
-
         <div className={styles.mainColumn}>
-          {/* VACCINATIONS */}
+          {/* =================================================
+              VACCINATIONS
+          ================================================= */}
 
           <section className={styles.section}>
             <div className={styles.sectionHeader}>
@@ -674,6 +885,7 @@ export default function PetProfilePage() {
               </div>
 
               <Button
+                className={styles.addSectionButton}
                 icon={<PlusOutlined />}
                 onClick={() =>
                   router.push(`/dashboard/profile/${petId}/vaccinations/add`)
@@ -685,30 +897,97 @@ export default function PetProfilePage() {
 
             <div className={styles.vaccineList}>
               {vaccinations.length === 0 ? (
-                <p>Nema evidentiranih vakcinacija.</p>
+                <div className={styles.emptyCard}>
+                  <MedicineBoxOutlined className={styles.emptyIcon} />
+
+                  <p>Nema evidentiranih vakcinacija.</p>
+                </div>
               ) : (
                 vaccinations.map((vaccine) => (
-                  <div className={styles.vaccine} key={vaccine.id}>
-                    <div className={styles.vaccineIcon}>
-                      <MedicineBoxOutlined />
+                  <div className={styles.vaccineCard} key={vaccine.id}>
+                    <Dropdown
+                      trigger={["click"]}
+                      placement="bottomRight"
+                      menu={{
+                        items: getVaccinationMenu(vaccine),
+
+                        onClick: ({ key, domEvent }) => {
+                          domEvent.stopPropagation();
+
+                          handleVaccinationMenu(vaccine, key);
+                        },
+                      }}
+                    >
+                      <button
+                        type="button"
+                        className={styles.cardMoreButton}
+                        onClick={(event) => event.stopPropagation()}
+                        aria-label={`Opcije za ${vaccine.name || "vakcinu"}`}
+                      >
+                        <MoreOutlined />
+                      </button>
+                    </Dropdown>
+
+                    <div className={styles.cardHeader}>
+                      <div className={styles.cardHeaderLeft}>
+                        <div className={styles.cardBadgeIcon}>
+                          <MedicineBoxOutlined />
+                        </div>
+
+                        <div>
+                          <h3 className={styles.cardTitle}>
+                            {vaccine.name || "Vakcina"}
+                          </h3>
+
+                          {vaccine.vet && (
+                            <span className={styles.cardSubtitle}>
+                              <EnvironmentOutlined />
+                              {vaccine.vet}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <Tag color="green" className={styles.statusTag}>
+                        <CheckCircleFilled />
+                        Važi
+                      </Tag>
                     </div>
 
-                    <div className={styles.vaccineInfo}>
-                      <strong>{vaccine.name || "Vakcina"}</strong>
+                    <div className={styles.cardBodyGrid}>
+                      <div className={styles.infoMetaItem}>
+                        <span className={styles.metaLabel}>Datum primanja</span>
 
-                      <span>Primljeno: {formatDate(vaccine.date)}</span>
+                        <span className={styles.metaValue}>
+                          <CalendarOutlined />
+                          {formatDate(vaccine.date)}
+                        </span>
+                      </div>
 
-                      <span>Sledeća: {formatDate(vaccine.nextDate)}</span>
+                      <div className={styles.infoMetaItem}>
+                        <span className={styles.metaLabel}>Revakcinacija</span>
+
+                        <span className={styles.metaValueHighlight}>
+                          <ClockCircleOutlined />
+                          {formatDate(vaccine.nextDate)}
+                        </span>
+                      </div>
                     </div>
 
-                    <Tag color="green">Važi</Tag>
+                    {vaccine.notes && (
+                      <div className={styles.cardNotes}>
+                        <strong>Napomena:</strong> {vaccine.notes}
+                      </div>
+                    )}
                   </div>
                 ))
               )}
             </div>
           </section>
 
-          {/* VISITS */}
+          {/* =================================================
+              VISITS
+          ================================================= */}
 
           <section className={styles.section}>
             <div className={styles.sectionHeader}>
@@ -719,6 +998,7 @@ export default function PetProfilePage() {
               </div>
 
               <Button
+                className={styles.addSectionButton}
                 icon={<PlusOutlined />}
                 onClick={() =>
                   router.push(`/dashboard/profile/${petId}/visits/add`)
@@ -730,7 +1010,11 @@ export default function PetProfilePage() {
 
             <div className={styles.timeline}>
               {visits.length === 0 ? (
-                <p>Nema evidentiranih pregleda.</p>
+                <div className={styles.emptyCard}>
+                  <EnvironmentOutlined className={styles.emptyIcon} />
+
+                  <p>Nema evidentiranih pregleda.</p>
+                </div>
               ) : (
                 visits.map((visit, index) => {
                   const reason = getNoteSection(visit.notes, "Razlog dolaska");
@@ -741,49 +1025,100 @@ export default function PetProfilePage() {
                   );
 
                   return (
-                    <div className={styles.visit} key={`${visit.id}-${index}`}>
+                    <div
+                      className={styles.visitItem}
+                      key={`${visit.id}-${index}`}
+                    >
                       <div className={styles.timelineDot} />
 
-                      <div className={styles.visitDate}>
-                        {formatDate(visit.date)}
-                      </div>
+                      <div className={styles.visitCard}>
+                        <Dropdown
+                          trigger={["click"]}
+                          placement="bottomRight"
+                          menu={{
+                            items: getVisitMenu(visit),
 
-                      <div className={styles.visitBody}>
-                        <h3>
-                          {visit.title
-                            ? allergyReactionNames[visit.title] || visit.title
-                            : "Veterinarski pregled"}
-                        </h3>
+                            onClick: ({ key, domEvent }) => {
+                              domEvent.stopPropagation();
 
-                        <span className={styles.vet}>
-                          <EnvironmentOutlined />
+                              handleVisitMenu(visit, key);
+                            },
+                          }}
+                        >
+                          <button
+                            type="button"
+                            className={styles.cardMoreButton}
+                            onClick={(event) => event.stopPropagation()}
+                            aria-label="Opcije za pregled"
+                          >
+                            <MoreOutlined />
+                          </button>
+                        </Dropdown>
 
-                          {visit.vet || "Veterinar nije naveden"}
-                        </span>
+                        <div className={styles.visitCardHeader}>
+                          <div>
+                            <span className={styles.visitDateBadge}>
+                              <CalendarOutlined />
+                              {formatDate(visit.date)}
+                            </span>
 
-                        {reason && (
-                          <p>
-                            <strong>Razlog:</strong> {reason}
-                          </p>
-                        )}
+                            <h3 className={styles.visitTitle}>
+                              {visit.title
+                                ? allergyReactionNames[visit.title] ||
+                                  visit.title
+                                : "Veterinarski pregled"}
+                            </h3>
+                          </div>
 
-                        {visit.description && (
-                          <p>
-                            <strong>Nalaz:</strong> {visit.description}
-                          </p>
-                        )}
+                          {visit.vet && (
+                            <span className={styles.vetBadge}>
+                              <EnvironmentOutlined />
+                              {visit.vet}
+                            </span>
+                          )}
+                        </div>
 
-                        {visit.diagnosis && (
-                          <p>
-                            <strong>Dijagnoza:</strong> {visit.diagnosis}
-                          </p>
-                        )}
+                        <div className={styles.visitDetails}>
+                          {reason && (
+                            <div className={styles.detailRow}>
+                              <span className={styles.detailLabel}>
+                                Razlog:
+                              </span>
 
-                        {recommendation && (
-                          <p>
-                            <strong>Preporuka:</strong> {recommendation}
-                          </p>
-                        )}
+                              <span className={styles.detailValue}>
+                                {reason}
+                              </span>
+                            </div>
+                          )}
+
+                          {visit.description && (
+                            <div className={styles.detailRow}>
+                              <span className={styles.detailLabel}>Nalaz:</span>
+
+                              <span className={styles.detailValue}>
+                                {visit.description}
+                              </span>
+                            </div>
+                          )}
+
+                          {visit.diagnosis && (
+                            <div className={styles.detailRow}>
+                              <span className={styles.detailLabel}>
+                                Dijagnoza:
+                              </span>
+
+                              <span className={styles.detailValueHighlight}>
+                                {visit.diagnosis}
+                              </span>
+                            </div>
+                          )}
+
+                          {recommendation && (
+                            <div className={styles.recommendationBox}>
+                              <strong>Preporuka:</strong> {recommendation}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
@@ -792,7 +1127,9 @@ export default function PetProfilePage() {
             </div>
           </section>
 
-          {/* THERAPIES */}
+          {/* =================================================
+              THERAPIES
+          ================================================= */}
 
           <section className={styles.section}>
             <div className={styles.sectionHeader}>
@@ -803,6 +1140,7 @@ export default function PetProfilePage() {
               </div>
 
               <Button
+                className={styles.addSectionButton}
                 icon={<PlusOutlined />}
                 onClick={() =>
                   router.push(`/dashboard/profile/${petId}/therapies/add`)
@@ -812,174 +1150,283 @@ export default function PetProfilePage() {
               </Button>
             </div>
 
-            {therapies.length === 0 ? (
-              <p>Nema evidentiranih terapija.</p>
-            ) : (
-              therapies.map((therapy) => (
-                <div className={styles.medication} key={therapy.id}>
-                  <div className={styles.medicationIcon}>
-                    <MedicineBoxOutlined />
-                  </div>
+            <div className={styles.cardsGridList}>
+              {therapies.length === 0 ? (
+                <div className={styles.emptyCard}>
+                  <MedicineBoxOutlined className={styles.emptyIcon} />
 
-                  <div>
-                    <strong>{therapy.name || "Terapija"}</strong>
-
-                    <span>{therapy.dosage || "Doziranje nije navedeno"}</span>
-
-                    <span>
-                      {therapy.frequency || "Učestalost nije navedena"}
-                    </span>
-
-                    <span>Početak: {formatDate(therapy.startDate)}</span>
-
-                    {therapy.endDate && (
-                      <span>Kraj: {formatDate(therapy.endDate)}</span>
-                    )}
-
-                    {therapy.notes && <span>Napomena: {therapy.notes}</span>}
-                  </div>
+                  <p>Nema evidentiranih terapija.</p>
                 </div>
-              ))
-            )}
+              ) : (
+                therapies.map((therapy) => (
+                  <div className={styles.therapyCard} key={therapy.id}>
+                    <Dropdown
+                      trigger={["click"]}
+                      placement="bottomRight"
+                      menu={{
+                        items: getTherapyMenu(therapy),
+
+                        onClick: ({ key, domEvent }) => {
+                          domEvent.stopPropagation();
+
+                          handleTherapyMenu(therapy, key);
+                        },
+                      }}
+                    >
+                      <button
+                        type="button"
+                        className={styles.cardMoreButton}
+                        onClick={(event) => event.stopPropagation()}
+                        aria-label={`Opcije za ${therapy.name || "terapiju"}`}
+                      >
+                        <MoreOutlined />
+                      </button>
+                    </Dropdown>
+
+                    <div className={styles.therapyHeader}>
+                      <div className={styles.therapyTitleBox}>
+                        <div className={styles.therapyIcon}>
+                          <MedicineBoxOutlined />
+                        </div>
+
+                        <div>
+                          <h3>{therapy.name || "Terapija"}</h3>
+
+                          <span className={styles.therapyDosage}>
+                            {therapy.dosage || "Doziranje nije navedeno"} •{" "}
+                            {therapy.frequency || "Učestalost nije navedena"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className={styles.therapyDates}>
+                      <div>
+                        <span>Početak:</span>
+
+                        <strong>{formatDate(therapy.startDate)}</strong>
+                      </div>
+
+                      <div>
+                        <span>Kraj:</span>
+
+                        <strong>{formatDate(therapy.endDate)}</strong>
+                      </div>
+                    </div>
+
+                    {therapy.notes && (
+                      <div className={styles.cardNotes}>
+                        <strong>Napomena:</strong> {therapy.notes}
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
           </section>
-        </div>
 
-        {/* RIGHT */}
+          {/* =================================================
+              ALLERGIES
+          ================================================= */}
 
-        <aside className={styles.sideColumn}>
-          {/* BASIC INFO */}
+          <section className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <div>
+                <h2>Alergije</h2>
 
-          <section className={styles.sideCard}>
-            <div className={styles.sideHeader}>
-              <h2>Osnovni podaci</h2>
+                <p>Evidentirane alergijske reakcije</p>
+              </div>
 
               <Button
-                type="text"
-                icon={<EditOutlined />}
-                onClick={() => router.push(`/dashboard/profile/${petId}/edit`)}
-              />
-            </div>
-
-            <div className={styles.infoList}>
-              <div>
-                <span>Vrsta</span>
-
-                <strong>{typeNames[pet.type]}</strong>
-              </div>
-
-              <div>
-                <span>Rasa</span>
-
-                <strong>{pet.breed || "Nije navedena"}</strong>
-              </div>
-
-              <div>
-                <span>Pol</span>
-
-                <strong>
-                  {pet.gender ? genderNames[pet.gender] : "Nije naveden"}
-                </strong>
-              </div>
-
-              <div>
-                <span>Boja</span>
-
-                <strong>{pet.color || "Nije navedena"}</strong>
-              </div>
-
-              <div>
-                <span>Datum rođenja</span>
-
-                <strong>{formatDate(pet.birthday)}</strong>
-              </div>
-            </div>
-          </section>
-
-          {/* ALLERGIES */}
-
-          <section className={styles.sideCard}>
-            <div className={styles.sideHeader}>
-              <h2>Alergije</h2>
-
-              <Button
-                type="text"
+                className={styles.addSectionButton}
                 icon={<PlusOutlined />}
                 onClick={() =>
                   router.push(`/dashboard/profile/${petId}/allergies/add`)
                 }
-              />
+              >
+                Dodaj alergiju
+              </Button>
             </div>
 
-            {allergies.length === 0 ? (
-              <p>Nema evidentiranih alergija.</p>
-            ) : (
-              allergies.map((allergy) => (
-                <div className={styles.allergy} key={allergy.id}>
-                  <div className={styles.allergyIcon}>
-                    <HeartFilled />
-                  </div>
+            <div className={styles.cardsGridList}>
+              {allergies.length === 0 ? (
+                <div className={styles.emptyCard}>
+                  <AlertOutlined className={styles.emptyIcon} />
 
-                  <div>
-                    <strong>{allergy.name || "Alergija"}</strong>
-
-                    <span>
-                      Reakcija:{" "}
-                      {allergy.reaction
-                        ? allergyReactionNames[allergy.reaction] ||
-                          allergy.reaction
-                        : "Nije navedena"}
-                    </span>
-
-                    {allergy.severity && (
-                      <Tag color="orange">
-                        {allergySeverityNames[allergy.severity] ||
-                          allergy.severity}
-                      </Tag>
-                    )}
-
-                    {allergy.notes && <span>Napomena: {allergy.notes}</span>}
-                  </div>
+                  <p>Nema evidentiranih alergija.</p>
                 </div>
-              ))
-            )}
+              ) : (
+                allergies.map((allergy) => {
+                  const isSevere = allergy.severity === "severe";
+
+                  const isModerate = allergy.severity === "moderate";
+
+                  return (
+                    <div
+                      className={`${styles.allergyCard} ${
+                        isSevere
+                          ? styles.allergySevere
+                          : isModerate
+                          ? styles.allergyModerate
+                          : styles.allergyMild
+                      }`}
+                      key={allergy.id}
+                    >
+                      <Dropdown
+                        trigger={["click"]}
+                        placement="bottomRight"
+                        menu={{
+                          items: getAllergyMenu(allergy),
+
+                          onClick: ({ key, domEvent }) => {
+                            domEvent.stopPropagation();
+
+                            handleAllergyMenu(allergy, key);
+                          },
+                        }}
+                      >
+                        <button
+                          type="button"
+                          className={styles.cardMoreButton}
+                          onClick={(event) => event.stopPropagation()}
+                          aria-label={`Opcije za ${allergy.name || "alergiju"}`}
+                        >
+                          <MoreOutlined />
+                        </button>
+                      </Dropdown>
+
+                      <div className={styles.allergyHeader}>
+                        <div className={styles.allergyTitleBox}>
+                          <div className={styles.allergyIcon}>
+                            <ExclamationCircleOutlined />
+                          </div>
+
+                          <div>
+                            <h3>{allergy.name || "Alergija"}</h3>
+
+                            <span className={styles.allergyReaction}>
+                              Reakcija:{" "}
+                              {allergy.reaction
+                                ? allergyReactionNames[allergy.reaction] ||
+                                  allergy.reaction
+                                : "Nije navedena"}
+                            </span>
+                          </div>
+                        </div>
+
+                        {allergy.severity && (
+                          <Tag
+                            color={
+                              isSevere ? "red" : isModerate ? "orange" : "blue"
+                            }
+                            className={styles.severityTag}
+                          >
+                            {allergySeverityNames[allergy.severity] ||
+                              allergy.severity}
+                          </Tag>
+                        )}
+                      </div>
+
+                      {allergy.notes && (
+                        <div className={styles.cardNotes}>
+                          <strong>Napomena:</strong> {allergy.notes}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
           </section>
 
-          {/* DOCUMENTS */}
+          {/* =================================================
+              DOCUMENTS
+          ================================================= */}
 
-          <section className={styles.sideCard}>
-            <div className={styles.sideHeader}>
-              <h2>Dokumenti</h2>
+          <section className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <div>
+                <h2>Dokumenti</h2>
+
+                <p>Digitalna dokumentacija i knjižica</p>
+              </div>
 
               <Button
-                type="text"
+                className={styles.addSectionButton}
                 icon={<PlusOutlined />}
                 onClick={() =>
                   router.push(`/dashboard/profile/${petId}/documents/add`)
                 }
-              />
+              >
+                Dodaj dokument
+              </Button>
             </div>
 
-            {documents.length === 0 ? (
-              <p>Nema dodatih dokumenata.</p>
-            ) : (
-              documents.slice(0, 3).map((document) => (
-                <div className={styles.document} key={document.id}>
-                  <div className={styles.documentIcon}>
-                    <FileTextOutlined />
-                  </div>
+            <div className={styles.documentsList}>
+              {documents.length === 0 ? (
+                <div className={styles.emptyCard}>
+                  <FileTextOutlined className={styles.emptyIcon} />
 
-                  <div>
-                    <strong>{document.name || "Dokument"}</strong>
-
-                    <span>{formatDate(document.created)}</span>
-                  </div>
+                  <p>Nema dodatih dokumenata.</p>
                 </div>
-              ))
-            )}
+              ) : (
+                documents.map((document) => (
+                  <div className={styles.documentItemCard} key={document.id}>
+                    <Dropdown
+                      trigger={["click"]}
+                      placement="bottomRight"
+                      menu={{
+                        items: getDocumentMenu(document),
+
+                        onClick: ({ key, domEvent }) => {
+                          domEvent.stopPropagation();
+
+                          handleDocumentMenu(document, key);
+                        },
+                      }}
+                    >
+                      <button
+                        type="button"
+                        className={styles.cardMoreButton}
+                        onClick={(event) => event.stopPropagation()}
+                        aria-label={`Opcije za ${document.name || "dokument"}`}
+                      >
+                        <MoreOutlined />
+                      </button>
+                    </Dropdown>
+
+                    <div className={styles.documentLeft}>
+                      <div className={styles.documentIconBox}>
+                        <FileTextOutlined />
+                      </div>
+
+                      <div className={styles.documentMeta}>
+                        <strong>{document.name || "Dokument"}</strong>
+
+                        <span>
+                          {document.type && documentTypeNames[document.type]
+                            ? documentTypeNames[document.type]
+                            : "Dokument"}{" "}
+                          • {formatDate(document.created)}
+                        </span>
+                      </div>
+                    </div>
+
+                    <Button
+                      type="text"
+                      icon={<RightOutlined />}
+                      className={styles.docArrowBtn}
+                      onClick={(event) => event.stopPropagation()}
+                    />
+                  </div>
+                ))
+              )}
+            </div>
 
             {documents.length > 0 && (
               <Button
                 block
+                className={styles.showAllDocsBtn}
                 onClick={() =>
                   router.push(`/dashboard/profile/${petId}/documents`)
                 }
@@ -989,7 +1436,9 @@ export default function PetProfilePage() {
             )}
           </section>
 
-          {/* OWNER */}
+          {/* =================================================
+              OWNER
+          ================================================= */}
 
           <section className={styles.ownerCard}>
             <Avatar size={48} icon={<UserOutlined />} />
@@ -1004,7 +1453,7 @@ export default function PetProfilePage() {
               </strong>
             </div>
           </section>
-        </aside>
+        </div>
       </div>
     </main>
   );

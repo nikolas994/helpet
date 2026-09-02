@@ -5,7 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import pb from "../../lib/pocketbase";
+import pb from "../../../lib/pocketbase";
 import type { Location } from "@/types/location";
 import { getImageUrl } from "@/lib/getImageUrl";
 import styles from "./Locations.module.css";

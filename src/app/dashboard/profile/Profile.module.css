@@ -4,419 +4,219 @@
 
 .page {
   position: relative;
-
   width: 100%;
   min-width: 0;
   min-height: 100vh;
-
   margin: 0;
-  padding: 28px 32px 60px;
-
+  padding: 16px 16px 80px;
   box-sizing: border-box;
-
   overflow-x: hidden;
-
   color: #1f2937;
-
   background: radial-gradient(
-      circle at 8% 8%,
-      rgba(232, 121, 34, 0.075),
-      transparent 24%
+      circle at 10% 10%,
+      rgba(232, 121, 34, 0.05),
+      transparent 30%
     ),
-    radial-gradient(
-      circle at 92% 18%,
-      rgba(246, 181, 110, 0.075),
-      transparent 22%
-    ),
-    radial-gradient(
-      circle at 48% 92%,
-      rgba(232, 121, 34, 0.035),
-      transparent 26%
-    ),
-    #f6f7f9;
+    #f8f9fa;
 }
 
 /* =========================================================
-   DELETE PET BUTTON
-========================================================= */
-
-.deletePetButton {
-  position: absolute;
-
-  top: 13px;
-  right: 13px;
-
-  width: 34px;
-  height: 34px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0;
-
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 10px;
-
-  background: rgba(255, 255, 255, 0.9);
-
-  color: #8b9099;
-
-  font-size: 13px;
-
-  cursor: pointer;
-
-  backdrop-filter: blur(10px);
-
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-
-  z-index: 5;
-
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease,
-    transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.deletePetButton:hover {
-  color: #d9363e;
-
-  background: #fff1f0;
-
-  border-color: #ffccc7;
-
-  transform: translateY(-1px);
-
-  box-shadow: 0 7px 18px rgba(217, 54, 62, 0.12);
-}
-
-.deletePetButton:active {
-  transform: scale(0.95);
-}
-
-/* Sitni dekorativni detalji */
-
-.page::before {
-  content: "";
-
-  position: fixed;
-
-  width: 260px;
-  height: 260px;
-
-  top: 110px;
-  right: -150px;
-
-  border: 1px solid rgba(232, 121, 34, 0.055);
-  border-radius: 50%;
-
-  pointer-events: none;
-}
-
-.page::after {
-  content: "";
-
-  position: fixed;
-
-  width: 180px;
-  height: 180px;
-
-  left: -110px;
-  bottom: 80px;
-
-  border: 1px solid rgba(232, 121, 34, 0.045);
-  border-radius: 50%;
-
-  pointer-events: none;
-}
-
-/* =========================================================
-   PROFILE HERO
+   PROFILE CARD (ULTRA COMPACT MODERN HERO)
 ========================================================= */
 
 .profileCard {
   position: relative;
-
   width: 100%;
   min-width: 0;
-
   overflow: hidden;
-
   box-sizing: border-box;
-
-  border: 1px solid rgba(226, 228, 233, 0.9);
-  border-radius: 28px;
-
-  background: rgba(255, 255, 255, 0.97);
-
-  box-shadow: 0 18px 50px rgba(25, 31, 40, 0.065),
-    0 3px 12px rgba(25, 31, 40, 0.025);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.02);
 }
 
-/* =========================================================
-   COVER
-========================================================= */
-
+/* COVER - TANKI NARANDŽASTI DEO SA IMENOM */
 .cover {
   position: relative;
+  height: 52px;
+  padding: 0 48px 0 88px; /* Prostor levo za avatar i desno za dugme */
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #e87922 0%, #f39c12 100%);
+  box-sizing: border-box;
+}
 
-  height: 145px;
+.coverInfo {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
 
+/* MODERNA TIPOGRAFIJA ZA IME */
+.coverInfo h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  white-space: nowrap;
   overflow: hidden;
-
-  background: radial-gradient(
-      circle at 15% 20%,
-      rgba(255, 255, 255, 0.28),
-      transparent 24%
-    ),
-    radial-gradient(
-      circle at 85% 10%,
-      rgba(255, 255, 255, 0.2),
-      transparent 22%
-    ),
-    linear-gradient(120deg, #d96518 0%, #e87922 35%, #f19a43 70%, #f6b76e 100%);
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
-.cover::before {
-  content: "";
-
-  position: absolute;
-
-  width: 420px;
-  height: 420px;
-
-  right: -100px;
-  top: -280px;
-
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 50%;
+.coverSubtitle {
+  margin: 0;
+  padding: 2px 7px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+  white-space: nowrap;
 }
 
-.cover::after {
-  content: "";
-
-  position: absolute;
-
-  width: 300px;
-  height: 300px;
-
-  right: 130px;
-  bottom: -250px;
-
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 50%;
+/* DUGME ZA IZMENU - STAKLASTA IKONICA GORE DESNO */
+.editIconButton {
+  position: absolute !important;
+  top: 10px;
+  right: 10px;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 9px !important;
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease !important;
+  z-index: 10;
 }
 
-/* =========================================================
-   PROFILE CONTENT
-========================================================= */
+.editIconButton:hover {
+  background: #ffffff !important;
+  color: #e87922 !important;
+}
 
+/* BELI DEO SA KONTAKT PODACIMA */
 .profileContent {
+  position: relative;
   width: 100%;
   box-sizing: border-box;
-
-  padding: 0 32px 28px;
-}
-
-.profileTop {
-  position: relative;
-
+  padding: 8px 12px 10px 88px;
+  min-height: 42px;
   display: flex;
-  align-items: flex-start;
-
-  gap: 22px;
-
-  margin-top: -48px;
-
-  min-width: 0;
+  align-items: center;
 }
 
-/* =========================================================
-   AVATAR
-========================================================= */
-
+/* KVADRATNI AVATAR SA ZAOBLJENIM UGLOVIMA */
 .avatar {
-  position: relative;
-
-  flex: 0 0 104px;
-
-  width: 104px !important;
-  height: 104px !important;
-
-  border: 6px solid #ffffff;
-
+  position: absolute;
+  top: -24px;
+  left: 12px;
+  width: 62px !important;
+  height: 62px !important;
+  border-radius: 14px !important;
+  border: 3px solid #ffffff;
   background: #fff7ef;
-
-  box-shadow: 0 12px 30px rgba(26, 31, 39, 0.15),
-    0 2px 8px rgba(26, 31, 39, 0.07);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
 }
 
-/* =========================================================
-   PROFILE INFO
-========================================================= */
-
-.profileInfo {
-  flex: 1 1 auto;
-  min-width: 0;
-
-  padding-top: 54px;
-}
-
-.profileInfo h1 {
-  margin: 0;
-
-  overflow: hidden;
-
-  color: #191c22;
-
-  font-size: 28px;
-  line-height: 1.15;
-  font-weight: 750;
-
-  letter-spacing: -0.6px;
-
-  text-overflow: ellipsis;
-}
-
-.subtitle {
-  margin: 6px 0 13px;
-
-  color: #858a94;
-
-  font-size: 13px;
-  font-weight: 500;
-}
-
-/* =========================================================
-   META
-========================================================= */
-
+/* META INFORMACIJE (MODERNE PILULE SA IKONICAMA) */
 .meta {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-
-  gap: 8px;
-
+  gap: 5px 10px;
+  width: 100%;
   min-width: 0;
 }
 
+.metaItem,
 .meta span {
   display: inline-flex;
   align-items: center;
-
-  max-width: 100%;
-
-  gap: 7px;
-
-  padding: 7px 10px;
-
-  border: 1px solid #eceef2;
-  border-radius: 9px;
-
-  background: #fafbfc;
-
-  color: #666c76;
-
+  gap: 5px;
+  padding: 4px 9px;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #475569;
   font-size: 11px;
   font-weight: 500;
-
+  letter-spacing: -0.1px;
+  white-space: nowrap;
   overflow: hidden;
-
   text-overflow: ellipsis;
+  max-width: 100%;
+  transition: all 0.2s ease;
 }
 
+.metaItem:hover,
+.meta span:hover {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.metaItem svg,
 .meta span svg {
+  color: #e87922;
+  font-size: 12px;
   flex-shrink: 0;
-
-  color: #e67e22;
-
-  font-size: 13px;
 }
 
 /* =========================================================
-   PROFILE BUTTON
-========================================================= */
-
-.profileTop > button {
-  flex: 0 0 auto;
-
-  align-self: flex-start;
-
-  margin-top: 55px;
-
-  height: 42px;
-
-  padding: 0 17px;
-
-  border: none;
-  border-radius: 11px;
-
-  background: #e87922;
-
-  box-shadow: 0 7px 18px rgba(230, 126, 34, 0.2);
-
-  font-weight: 600;
-}
-
-.profileTop > button:hover {
-  background: #d96d19 !important;
-
-  box-shadow: 0 10px 23px rgba(230, 126, 34, 0.27);
-}
-
-/* =========================================================
-   SECTION
+   SECTION & HEADERS
 ========================================================= */
 
 .section {
   width: 100%;
   min-width: 0;
-
-  margin-top: 34px;
+  margin-top: 24px;
 }
 
 .sectionHeader {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-
-  gap: 20px;
-
-  margin-bottom: 18px;
+  gap: 16px;
+  margin-bottom: 14px;
 }
 
 .sectionHeader h2 {
   margin: 0;
-
-  color: #181b21;
-
-  font-size: 23px;
+  color: #0f172a;
+  font-size: 19px;
   line-height: 1.2;
-  font-weight: 750;
-
-  letter-spacing: -0.5px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
 }
 
 .sectionHeader p {
-  margin: 6px 0 0;
-
-  color: #8a8f98;
-
-  font-size: 13px;
+  margin: 3px 0 0;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
 }
-
-/* =========================================================
-   PET GRID
-========================================================= */
 
 .petGrid {
   display: grid;
-
   width: 100%;
   min-width: 0;
-
   grid-template-columns: repeat(3, minmax(0, 1fr));
-
-  gap: 18px;
-
+  gap: 14px;
   box-sizing: border-box;
 }
 
@@ -426,208 +226,143 @@
 
 .petCard {
   position: relative;
-
   min-width: 0;
-
   overflow: hidden;
-
   cursor: pointer;
-
-  border: 1px solid #e8eaee;
-  border-radius: 21px;
-
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
   background: #ffffff;
-
-  box-shadow: 0 9px 26px rgba(26, 31, 39, 0.04),
-    0 2px 5px rgba(26, 31, 39, 0.02);
-
-  transition: transform 0.25s ease, box-shadow 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.petCard::after {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  pointer-events: none;
-
-  border-radius: inherit;
-
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .petCard:hover {
-  transform: translateY(-5px);
-
-  border-color: #f0d5bd;
-
-  box-shadow: 0 18px 38px rgba(26, 31, 39, 0.085),
-    0 5px 12px rgba(230, 126, 34, 0.055);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
 }
 
-/* =========================================================
-   PET IMAGE
-========================================================= */
+.deletePetButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #8b9099;
+  font-size: 11px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  z-index: 5;
+  transition: all 0.2s ease;
+}
+
+.deletePetButton:hover {
+  color: #d9363e;
+  background: #fff1f0;
+  border-color: #ffccc7;
+}
 
 .petImageWrapper {
   position: relative;
-
-  height: 205px;
-
+  height: 130px;
   overflow: hidden;
-
-  background: radial-gradient(
-    circle at center,
-    #fff5eb 0%,
-    #f8e8d8 55%,
-    #f2dcc6 100%
-  );
+  background: #f1f5f9;
 }
 
 .petImage {
   display: block;
-
   width: 100%;
   height: 100%;
-
   object-fit: cover;
-
-  transition: transform 0.45s ease;
+  transition: transform 0.3s ease;
 }
 
 .petCard:hover .petImage {
-  transform: scale(1.045);
+  transform: scale(1.03);
 }
-
-/* =========================================================
-   PET TYPE
-========================================================= */
 
 .petType {
   position: absolute;
-
-  top: 13px;
-  left: 13px;
-
+  top: 8px;
+  left: 8px;
   margin: 0 !important;
-
-  padding: 5px 10px !important;
-
-  border: 1px solid rgba(255, 255, 255, 0.7) !important;
-  border-radius: 999px !important;
-
+  padding: 2px 6px !important;
+  border-radius: 5px !important;
   background: rgba(255, 255, 255, 0.9) !important;
-
-  color: #4e535b !important;
-
-  font-size: 11px;
-  font-weight: 650;
-
-  backdrop-filter: blur(10px);
-
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  color: #334155 !important;
+  font-size: 9px;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
-
-/* =========================================================
-   PET CONTENT
-========================================================= */
 
 .petContent {
-  padding: 17px 18px 17px;
-
+  padding: 10px;
   min-width: 0;
-}
-
-.petHeader {
-  display: flex;
-  align-items: center;
-
-  min-width: 0;
-
-  gap: 12px;
 }
 
 .petHeader h3 {
   margin: 0;
-
-  color: #191c21;
-
-  font-size: 19px;
-  line-height: 1.2;
-  font-weight: 750;
-
-  letter-spacing: -0.3px;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .petHeader p {
-  margin: 4px 0 0;
-
-  color: #8b9099;
-
-  font-size: 12px;
+  margin: 1px 0 0;
+  color: #64748b;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-/* =========================================================
-   PET DETAILS
-========================================================= */
 
 .petDetails {
   display: flex;
   flex-wrap: wrap;
-
-  gap: 6px;
-
-  margin: 15px 0;
+  gap: 3px;
+  margin: 8px 0;
 }
 
 .petDetails span {
   display: inline-flex;
   align-items: center;
-
-  min-height: 27px;
-
-  padding: 4px 9px;
-
-  border: 1px solid #eceef1;
-  border-radius: 8px;
-
-  background: #f8f9fa;
-
-  color: #676d76;
-
-  font-size: 10px;
-  font-weight: 600;
+  padding: 1px 5px;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 9px;
+  font-weight: 500;
 }
 
-/* =========================================================
-   E-KARTON BUTTON
-========================================================= */
-
 .petContent > button {
-  height: 40px;
-
-  border: 1px solid #eceef1;
-  border-radius: 10px;
-
+  height: 30px !important;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px !important;
   background: #ffffff;
-
-  color: #444a53;
-
-  font-size: 13px;
-  font-weight: 650;
-
+  color: #475569;
+  font-size: 10px !important;
+  font-weight: 600;
+  padding: 0 4px !important;
   transition: all 0.2s ease;
 }
 
 .petContent > button:hover {
   border-color: #e87922 !important;
-
-  background: #fff8f1 !important;
-
-  color: #d96d19 !important;
+  background: #fffaf6 !important;
+  color: #e87922 !important;
 }
 
 /* =========================================================
@@ -636,288 +371,131 @@
 
 .addPetCard {
   position: relative;
-
   min-width: 0;
-  min-height: 360px;
-
-  padding: 30px 25px;
-
+  min-height: 200px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  gap: 11px;
-
+  gap: 4px;
   cursor: pointer;
-
-  overflow: hidden;
-
-  box-sizing: border-box;
-
-  border: 1.5px dashed #d9dde3;
-  border-radius: 21px;
-
-  background: radial-gradient(
-      circle at 50% 20%,
-      rgba(230, 126, 34, 0.06),
-      transparent 45%
-    ),
-    #ffffff;
-
-  color: #4e535b;
-
-  transition: transform 0.25s ease, border-color 0.25s ease,
-    box-shadow 0.25s ease, background 0.25s ease;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #475569;
+  transition: all 0.2s ease;
 }
 
 .addPetCard:hover {
-  transform: translateY(-5px);
-
   border-color: #e87922;
-
-  background: radial-gradient(
-      circle at 50% 20%,
-      rgba(230, 126, 34, 0.1),
-      transparent 50%
-    ),
-    #fffaf6;
-
-  box-shadow: 0 18px 40px rgba(230, 126, 34, 0.09);
+  background: #fffaf6;
 }
 
 .addIcon {
-  width: 60px;
-  height: 60px;
-
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  margin-bottom: 3px;
-
-  border: 1px solid #f2d6bd;
-  border-radius: 18px;
-
-  background: linear-gradient(135deg, #fff4e8, #ffe8d2);
-
+  border-radius: 8px;
+  background: #ffedd5;
   color: #e87922;
-
-  font-size: 21px;
-
-  box-shadow: 0 10px 25px rgba(230, 126, 34, 0.1);
-
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.addPetCard:hover .addIcon {
-  transform: translateY(-3px) scale(1.04);
-
-  box-shadow: 0 14px 30px rgba(230, 126, 34, 0.16);
+  font-size: 14px;
 }
 
 .addPetCard strong {
-  color: #292d34;
-
-  font-size: 16px;
+  color: #0f172a;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .addPetCard span {
-  max-width: 240px;
-
-  color: #8b9099;
-
+  max-width: 140px;
+  color: #64748b;
   text-align: center;
-
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 10px;
+  line-height: 1.3;
 }
-
-/* =========================================================
-   STATUS
-========================================================= */
 
 .statusMessage {
   grid-column: 1 / -1;
-
-  padding: 30px 0;
-
-  color: #858a94;
-
-  font-size: 13px;
+  padding: 16px 0;
+  color: #64748b;
+  font-size: 12px;
 }
 
 /* =========================================================
-   TABLET / LAPTOP
+   RESPONSIVE (DVE KOLONE NA MOBILNIM EKRANIMA)
 ========================================================= */
 
-@media (max-width: 1250px) {
-  .page {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-
+@media (max-width: 1024px) {
   .petGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 900px) {
+@media (max-width: 680px) {
   .page {
-    padding: 20px 20px 50px;
-  }
-
-  .profileContent {
-    padding: 0 25px 25px;
-  }
-
-  .profileTop {
-    gap: 18px;
-  }
-
-  .profileInfo {
-    padding-top: 55px;
-  }
-
-  .profileTop > button {
-    margin-top: 56px;
-  }
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 750px) {
-  .page {
-    width: 100%;
-
-    padding: 15px 15px 90px;
-  }
-
-  .profileCard {
-    border-radius: 22px;
+    padding: 12px 12px 80px;
   }
 
   .cover {
-    height: 125px;
+    height: 46px;
+    padding: 0 44px 0 76px;
+  }
+
+  .coverInfo h1 {
+    font-size: 15px;
+  }
+
+  .coverSubtitle {
+    font-size: 9px;
+    padding: 1px 5px;
+  }
+
+  .editIconButton {
+    top: 7px;
+    right: 7px;
+    width: 30px !important;
+    height: 30px !important;
   }
 
   .profileContent {
-    padding: 0 20px 22px;
-  }
-
-  .profileTop {
-    flex-direction: column;
-    align-items: stretch;
-
-    gap: 14px;
-
-    margin-top: -45px;
+    padding: 6px 10px 8px 76px;
+    min-height: 38px;
   }
 
   .avatar {
-    width: 94px !important;
-    height: 94px !important;
-  }
-
-  .profileInfo {
-    padding-top: 0;
-  }
-
-  .profileInfo h1 {
-    font-size: 25px;
-  }
-
-  .profileTop > button {
-    width: 100%;
-
-    margin-top: 2px;
+    width: 52px !important;
+    height: 52px !important;
+    top: -20px;
+    left: 10px;
+    border-radius: 12px !important;
+    border-width: 2.5px;
   }
 
   .meta {
-    flex-direction: column;
-    align-items: flex-start;
-
-    gap: 6px;
+    gap: 3px 6px;
   }
 
+  .metaItem,
   .meta span {
-    width: fit-content;
-    max-width: 100%;
+    font-size: 10px;
+    padding: 2px 6px;
   }
 
-  .section {
-    margin-top: 28px;
-  }
-
-  .sectionHeader {
-    align-items: stretch;
-
-    flex-direction: column;
-
-    gap: 13px;
-  }
-
+  /* 2 KOLONE ZA LJUBIMCE NA MOBILNIM EKRANIMA */
   .petGrid {
-    grid-template-columns: 1fr;
-
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
   }
 
   .petImageWrapper {
-    height: 245px;
+    height: 100px; /* Smanjena visina slike na mobilnom */
   }
 
   .addPetCard {
-    min-height: 280px;
-  }
-}
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 450px) {
-  .page {
-    padding: 12px 12px 90px;
-  }
-
-  .profileContent {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .profileInfo h1 {
-    font-size: 23px;
-  }
-
-  .petImageWrapper {
-    height: 225px;
-  }
-
-  .petContent {
-    padding: 16px;
-  }
-}
-
-/* =========================================================
-   VERY SMALL
-========================================================= */
-
-@media (max-width: 360px) {
-  .page {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-
-  .profileContent {
-    padding-left: 14px;
-    padding-right: 14px;
+    min-height: 160px;
   }
 }
