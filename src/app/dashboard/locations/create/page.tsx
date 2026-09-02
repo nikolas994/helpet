@@ -17,7 +17,7 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import pb from "../../../../lib/pocketbase";
+import pb from "@/app/lib/pocketbase";
 export default function CreateLocationPage() {
   const router = useRouter();
 
