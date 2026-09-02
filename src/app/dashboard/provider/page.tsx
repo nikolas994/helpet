@@ -204,7 +204,7 @@ export default function ProviderDashboard() {
         return <Tag color="default">OTKAZANO</Tag>;
 
       default:
-        return <Tag>{status.toUpperCase()}</Tag>;
+        return <Tag>{(status as string).toUpperCase()}</Tag>;
     }
   };
 
